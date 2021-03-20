@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { createRef, useEffect, useRef } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useEvent from './stepCounter/stepCounter';
 import { AppState, incremented } from './store';

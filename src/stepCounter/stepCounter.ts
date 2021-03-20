@@ -66,5 +66,5 @@ export default function useEvent(handler: (args: any) => any, passive = false) {
                 clearInterval(intervalFunction);
             };
         }
-    });// when i have [] it counts too many steps i gues????
+    }); // when i have [] it counts too many steps i gues????
 }
