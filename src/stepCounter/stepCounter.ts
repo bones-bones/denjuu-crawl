@@ -28,19 +28,43 @@ export const addToStepHook = (func: (args: any) => any) => {
     callbacks.push(func);
 };
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function useEvent(handler: (args: any) => any, passive = false) {
-    const metaHandler = handleHandleStep(handler);
-    useEffect(() => {
-        // initiate the event handler
-        sensor.addEventListener('reading', metaHandler, passive);
-        sensor.start();
+    const savedHandler = useRef<() => void>();
 
-        // this will clean up the event every time the component is re-rendered
-        return function cleanup() {
-            sensor.removeEventListener('reading', metaHandler);
-            sensor.stop();
-        };
-    });
+    // Update ref.current value if handler changes.
+    // This allows our effect below to always get latest handler ...
+    // ... without us needing to pass it in effect deps array ...
+    // ... and potentially cause effect to re-run every render.
+
+    const metaHandler = handleHandleStep(handler);
+
+    useEffect(() => {
+        savedHandler.current = metaHandler;
+    }, [metaHandler]);
+
+    const metaMetaHandler = () => {
+        savedHandler.current!();
+    };
+    useEffect(() => {
+        if (window.innerWidth <= 800 && window.innerHeight <= 800) {
+            sensor.addEventListener('reading', metaMetaHandler, passive);
+            sensor.start();
+
+            // this will clean up the event every time the component is re-rendered
+            return () => {
+                sensor.removeEventListener('reading', metaMetaHandler, passive);
+                sensor.stop();
+            };
+        } else {
+            const intervalFunction = setInterval(() => {
+                console.log('tick');
+                handler(true);
+            }, 1000);
+            return () => {
+                clearInterval(intervalFunction);
+            };
+        }
+    });// when i have [] it counts too many steps i gues????
 }
