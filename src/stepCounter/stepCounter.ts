@@ -59,7 +59,7 @@ export default function useEvent(handler: (args: any) => any, passive = false) {
             };
         } else {
             const intervalFunction = setInterval(() => {
-                console.log('tick');
+
                 handler(true);
             }, 1000);
             return () => {
