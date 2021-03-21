@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { createRef, useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import React, { createRef, useLayoutEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import run from './images/Run.png';
 import idle from './images/Idle.png';
