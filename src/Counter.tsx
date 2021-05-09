@@ -7,7 +7,13 @@ import { RootState, incremented } from './store';
 export const Counter = () => {
     const dispatch = useDispatch();
 
-    const stepValue = useSelector(({ counter: { step: { value } } }: RootState) => value);
+    const stepValue = useSelector(
+        ({
+            counter: {
+                step: { value },
+            },
+        }: RootState) => value
+    );
 
     const incrementStepValue = () => {
         dispatch(incremented());

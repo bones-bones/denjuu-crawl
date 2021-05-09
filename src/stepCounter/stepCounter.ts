@@ -59,7 +59,6 @@ export default function useEvent(handler: (args: any) => any, passive = false) {
             };
         } else {
             const intervalFunction = setInterval(() => {
-
                 handler(true);
             }, 1000);
             return () => {

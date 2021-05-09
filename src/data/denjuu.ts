@@ -1,40 +1,75 @@
-
-interface DenjuuTemplate {
-    displayId: string,
-    hp: number,
-    dp: number,
-    sprites: Sprites,
-    type: MonsterType,
-    moves: number[]
+export interface DenjuuTemplate {
+    id: string;
+    displayId: string;
+    hp: number;
+    speed: number;
+    attack: number;
+    defense: number;
+    denmaAttack: number;
+    denmaDefense: number;
+    sprites: Sprites;
+    type: MonsterType;
+    moves: number[];
 }
-export interface Sprites { normal: { back: string, front: string }, attack: { back: string, front: string } }
+export interface Sprites {
+    normal: { back: string; front: string };
+    attack: { back: string; front: string };
+}
 
-enum MonsterType { Grassland = 'Grassland', Desert = 'Desert', Forest = 'Forest', Sky = 'Sky', Aquatic = 'Aquatic', Mountain = 'Mountain' }
+enum MonsterType {
+    Grassland = 'Grassland',
+    Desert = 'Desert',
+    Forest = 'Forest',
+    Sky = 'Sky',
+    Aquatic = 'Aquatic',
+    Mountain = 'Mountain',
+}
 
-export const denjuuList: DenjuuTemplate[] = [{
-    displayId: 'Rex', type: MonsterType.Grassland, hp: 40, dp: 40,
-    sprites: {
-        normal: {
-            back: 'https://wiki.telefang.net/images/0/0a/T2-000-B.gif',
-            front: 'https://wiki.telefang.net/images/5/53/T2-000-F.gif'
+export const denjuuList: DenjuuTemplate[] = [
+    {
+        id: '1',
+        displayId: 'Oshe',
+        type: MonsterType.Mountain,
+        hp: 32,
+        speed: 8,
+        attack: 8,
+        defense: 10,
+        denmaAttack: 4,
+        denmaDefense: 4,
+        sprites: {
+            normal: {
+                back: 'https://www.wiki.telefang.net/images/5/5e/T2-145-B.gif',
+                front: 'https://www.wiki.telefang.net/images/0/0d/T2-145-F.gif',
+            },
+            attack: {
+                back: 'https://www.wiki.telefang.net/images/0/01/T2-145-BA.gif',
+                front:
+                    'https://www.wiki.telefang.net/images/e/e5/T2-145-FA.gif',
+            },
         },
-        attack: {
-            back: 'https://wiki.telefang.net/images/7/73/T2-000-BA.gif',
-            front: 'https://wiki.telefang.net/images/b/b7/T2-000-FA.gif'
-        }
+        moves: [0],
     },
-    moves: [0]
-}, {
-    displayId: 'Mentalis', type: MonsterType.Desert, hp: 35, dp: 20,
-    sprites: {
-        normal: {
-            back: 'https://wiki.telefang.net/images/2/2d/T2-026-B.gif',
-            front: 'https://wiki.telefang.net/images/d/d6/T2-026-F.gif'
+    {
+        id: '2',
+        displayId: 'Waratah',
+        type: MonsterType.Forest,
+        hp: 30,
+        speed: 16,
+        attack: 8,
+        defense: 6,
+        denmaAttack: 7,
+        denmaDefense: 7,
+        sprites: {
+            normal: {
+                back: 'https://www.wiki.telefang.net/images/e/ef/T2-156-B.gif',
+                front: 'https://www.wiki.telefang.net/images/b/b3/T2-156-F.gif',
+            },
+            attack: {
+                back: 'https://www.wiki.telefang.net/images/8/81/T2-156-BA.gif',
+                front:
+                    'https://www.wiki.telefang.net/images/b/b8/T2-156-FA.gif',
+            },
         },
-        attack: {
-            back: 'https://wiki.telefang.net/images/3/3c/T2-026-BA.gif',
-            front: 'https://wiki.telefang.net/images/1/12/T2-026-FA.gif'
-        }
+        moves: [1],
     },
-    moves: [1]
-}]
+];
