@@ -7,7 +7,7 @@ import sky from './images/sky.png';
 import grass from './images/grass.png';
 import hill from './images/hill.png';
 import clouds from './images/clouds.png';
-import { AppState } from "./store";
+import { RootState } from "./store";
 
 const Run = new Image();
 Run.src = run;
@@ -24,7 +24,7 @@ Clouds.src = clouds
 export const PlayerCanvas = () => {
     const canvasRef = createRef<HTMLCanvasElement>();
     const canvasContext = useRef<CanvasRenderingContext2D>();
-    const step = useSelector(({ step }: AppState) => step);
+    const step = useSelector(({ counter: { step } }: RootState) => step);
 
     useLayoutEffect(() => {
         canvasContext.current = canvasRef.current!.getContext(
@@ -37,7 +37,6 @@ export const PlayerCanvas = () => {
         let ir = 0;
         let ii = 0;
         const intl = setInterval(() => {
-            // console.log(step.lastUpdated);
             if (canvasRef.current) {
                 canvasContext.current?.clearRect(
                     0,
@@ -45,14 +44,11 @@ export const PlayerCanvas = () => {
                     canvasRef.current.width,
                     canvasRef.current.height
                 );
-
                 canvasContext.current?.drawImage(Sky, 0, 0);
                 canvasContext.current?.drawImage(Sky, Sky.width, 0);
 
                 const canvasWidth = (canvasRef.current?.getBoundingClientRect().width)
-
                 const canvasOffset = step.value % canvasWidth;
-
 
                 // const SPEED = 1;
 
@@ -62,23 +58,17 @@ export const PlayerCanvas = () => {
                     canvasContext.current?.drawImage(Clouds, i - cloudsOffset, -50);
                 }
 
-
-
                 const hillOffset = (canvasOffset % Hill.width) / 4
                 // console.log('cv', canvasWidth, 'gw', Grass.width)
                 for (let i = 0; i < canvasWidth; i += Hill.width) {    //3
                     canvasContext.current?.drawImage(Hill, i - hillOffset, -30);
                 }
 
-
                 const tgrassoffste = canvasOffset % Grass.width
                 // console.log('cv', canvasWidth, 'gw', Grass.width)
                 for (let i = 0; i < canvasWidth; i += Grass.width) {    //3bl
                     canvasContext.current?.drawImage(Grass, i - tgrassoffste, -25);
                 }
-
-
-
                 const currentMoment = new Date().getTime();
 
 
@@ -106,8 +96,6 @@ export const PlayerCanvas = () => {
                     ii++;
                     ir = 0;
                 }
-
-
             }
         }, 200);
         return () => {

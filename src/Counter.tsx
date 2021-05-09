@@ -2,12 +2,12 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useEvent from './stepCounter/stepCounter';
-import { AppState, incremented } from './store';
+import { RootState, incremented } from './store';
 
 export const Counter = () => {
     const dispatch = useDispatch();
 
-    const stepValue = useSelector(({ step: { value } }: AppState) => value);
+    const stepValue = useSelector(({ counter: { step: { value } } }: RootState) => value);
 
     const incrementStepValue = () => {
         dispatch(incremented());
