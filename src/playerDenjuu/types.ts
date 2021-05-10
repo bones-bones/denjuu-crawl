@@ -1,18 +1,16 @@
-import { DenjuuTemplate } from '../data/denjuu';
 
-export interface PlayerDenjuu
-    extends Pick<
-        DenjuuTemplate,
-        'hp' | 'speed' | 'attack' | 'defense' | 'denmaAttack' | 'denmaDefense'
-    > {
+import { Stats } from '../data/denjuu';
+
+export interface PlayerDenjuu {
+
+    stats: Stats;
+
     instanceId: string;
-    denjuuId: string;
+    denjuuId: number;
     level: number;
     exp: number;
     moves: number[];
-    temporalStats: {
-        hp: number;
-    };
+    temporalStats: Stats
 }
 
 export interface PlayerDenjuuContactList {

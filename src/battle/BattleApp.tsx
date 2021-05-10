@@ -2,9 +2,10 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { keyframes } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, p1Attack } from './store';
-import { denjuuList, Sprites } from './data/denjuu';
-import { moveList } from './data/moves';
+import { p1Attack } from '../battle';
+import { RootState } from '../store'
+import { denjuuList, Sprites } from '../data/denjuu';
+import { moveList } from '../data/moves';
 
 export const BattleApp = () => {
     const dispatch = useDispatch();
@@ -15,26 +16,27 @@ export const BattleApp = () => {
     return (
         <>
             <Background>
-                <P1
-                    hp={p1.hp}
+                {p1 && <P1
+                    hp={p1.stats.hp}
                     status={p1.status}
-                    sprites={denjuuList[p1.denjuuId].sprites}
-                    moveId={p1.moveId}
-                />
-                <P2
-                    hp={p2.hp}
+                    // garbage hack on the next lines, used a -1 cause of index stuff
+                    sprites={denjuuList[p1.denjuuId - 1].sprites}
+                    moveId={p1.activeMoveId}
+                />}
+                {p2 && <P2
+                    hp={p2.stats.hp}
                     status={p2.status}
-                    sprites={denjuuList[p2.denjuuId].sprites}
-                />
+                    sprites={denjuuList[p2.denjuuId - 1].sprites}
+                />}
             </Background>
             <BattleMessage>
-                {' '}
+
                 {battleLog.map((e, i) => (
                     <BattleLogMessage key={i}>{e}</BattleLogMessage>
-                ))}{' '}
+                ))}
             </BattleMessage>
             <BottomNav>
-                {denjuuList[p1.denjuuId].moves.map((move) => (
+                {p1 && denjuuList[p1.denjuuId].moves.map((move) => (
                     <MoveButton
                         disabled={!(activePlayer == 0)}
                         key={move}

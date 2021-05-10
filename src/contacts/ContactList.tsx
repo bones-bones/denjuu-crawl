@@ -19,15 +19,15 @@ export const ContactList = () => {
                     return (
                         <DenjuuDiv key={entry.instanceId}>
                             <div>
-                                <span>{denjuuTemplate?.displayId}</span>
+                                <span>{denjuuTemplate.displayId}</span>
                                 {playerDenjuu.activeDenju ==
                                     entry.instanceId && <span>⭐</span>}
                             </div>
-                            <img src={denjuuTemplate?.sprites.normal.front} />
+                            <img src={denjuuTemplate.sprites.normal.front} />
                             <br />
 
                             <span>
-                                HP: {entry.temporalStats.hp}/{entry.hp}
+                                HP: {entry.temporalStats.hp}/{entry.stats.hp}
                             </span>
                         </DenjuuDiv>
                     );
@@ -54,5 +54,5 @@ const BackgroundPanel = styled.div({
 const DenjuuDiv = styled.div({
     width: '33vw',
     height: '33vw',
-    border: '1px solid black',
+    border: '1px solid grey',
 });
