@@ -1,5 +1,5 @@
 import {
-    createAction,
+
     createSlice,
 
     PayloadAction,
@@ -9,7 +9,7 @@ import { denjuuList } from '../data/denjuu';
 import { EffectType, moveList } from '../data/moves';
 import { setHpTo } from '../playerDenjuu';
 import { store } from '../store';
-import { Attack, BattleStart, BattleState, Damage } from './types';
+import { Attack, BattleStart, BattleState } from './types';
 
 
 const initBattleState: BattleState = {
@@ -48,10 +48,12 @@ export const battleSlice = createSlice({
             });
             state.p2.status = 'damage';
             state.activePlayer = 1;
-            state.battleLog.unshift(
-                `${denjuuList[state.p1!.denjuuId - 1].displayId} used ${moveList[moveId].displayId}`
+            state.battleLog.unshift(`${denjuuList[state.p1!.denjuuId - 1].displayId} used ${moveList[moveId].displayId}`
             );
 
+            if (state.p2.stats.hp === 0) {
+                requestAnimationFrame(() => { store.dispatch(setHpTo({ instanceId: '1oshe', hp: 0 })) })
+            }
         },
         p2Attack: (state, { payload: { moveId } }: PayloadAction<Attack>) => {
             if (!state.p1 || !state.p2) {
@@ -73,22 +75,6 @@ export const battleSlice = createSlice({
                 `${denjuuList[state.p2.denjuuId - 1].displayId} used ${moveList[moveId].displayId
                 }`
             );
-        },
-        damagetoP1: (state, { payload }: PayloadAction<Damage>) => {
-            if (!state.p1 || !state.p2) {
-                return state
-            }
-            state.p1.stats.hp = Math.max(state.p1.stats.hp - payload.damage, 0);
-            state.p1.status = 'damage';
-            state.p1.activeMoveId = undefined;
-        },
-        damagetoP2: (state, { payload }: PayloadAction<Damage>) => {
-            if (!state.p1 || !state.p2) {
-                return state
-            }
-            state.p2.stats.hp = Math.max(state.p2.stats.hp - payload.damage, 0);
-            state.p2.status = 'damage';
-            state.p2.activeMoveId = undefined;
         },
     },
 });

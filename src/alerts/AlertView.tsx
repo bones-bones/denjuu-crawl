@@ -7,15 +7,14 @@ import { RootState } from '../store';
 import { removeEvent } from './store';
 
 export const AlertView = () => {
-    const stateAlerts = useSelector(({ events: { events } }: RootState) => {
-        return events;
-    });
+    const stateAlerts = useSelector(({ events: { events } }: RootState) =>
+        events
+    );
 
 
     const dispatch = useDispatch();
     const [showBattle, setShow] = useState(false);
 
-    //this is here because i'm lazy
     const playerDenjuu = useSelector(({ contactList }: RootState) => { return contactList.denjuu.find(({ instanceId }) => contactList.activeDenju === instanceId) })!;
 
 
@@ -29,7 +28,7 @@ export const AlertView = () => {
                             const enemyLevel = 3
                             const enemyDenjuu = getDenjuuAtLevel(2, enemyLevel);
                             dispatch(startBattle({
-                                player: { stats: playerDenjuu.stats, moves: playerDenjuu.moves, denjuuId: playerDenjuu.denjuuId },
+                                player: { stats: { ...playerDenjuu.stats, hp: playerDenjuu.temporalStats.hp }, moves: playerDenjuu.moves, denjuuId: playerDenjuu.denjuuId },
                                 enemy: { stats: enemyDenjuu.stats, denjuuId: enemyDenjuu.denjuuId, moves: enemyDenjuu.moves, level: enemyLevel }
                             }))
                             dispatch(removeEvent({ eventId: entry.id }))
@@ -43,7 +42,7 @@ export const AlertView = () => {
                             <ListItemTitle>Hey look it&rsquo;s</ListItemTitle>
                             <br />
                             <ListItemSubTitle>
-                                {entry.message}
+                                {entry.eventData.type}
                             </ListItemSubTitle>
                         </div>
                     </EventListItem>

@@ -104,7 +104,7 @@ export const PlayerCanvas = () => {
                 canvasContext.current?.fill();
                 canvasContext.current!.setTransform(1, 0, 0, 1, 0, 0);
 
-                if (currentMoment - step.lastUpdated < 1300) {
+                if (currentMoment - step.lastUpdatedTime < 1300) {
                     const inc = 1120 / 8;
                     canvasContext.current?.drawImage(
                         Run,

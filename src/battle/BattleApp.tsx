@@ -116,7 +116,7 @@ const P1 = ({
     hp,
     status,
     sprites,
-    moveId,
+
 }: {
     hp?: number;
     status: string;

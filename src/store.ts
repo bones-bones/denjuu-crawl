@@ -4,14 +4,15 @@ import {
 
     combineReducers,
 } from '@reduxjs/toolkit';
-import { eventSlice } from './alerts';
+import { eventSlice, newRandomEvent } from './alerts';
 import { contactListSlice } from './playerDenjuu';
 import { battleSlice } from './battle';
 
 export type AppWalkState = {
     step: {
         value: number;
-        lastUpdated: number;
+        lastUpdatedTime: number;
+        triggerCount: number;
     };
 };
 const initialState: AppWalkState = localStorage.getItem('reduxState')
@@ -19,9 +20,11 @@ const initialState: AppWalkState = localStorage.getItem('reduxState')
     : {
         step: {
             value: 0,
-            lastUpdated: new Date().getTime(),
+            lastUpdatedTime: new Date().getTime(),
+            triggerCount: 5
         },
     };
+
 
 const counterSlice = createSlice({
     name: 'counter',
@@ -32,11 +35,18 @@ const counterSlice = createSlice({
             // which detects changes to a "draft state" and produces a brand new
             // immutable state based off those changes
             state.step.value += 1;
-            state.step.lastUpdated = new Date().getTime();
+            state.step.lastUpdatedTime = new Date().getTime();
+            state.step.triggerCount--;
+            if (state.step.triggerCount <= 0) {
+                requestAnimationFrame(() => { store.dispatch(newRandomEvent()) })
+                state.step.triggerCount = getTriggerCount()
+
+            }
         },
     },
 });
 
+const getTriggerCount = () => { return 5 }
 
 let activeTurnValue = 0;
 function handleChange() {
@@ -75,7 +85,7 @@ export const store = configureStore({
     reducer: combineReducers({
         counter: counterSlice.reducer,
         battle: battleSlice.reducer,
-        pplication: applicationSlice.reducer,
+        application: applicationSlice.reducer,
         events: eventSlice.reducer,
         contactList: contactListSlice.reducer,
     }),
