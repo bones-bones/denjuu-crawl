@@ -10,15 +10,20 @@ import { BattleApp } from './battle/BattleApp';
 import styled from '@emotion/styled';
 import { AlertView } from './alerts';
 import { ContactList } from './contacts';
+import { useSelector } from 'react-redux';
+import { RootState } from './store';
+import { ItemView } from './items';
 
 function App() {
   //const activeFunction = useSelector(({ application: { activeFunction } }: RootState) => activeFunction);
+  const alerts = useSelector(({ events: { events } }: RootState) =>
+    events
+  );
 
   const navItems = [
-    { title: 'Walk', path: '' },
-    { title: 'Alerts', path: '/alerts' },
+
     { title: 'Denju', path: '/contacts' },
-    { title: 'Items', path: '' },
+    { title: 'Items', path: '/items' },
     {
       title: 'Settings',
       path: '',
@@ -33,6 +38,12 @@ function App() {
     >
       <Router>
         <Header>
+          <Link to={''} key={'Walk'}>
+            <NavItem key={'Walk'}>{'Walk'[0]}</NavItem>
+          </Link>
+          <Link to={'/alerts'} key={'Alerts'}>
+            <NavItem key={'Alerts'}>{'Alerts'[0]}{alerts.length > 0 && `(${alerts.length})`}</NavItem>
+          </Link>
           {navItems.map(({ title, path }) => (
             <Link to={path} key={title}>
               <NavItem key={title}>{title[0]}</NavItem>
@@ -40,13 +51,11 @@ function App() {
           ))}
         </Header>
         <Global
-          styles={css`
-                        @font-face {
+          styles={css`@font-face {
                             font-family: 'Fipps';
                             font-style: normal;
                             src: url('${Fipps}');
-                        }
-                    `}
+                        }`}
         />
         <Switch>
           <Route path="/battle">
@@ -57,6 +66,9 @@ function App() {
           </Route>
           <Route path="/contacts">
             <ContactList />
+          </Route>
+          <Route path="/items">
+            <ItemView />
           </Route>
           <Route path="/">
             <StepApp />

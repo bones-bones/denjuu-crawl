@@ -1,31 +1,31 @@
 // This is a mess, figure out how to subclass better
 
-export interface Event {
+export interface Alert {
     type: 'item' | 'battle' | 'message';
 
 }
 
-export interface ItemEvent extends Event {
+export interface ItemAlert extends Alert {
     type: 'item';
-    itemId: string;
+    itemId: number;
 }
 
-export interface MessageEvent extends Event {
+export interface MessageAlert extends Alert {
     type: 'message'
     message: string;
 }
 
-export interface BattleEvent extends Event {
+export interface BattleAlert extends Alert {
     type: 'battle';
     denjuuId: number;
     level: number
 }
 
-export interface EventWrapper {
-    eventData: ItemEvent | MessageEvent | BattleEvent
+export interface AlertWrapper {
+    eventData: ItemAlert | MessageAlert | BattleAlert
     id: number
 }
-export interface EventState {
+export interface AlertState {
     lastNotification: number,
-    events: EventWrapper[];
+    events: AlertWrapper[];
 }

@@ -2,16 +2,18 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { keyframes } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { p1Attack } from '../battle';
+import { /*attackThunk,*/ p1Attack } from '../battle';
 import { RootState } from '../store'
 import { denjuuList, Sprites } from '../data/denjuu';
 import { moveList } from '../data/moves';
+//import { useWinCon } from './useWincon';
 
 export const BattleApp = () => {
     const dispatch = useDispatch();
     const { p1, p2, activePlayer, battleLog } = useSelector(
         ({ battle }: RootState) => battle
     );
+    // useWinCon();
 
     return (
         <>
@@ -41,7 +43,8 @@ export const BattleApp = () => {
                         disabled={!(activePlayer == 0)}
                         key={move}
                         onClick={() => {
-                            dispatch(p1Attack({ moveId: 0 }));
+                            // dispatch(attackThunk({ moveId: 0 }));
+                            dispatch(p1Attack({ moveId: 0 }))
                         }}
                     >
                         {moveList[move].displayId}

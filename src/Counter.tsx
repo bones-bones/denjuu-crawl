@@ -20,7 +20,7 @@ export const Counter = () => {
     };
 
     useEvent(incrementStepValue);
-    return <StepValue stepVal={stepValue}>{stepValue}</StepValue>;
+    return <><button onClick={incrementStepValue}>Step</button><StepValue stepVal={stepValue}>{stepValue}</StepValue></>;
 };
 
 const StepValue = styled.div<{ stepVal: number }>`

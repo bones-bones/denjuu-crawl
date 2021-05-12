@@ -1,12 +1,12 @@
 import {
     createSlice,
     configureStore,
-
     combineReducers,
 } from '@reduxjs/toolkit';
 import { eventSlice, newRandomEvent } from './alerts';
 import { contactListSlice } from './playerDenjuu';
 import { battleSlice } from './battle';
+import { inventorySlice } from './items';
 
 export type AppWalkState = {
     step: {
@@ -88,6 +88,7 @@ export const store = configureStore({
         application: applicationSlice.reducer,
         events: eventSlice.reducer,
         contactList: contactListSlice.reducer,
+        inventory: inventorySlice.reducer
     }),
 });
 store.subscribe(handleChange);

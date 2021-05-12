@@ -1,11 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { EventState, Event, EventWrapper } from './types';
+import { AlertState, AlertWrapper } from './types';
 
-const initialState: EventState = {
+
+const introMessage = `Hello there, this is a project that i started because i enjoy bootleg pokemon, wanted to learn about SPA development, and improve my ts/react/redux skills.
+There's a lot to be done, check out the Walk mode, Alerts menu, Denjuu list, and... the other ones don't work yet... The repo is publicly available at https://github.com/bones-bones/denjuu-crawl`
+
+const initialState: AlertState = {
     lastNotification: 0,
     events: [
-        { id: 0, eventData: { type: 'message', 'message': "hello there," } },
+        { id: 0, eventData: { type: 'message', message: introMessage } },
+        { id: 1, eventData: { type: 'battle', level: Math.floor(Math.random() * 3) + 1, denjuuId: 2 } }
 
     ],
 };
@@ -15,10 +20,21 @@ export const eventSlice = createSlice({
     initialState,
 
     reducers: {
-        newEvent: (state, { payload }: PayloadAction<EventWrapper>) => {
+        newEvent: (state, { payload }: PayloadAction<AlertWrapper>) => {
             state.events.push(payload);
         },
-        newRandomEvent: (state) => { state.events.push({ id: state.events.length, 'eventData': { type: 'message', "message": 'less errors' } }) },
+        newRandomEvent: (state) => {
+            const eventNumber = Math.floor(Math.random() * 5);
+
+
+            if (eventNumber == 3) {
+                state.events.push({ id: state.events.length, eventData: { type: 'item', itemId: Math.floor(Math.random() * 2) } })
+            }
+            if (eventNumber == 4) {
+                state.events.push({ id: state.events.length, eventData: { type: 'battle', level: Math.floor(Math.random() * 3) + 1, denjuuId: 2 } })
+            }
+
+        },
         removeEvent: (
             state,
             { payload: { eventId } }: PayloadAction<{ eventId: number }>
@@ -26,14 +42,9 @@ export const eventSlice = createSlice({
             const eventIndex = state.events.findIndex(
                 (entry) => entry.id === eventId
             );
-            state.events = state.events.splice(eventIndex, 1);
+            state.events.splice(eventIndex, 1);
         },
     },
 });
 
 export const { newEvent, removeEvent, newRandomEvent } = eventSlice.actions
-
-
-
-const introMessage = `Hello there, this is a project that i started because i enjoy bootleg pokemon, wanted to learn about SPA development, and improve my ts/react/redux skills.
-There's a lot to be done, check out the Walk mode, Alerts menu, Denjuu list, and... the other ones don't work yet... The repo is publicly available at `

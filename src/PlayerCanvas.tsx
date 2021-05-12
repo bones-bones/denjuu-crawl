@@ -92,7 +92,7 @@ export const PlayerCanvas = () => {
                     width * 2
                 )!;
                 gradient.addColorStop(0, 'black');
-                console.log(Math.max(ir, ii));
+
                 gradient.addColorStop(
                     Math.min(0.5, ((ir || ii) % 4) / 4),
                     'black'

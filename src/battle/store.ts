@@ -5,10 +5,12 @@ import {
     PayloadAction,
 
 } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import { denjuuList } from '../data/denjuu';
 import { EffectType, moveList } from '../data/moves';
+import { addItem } from '../items';
 import { setHpTo } from '../playerDenjuu';
-import { store } from '../store';
+import { RootState, store } from '../store';
 import { Attack, BattleStart, BattleState } from './types';
 
 
@@ -17,6 +19,19 @@ const initBattleState: BattleState = {
     battleLog: [],
 
 };
+
+
+// export const attackThunk = (att: Attack) => (
+//     dispatch: any,
+//     getState: any
+// ) => {
+//     dispatch(p1Attack({ moveId: 0 }))
+//     const num = (getState() as RootState).battle.p1?.stats.hp
+//     if (num == 0) {
+//         dispatch(addItem({ itemId: 1 }));
+//     }
+// }
+
 export const battleSlice = createSlice({
     name: 'battle',
     initialState: initBattleState,
@@ -51,9 +66,11 @@ export const battleSlice = createSlice({
             state.battleLog.unshift(`${denjuuList[state.p1!.denjuuId - 1].displayId} used ${moveList[moveId].displayId}`
             );
 
-            if (state.p2.stats.hp === 0) {
-                requestAnimationFrame(() => { store.dispatch(setHpTo({ instanceId: '1oshe', hp: 0 })) })
-            }
+            // if (state.p2.stats.hp === 0) {
+            //     requestAnimationFrame(() => {
+            //         store.dispatch(setHpTo({ instanceId: '1oshe', hp: 0 }))
+            //     })
+            // }
         },
         p2Attack: (state, { payload: { moveId } }: PayloadAction<Attack>) => {
             if (!state.p1 || !state.p2) {
