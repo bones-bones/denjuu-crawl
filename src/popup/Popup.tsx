@@ -16,10 +16,11 @@ export const Popup = ({ closeCallback, children }: Props) => {
 }
 
 
-const DismissButton = styled.button({})
+const DismissButton = styled.button({ position: 'absolute', zIndex: 6 })
 const MessageBackground = styled.div({
     margin: '5px',
-    backgroundColor: 'white',
+
+
     opacity: 1,
     alignItems: 'flex-start', display: 'flex'
 })
@@ -27,6 +28,8 @@ const PopupContainer = styled.div(
     {
         position: 'fixed',
         height: '100vh',
+        width: '100vw',
+        padding: '2vw',
         zIndex: 5,
         top: 0, left: 0,
         background: 'rgba(0, 0, 0, .5)',

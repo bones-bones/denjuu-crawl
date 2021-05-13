@@ -8,7 +8,7 @@ import { addItem } from '../items';
 import { Popup } from '../popup';
 import { RootState } from '../store';
 import { removeEvent } from './store';
-import { Alert, BattleAlert, ItemAlert, MessageAlert } from './types';
+import { Alert, AlertWrapper, BattleAlert, ItemAlert, MessageAlert } from './types';
 
 export const AlertView = () => {
     const stateAlerts = useSelector(({ events: { events } }: RootState) =>
@@ -60,10 +60,10 @@ export const AlertView = () => {
             })
             }
             {activeAlert && <Popup closeCallback={() => {
-                dispatch(removeEvent({ eventId: activeAlert.id }))
-                setActiveEventId(undefined)
+                dispatch(removeEvent({ eventId: activeAlert.id }));
+                setActiveEventId(undefined);
             }}>
-                <div>{activeAlert.eventData.type == 'message' ? activeAlert.eventData.message : 'no message'}</div>
+                {getEventPopupContent(activeAlert)}
             </Popup>}
 
         </PanelDiv>
@@ -71,6 +71,21 @@ export const AlertView = () => {
 };
 
 const AlertMessage = () => { return <></> }
+
+const getEventPopupContent = (activeAlert: AlertWrapper) => {
+
+    switch (activeAlert.eventData.type) {
+        case ('message'): {
+            return <MessageBackground>{activeAlert.eventData.message || 'no message'}</MessageBackground>
+        }
+        case ('battle'): {
+            return <BattleApp />
+        }
+
+    }
+}
+
+const MessageBackground = styled.div({ backgroundColor: 'white', borderRadius: '15px' })
 
 const getEventTitle = (entry: Alert) => {
     switch (entry.type) {

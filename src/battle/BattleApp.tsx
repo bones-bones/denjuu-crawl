@@ -16,7 +16,7 @@ export const BattleApp = () => {
     // useWinCon();
 
     return (
-        <>
+        <Container>
             <Background>
                 {p1 && <P1
                     hp={p1.stats.hp}
@@ -32,7 +32,6 @@ export const BattleApp = () => {
                 />}
             </Background>
             <BattleMessage>
-
                 {battleLog.map((e, i) => (
                     <BattleLogMessage key={i}>{e}</BattleLogMessage>
                 ))}
@@ -51,32 +50,38 @@ export const BattleApp = () => {
                     </MoveButton>
                 ))}
             </BottomNav>
-        </>
+        </Container>
     );
 };
+const Container = styled.div({
+    backgroundColor: 'rgba(0, 0, 0, 1)',
+    borderRadius: '15px',
+    borderTop: '1vh groove',
+    borderLeft: '2vw groove',
+    borderBottom: '0.5vh groove',
+    borderRight: '1vw groove',
+    overflow: 'hidden'
+})
 
 const BattleMessage = styled.div({
-    width: '100vw',
     height: '9vh',
     backgroundColor: 'white',
     overflowY: 'scroll',
 });
 
 const BattleLogMessage = styled.span({ display: 'block', height: '3vh' });
+
 const Background = styled.div({
     backgroundColor: 'green',
+    position: 'relative',
     height: '60vh',
-    width: '97vw',
-    borderRadius: '15px',
-    borderTop: '1vh groove',
-    borderLeft: '2vw groove',
-    borderBottom: '0.5vh groove',
-    borderRight: '1vw groove',
+    width: '90vw',
+
 });
 
 const BottomNav = styled.div({
     height: '19.5vh',
-    width: '100vw',
+
     backgroundColor: '#333333',
     display: 'flex',
     justifyContent: 'center',
@@ -99,8 +104,8 @@ const P2 = ({
 }) => {
     return (
         <FloatSection
-            top="15vh"
-            right="5vw"
+            top="5vh"
+            right="4vw"
             onClick={onClick}
             status={status}
             key={'' + hp}
@@ -127,7 +132,7 @@ const P1 = ({
     moveId?: number;
 }) => {
     return (
-        <FloatSection bottom="35vh" left="5vw" status={status} key={'' + hp}>
+        <FloatSection bottom="5vh" left="4vw" status={status} key={'' + hp}>
             <img
                 width="100%"
                 height="100%"
@@ -157,7 +162,7 @@ const FloatSection = styled.div(
         right?: string;
         status: string;
     }) => ({
-        position: 'fixed',
+        position: 'absolute',
         top,
         ...{ animation: `${statusToAnimation(status)} 1s` },
         left,
