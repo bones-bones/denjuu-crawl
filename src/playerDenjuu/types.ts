@@ -1,8 +1,6 @@
-
 import { Stats } from '../data/denjuu';
 
 export interface PlayerDenjuu {
-
     stats: Stats;
 
     instanceId: string;
@@ -10,7 +8,7 @@ export interface PlayerDenjuu {
     level: number;
     exp: number;
     moves: number[];
-    temporalStats: Stats
+    temporalStats: Stats;
 }
 
 export interface PlayerDenjuuContactList {

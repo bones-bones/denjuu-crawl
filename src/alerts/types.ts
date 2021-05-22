@@ -2,7 +2,6 @@
 
 export interface Alert {
     type: 'item' | 'battle' | 'message';
-
 }
 
 export interface ItemAlert extends Alert {
@@ -11,21 +10,22 @@ export interface ItemAlert extends Alert {
 }
 
 export interface MessageAlert extends Alert {
-    type: 'message'
+    type: 'message';
     message: string;
 }
 
 export interface BattleAlert extends Alert {
     type: 'battle';
     denjuuId: number;
-    level: number
+    level: number;
 }
 
 export interface AlertWrapper {
-    eventData: ItemAlert | MessageAlert | BattleAlert
-    id: number
+    eventData: ItemAlert | MessageAlert | BattleAlert;
+    id: number;
 }
+
 export interface AlertState {
-    lastNotification: number,
+    lastNotification: number;
     events: AlertWrapper[];
 }

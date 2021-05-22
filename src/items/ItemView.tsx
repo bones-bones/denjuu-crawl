@@ -4,25 +4,28 @@ import { useSelector } from 'react-redux';
 import { itemList } from '../data/items';
 import { RootState } from '../store';
 export const ItemView = () => {
-    const inventory = useSelector(
-        ({ inventory }: RootState) => inventory
-    );
+    const inventory = useSelector(({ inventory }: RootState) => inventory);
 
     return (
         <BackgroundPanel>
-            {inventory.items.map(entry =>
+            {inventory.items.map((entry) => (
                 <ItemContainer key={entry.itemId}>
                     <img src={itemList[entry.itemId].image} />
                     <span>{entry.count}</span>
-                </ItemContainer>)}
+                </ItemContainer>
+            ))}
         </BackgroundPanel>
     );
 };
 
 const ItemContainer = styled.div({
-    width: '25vw', height: '25vw', border: '1px solid black',
-    alignItems: 'center', justifyContent: 'center', display: 'inline-flex'
-})
+    width: '25vw',
+    height: '25vw',
+    border: '1px solid black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'inline-flex',
+});
 
 const BackgroundPanel = styled.div({
     backgroundColor: 'lightgrey',
@@ -31,5 +34,5 @@ const BackgroundPanel = styled.div({
     overflow: 'scroll',
     display: 'flex',
     flexWrap: 'wrap',
-    alignContent: 'flex-start'
+    alignContent: 'flex-start',
 });

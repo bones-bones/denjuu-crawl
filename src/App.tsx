@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 //import { addToStepHook } from './stepCounter';
 
 import { css, Global } from '@emotion/react';
-import { StepApp } from './StepApp';
+import { StepApp } from './walk/StepApp';
 import { BattleApp } from './battle/BattleApp';
 import styled from '@emotion/styled';
 import { AlertView } from './alerts';
@@ -15,78 +15,80 @@ import { RootState } from './store';
 import { ItemView } from './items';
 
 function App() {
-  //const activeFunction = useSelector(({ application: { activeFunction } }: RootState) => activeFunction);
-  const alerts = useSelector(({ events: { events } }: RootState) =>
-    events
-  );
+    //const activeFunction = useSelector(({ application: { activeFunction } }: RootState) => activeFunction);
+    const alerts = useSelector(({ events: { events } }: RootState) => events);
 
-  const navItems = [
-
-    { title: 'Denju', path: '/contacts' },
-    { title: 'Items', path: '/items' },
-    {
-      title: 'Settings',
-      path: '',
-    },
-  ];
-  return (
-    <div
-      className="App"
-      style={{
-        backgroundColor: 'black',
-      }}
-    >
-      <Router>
-        <Header>
-          <Link to={''} key={'Walk'}>
-            <NavItem key={'Walk'}>{'Walk'[0]}</NavItem>
-          </Link>
-          <Link to={'/alerts'} key={'Alerts'}>
-            <NavItem key={'Alerts'}>{'Alerts'[0]}{alerts.length > 0 && `(${alerts.length})`}</NavItem>
-          </Link>
-          {navItems.map(({ title, path }) => (
-            <Link to={path} key={title}>
-              <NavItem key={title}>{title[0]}</NavItem>
-            </Link>
-          ))}
-        </Header>
-        <Global
-          styles={css`@font-face {
+    const navItems = [
+        { title: 'Denju', path: '/contacts' },
+        { title: 'Items', path: '/items' },
+        {
+            title: 'Settings',
+            path: '',
+        },
+    ];
+    return (
+        <div
+            className="App"
+            style={{
+                backgroundColor: 'black',
+            }}
+        >
+            <Router>
+                <Header>
+                    <Link to={''} key={'Walk'}>
+                        <NavItem key={'Walk'}>{'Walk'[0]}</NavItem>
+                    </Link>
+                    <Link to={'/alerts'} key={'Alerts'}>
+                        <NavItem key={'Alerts'}>
+                            {'Alerts'[0]}
+                            {alerts.length > 0 && `(${alerts.length})`}
+                        </NavItem>
+                    </Link>
+                    {navItems.map(({ title, path }) => (
+                        <Link to={path} key={title}>
+                            <NavItem key={title}>{title[0]}</NavItem>
+                        </Link>
+                    ))}
+                </Header>
+                <Global
+                    styles={css`
+                        @font-face {
                             font-family: 'Fipps';
                             font-style: normal;
                             src: url('${Fipps}');
-                        }`}
-        />
-        <Switch>
-          <Route path="/battle">
-            <BattleApp />
-          </Route>
-          <Route path="/alerts">
-            <AlertView />
-          </Route>
-          <Route path="/contacts">
-            <ContactList />
-          </Route>
-          <Route path="/items">
-            <ItemView />
-          </Route>
-          <Route path="/">
-            <StepApp />
-          </Route>
-        </Switch>
-      </Router>
-    </div>
-  );
+                        }
+                    `}
+                />
+                <Switch>
+                    <Route path="/battle">
+                        <BattleApp />
+                    </Route>
+                    <Route path="/alerts">
+                        <AlertView />
+                    </Route>
+                    <Route path="/contacts">
+                        <ContactList />
+                    </Route>
+                    <Route path="/items">
+                        <ItemView />
+                    </Route>
+                    <Route path="/">
+                        <StepApp />
+                    </Route>
+                </Switch>
+            </Router>
+        </div>
+    );
 }
 
 const NavItem = styled.button({
-  display: 'inline-flex',
-  height: '10vh',
-  width: '20vw',
-  color: 'white',
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: 'black',
+    display: 'inline-flex',
+    height: '10vh',
+    width: '20vw',
+    color: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
 });
 
 const Header = styled.header({ height: '10vh' });

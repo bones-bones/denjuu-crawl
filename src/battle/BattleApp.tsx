@@ -3,33 +3,37 @@ import React from 'react';
 import { keyframes } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { /*attackThunk,*/ p1Attack } from '../battle';
-import { RootState } from '../store'
+import { RootState } from '../store';
 import { denjuuList, Sprites } from '../data/denjuu';
 import { moveList } from '../data/moves';
-//import { useWinCon } from './useWincon';
+import { useWinCon } from './useWincon';
 
 export const BattleApp = () => {
     const dispatch = useDispatch();
     const { p1, p2, activePlayer, battleLog } = useSelector(
         ({ battle }: RootState) => battle
     );
-    // useWinCon();
+    useWinCon();
 
     return (
         <Container>
             <Background>
-                {p1 && <P1
-                    hp={p1.stats.hp}
-                    status={p1.status}
-                    // garbage hack on the next lines, used a -1 cause of index stuff
-                    sprites={denjuuList[p1.denjuuId - 1].sprites}
-                    moveId={p1.activeMoveId}
-                />}
-                {p2 && <P2
-                    hp={p2.stats.hp}
-                    status={p2.status}
-                    sprites={denjuuList[p2.denjuuId - 1].sprites}
-                />}
+                {p1 && (
+                    <P1
+                        hp={p1.stats.hp}
+                        status={p1.status}
+                        // garbage hack on the next lines, used a -1 cause of index stuff
+                        sprites={denjuuList[p1.denjuuId - 1].sprites}
+                        moveId={p1.activeMoveId}
+                    />
+                )}
+                {p2 && (
+                    <P2
+                        hp={p2.stats.hp}
+                        status={p2.status}
+                        sprites={denjuuList[p2.denjuuId - 1].sprites}
+                    />
+                )}
             </Background>
             <BattleMessage>
                 {battleLog.map((e, i) => (
@@ -37,18 +41,19 @@ export const BattleApp = () => {
                 ))}
             </BattleMessage>
             <BottomNav>
-                {p1 && denjuuList[p1.denjuuId].moves.map((move) => (
-                    <MoveButton
-                        disabled={!(activePlayer == 0)}
-                        key={move}
-                        onClick={() => {
-                            // dispatch(attackThunk({ moveId: 0 }));
-                            dispatch(p1Attack({ moveId: 0 }))
-                        }}
-                    >
-                        {moveList[move].displayId}
-                    </MoveButton>
-                ))}
+                {p1 &&
+                    denjuuList[p1.denjuuId].moves.map((move) => (
+                        <MoveButton
+                            disabled={!(activePlayer == 0)}
+                            key={move}
+                            onClick={() => {
+                                // dispatch(attackThunk({ moveId: 0 }));
+                                dispatch(p1Attack({ moveId: 0 }));
+                            }}
+                        >
+                            {moveList[move].displayId}
+                        </MoveButton>
+                    ))}
             </BottomNav>
         </Container>
     );
@@ -60,8 +65,8 @@ const Container = styled.div({
     borderLeft: '2vw groove',
     borderBottom: '0.5vh groove',
     borderRight: '1vw groove',
-    overflow: 'hidden'
-})
+    overflow: 'hidden',
+});
 
 const BattleMessage = styled.div({
     height: '9vh',
@@ -76,7 +81,6 @@ const Background = styled.div({
     position: 'relative',
     height: '60vh',
     width: '90vw',
-
 });
 
 const BottomNav = styled.div({
@@ -124,7 +128,6 @@ const P1 = ({
     hp,
     status,
     sprites,
-
 }: {
     hp?: number;
     status: string;

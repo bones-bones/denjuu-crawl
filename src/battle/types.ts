@@ -1,4 +1,4 @@
-import { Stats } from '../data/denjuu'
+import { Stats } from '../data/denjuu';
 
 export interface Attack {
     moveId: number;
@@ -19,10 +19,29 @@ interface BattleMonster {
     stats: Stats;
     denjuuId: number;
     moves: number[];
-    activeMoveId?: number
+    activeMoveId?: number;
+    instanceId: string;
 }
 
 export interface BattleStart {
-    player: { stats: Stats, moves: number[], denjuuId: number }
-    enemy: { stats: Stats, moves: number[], denjuuId: number, level: number },
+    player: {
+        stats: Stats;
+        moves: number[];
+        denjuuId: number;
+        instanceId: string;
+    };
+    enemy: {
+        stats: Stats;
+        moves: number[];
+        denjuuId: number;
+        level: number;
+        instanceId: string;
+    };
+}
+export interface EnemyStats {
+    stats: Stats;
+    moves: number[];
+    denjuuId: number;
+    level: number;
+    instanceId: string;
 }

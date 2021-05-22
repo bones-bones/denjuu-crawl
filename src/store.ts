@@ -1,8 +1,4 @@
-import {
-    createSlice,
-    configureStore,
-    combineReducers,
-} from '@reduxjs/toolkit';
+import { createSlice, configureStore, combineReducers } from '@reduxjs/toolkit';
 import { eventSlice, newRandomEvent } from './alerts';
 import { contactListSlice } from './playerDenjuu';
 import { battleSlice } from './battle';
@@ -18,13 +14,12 @@ export type AppWalkState = {
 const initialState: AppWalkState = localStorage.getItem('reduxState')
     ? JSON.parse(localStorage.getItem('reduxState')!).counter
     : {
-        step: {
-            value: 0,
-            lastUpdatedTime: new Date().getTime(),
-            triggerCount: 5
-        },
-    };
-
+          step: {
+              value: 0,
+              lastUpdatedTime: new Date().getTime(),
+              triggerCount: 5,
+          },
+      };
 
 const counterSlice = createSlice({
     name: 'counter',
@@ -38,21 +33,28 @@ const counterSlice = createSlice({
             state.step.lastUpdatedTime = new Date().getTime();
             state.step.triggerCount--;
             if (state.step.triggerCount <= 0) {
-                requestAnimationFrame(() => { store.dispatch(newRandomEvent()) })
-                state.step.triggerCount = getTriggerCount()
-
+                requestAnimationFrame(() => {
+                    store.dispatch(newRandomEvent());
+                });
+                state.step.triggerCount = getTriggerCount();
             }
         },
     },
 });
 
-const getTriggerCount = () => { return 5 }
+const getTriggerCount = () => {
+    return 5;
+};
 
 let activeTurnValue = 0;
 function handleChange() {
     const previousValue = activeTurnValue;
     activeTurnValue = store.getState().battle.activePlayer;
-    if (activeTurnValue != previousValue && activeTurnValue === 1) {
+    if (
+        activeTurnValue != previousValue &&
+        activeTurnValue === 1 &&
+        store.getState().battle.p2?.stats.hp! > 0
+    ) {
         setTimeout(() => {
             store.dispatch(battleSlice.actions.p2Attack({ moveId: 1 }));
         }, 1000);
@@ -77,7 +79,6 @@ const applicationSlice = createSlice({
     },
 });
 
-
 export const { startFighting, startWalking } = applicationSlice.actions;
 export const { incremented } = counterSlice.actions;
 
@@ -88,7 +89,7 @@ export const store = configureStore({
         application: applicationSlice.reducer,
         events: eventSlice.reducer,
         contactList: contactListSlice.reducer,
-        inventory: inventorySlice.reducer
+        inventory: inventorySlice.reducer,
     }),
 });
 store.subscribe(handleChange);

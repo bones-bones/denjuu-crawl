@@ -1,20 +1,31 @@
-// import { useDispatch, useSelector } from "react-redux"
-// import { addItem } from "../items"
-// import { RootState } from "../store"
+import { useDispatch, useSelector } from 'react-redux';
+import { getExperienceValue } from '../data';
+import { addExperience } from '../playerDenjuu';
 
-// export const useWinCon = () => {
+import { RootState } from '../store';
+import { endBattle } from './store';
 
-//     const itover = useSelector(({ battle: { p1, } }: RootState) => {
-//         return p1?.stats.hp == 0
+export const useWinCon = () => {
+    const p1 = useSelector(({ battle: { p1 } }: RootState) => p1!);
+    const p2 = useSelector(({ battle: { p2 } }: RootState) => p2!);
+    const dispatch = useDispatch();
 
-//     })
-//     const dispatch = useDispatch()
-//     if (itover) {
+    if (!p1 || !p2) {
+        return;
+    }
 
-//         //TODO fix
+    let p2Defeated = false;
+    if (p2.stats.hp <= 0) {
+        p2Defeated = true;
+    }
 
-//         dispatch(addItem({ itemId: 1 }));
-//     }
-// }
-
-export const t = ""
+    if (p2Defeated) {
+        dispatch(
+            addExperience({
+                instanceId: p1.instanceId,
+                value: getExperienceValue(p2.stats!),
+            })
+        );
+        dispatch(endBattle());
+    }
+};

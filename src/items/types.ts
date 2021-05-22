@@ -1,11 +1,11 @@
 export interface Item {
-    itemId: number,
-    count: number
+    itemId: number;
+    count: number;
 }
 
 export interface Inventory {
-    items: Item[]
+    items: Item[];
 }
 export interface ItemForTransaction {
-    itemId: number
+    itemId: number;
 }

@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import useEvent from './stepCounter/stepCounter';
-import { RootState, incremented } from './store';
+import useEvent from '../stepCounter/stepCounter';
+import { RootState, incremented } from '../store';
 
 export const Counter = () => {
     const dispatch = useDispatch();
@@ -20,7 +20,12 @@ export const Counter = () => {
     };
 
     useEvent(incrementStepValue);
-    return <><button onClick={incrementStepValue}>Step</button><StepValue stepVal={stepValue}>{stepValue}</StepValue></>;
+    return (
+        <>
+            <button onClick={incrementStepValue}>Step</button>
+            <StepValue stepVal={stepValue}>{stepValue}</StepValue>
+        </>
+    );
 };
 
 const StepValue = styled.div<{ stepVal: number }>`

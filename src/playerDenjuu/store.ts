@@ -21,11 +21,27 @@ export const contactListSlice = createSlice({
     name: 'contactList',
     initialState,
     reducers: {
-        setHpTo: (state, { payload: { hp, instanceId } }: PayloadAction<{ instanceId: string, hp: number }>) => {
-
-            state.denjuu.find((entry) => entry.instanceId === instanceId)!.temporalStats.hp = hp;
+        setHpTo: (
+            state,
+            {
+                payload: { hp, instanceId },
+            }: PayloadAction<{ instanceId: string; hp: number }>
+        ) => {
+            state.denjuu.find(
+                (entry) => entry.instanceId === instanceId
+            )!.temporalStats.hp = hp;
+        },
+        addExperience: (
+            state,
+            {
+                payload: { value, instanceId },
+            }: PayloadAction<{ instanceId: string; value: number }>
+        ) => {
+            state.denjuu.find(
+                (entry) => entry.instanceId === instanceId
+            )!.exp += value;
         },
     },
 });
 
-export const { setHpTo } = contactListSlice.actions
+export const { setHpTo, addExperience } = contactListSlice.actions;
