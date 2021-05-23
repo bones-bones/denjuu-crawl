@@ -57,7 +57,7 @@ export const BattleApp = () => {
                             key={move}
                             onClick={() => {
                                 // dispatch(attackThunk({ moveId: 0 }));
-                                dispatch(p1Attack({ moveId: 0 }));
+                                dispatch(p1Attack({ moveId: move }));
                             }}
                         >
                             {moveList[move].displayId}

@@ -5,7 +5,9 @@ export interface DenjuuTemplate {
     statLevelRates: Stats;
     sprites: Sprites;
     type: MonsterType;
-    moves: number[];
+    movesAtLevel: {
+        [key: number]: number[]
+    };
 }
 export interface Sprites {
     normal: { back: string; front: string };
@@ -21,7 +23,7 @@ export interface Stats {
     denmaDefense: number;
 }
 
-enum MonsterType {
+export enum MonsterType {
     Grassland = 'Grassland',
     Desert = 'Desert',
     Forest = 'Forest',
@@ -29,6 +31,7 @@ enum MonsterType {
     Aquatic = 'Aquatic',
     Mountain = 'Mountain',
 }
+
 
 export const denjuuList: DenjuuTemplate[] = [
     {
@@ -62,7 +65,10 @@ export const denjuuList: DenjuuTemplate[] = [
                     'https://www.wiki.telefang.net/images/e/e5/T2-145-FA.gif',
             },
         },
-        moves: [0],
+        movesAtLevel: {
+            0: [0, 7],
+            9: [8]
+        },
     },
     {
         id: 2,
@@ -95,7 +101,10 @@ export const denjuuList: DenjuuTemplate[] = [
                     'https://www.wiki.telefang.net/images/b/b8/T2-156-FA.gif',
             },
         },
-        moves: [1],
+        movesAtLevel: {
+            0: [1, 8],
+            15: [9]
+        },
     },
     {
         id: 3,
@@ -128,7 +137,7 @@ export const denjuuList: DenjuuTemplate[] = [
                     'https://www.wiki.telefang.net/images/b/b2/T2-163-FA.gif',
             },
         },
-        moves: [2, 3],
+        movesAtLevel: { 0: [0, 10], 8: [9] }
     },
     {
         id: 4,
@@ -161,6 +170,6 @@ export const denjuuList: DenjuuTemplate[] = [
                     'https://www.wiki.telefang.net/images/d/df/T2-167-FA.gif',
             },
         },
-        moves: [4, 5],
+        movesAtLevel: { 0: [4, 5], 11: [11] }
     },
 ];

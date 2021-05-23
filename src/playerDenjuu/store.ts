@@ -10,7 +10,7 @@ const initialState: PlayerDenjuuContactList = {
             instanceId: '1oshe',
             level: 5,
             exp: 30,
-            moves: [0],
+            moves: getDenjuuAtLevel(1, 5).moves,
             temporalStats: { ...getDenjuuAtLevel(1, 5).stats },
         },
     ],

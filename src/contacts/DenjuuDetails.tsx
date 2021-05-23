@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { denjuuList, getExperienceNeededToLevel, getExperienceValue, moveList } from '../data';
+import { denjuuList, DenjuuTypeIcon, getExperienceNeededToLevel, moveList, MoveTypeIcon } from '../data';
 import { PlayerDenjuu } from '../playerDenjuu';
 
 export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
@@ -9,7 +9,7 @@ export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
     )!;
 
     return <Container>
-        <h3>{denjuuTemplate.displayId}</h3>
+        <h3>{denjuuTemplate.displayId} <DenjuuTypeIcon type={denjuuTemplate.type} /></h3>
         <img src={denjuuTemplate.sprites.normal.front} />
         <table>
             <StatTable>
@@ -23,13 +23,15 @@ export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
                 <tr><td><StatEntry entryColor={'#9999CC'}>Experience</StatEntry></td><td> {denjuu.exp}/{getExperienceNeededToLevel(denjuu.level + 1)}</td></tr>
             </StatTable>
         </table>
-        <MoveContainer>{denjuu.moves.map((entry) => <div key={entry}> {moveList[entry].displayId}</div>)}</MoveContainer>
+        <MoveContainer>{denjuu.moves.map((entry) =>
+            <div key={entry}> {moveList[entry].displayId}<MoveTypeIcon type={moveList[entry].type} /></div>)}
+        </MoveContainer>
 
 
 
     </Container>
 }
-const MoveContainer = styled.div({})
+const MoveContainer = styled.div({ borderTop: '1px solid black' })
 const Container = styled.div({ padding: '13px', fontSize: '12px', border: '1px solid black', backgroundColor: 'whitesmoke', display: 'flex', flexDirection: 'column', justifyContent: 'center' });
 
 const StatEntry = styled.div(({ entryColor }: { entryColor: string }) => ({

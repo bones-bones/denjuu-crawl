@@ -2,28 +2,45 @@
 
 a webclient game that rewards you for going different places and walking
 
-# Bugs
-
-having an interval functino that reads from state and doesn't trigger a reneder is a pain
-
 # Todo
 
-currently using a mixture of strings and numbers for ids, everything should be ids
+General
+- [ ] currently using a mixture of strings and numbers for ids, everything should be ids
+- [ ] denjuu index is off by one, pull it back
+- [ ] Load all denjuu
+- [ ] decided which telefang to pull info from
+- [ ] load all items
+- [ ] load all moves
 
-Transition out of battle nicely
+Battle
+- [ ] Transition out of battle nicely
+- [ ] P1 defeat logic
+- [ ] Switching denjuu logic
+- [ ] actually use stats
 
-Add settings menu
+Setting Menu
+- [x] Add settings menu
+- [ ] Actually have settings
 
-Add items menu
+Denjuu Menu
+- [x] Add denjuu menu
+- [ ] make items usable from denjuu menu
+- [ ] allow changing of active denju
 
-Load more data
+Items Menu
+- [x] Add items menu
+- [ ] Better item descriptions and menus
+- [ ] Make items usable from items menu
 
-Update walk screen to at least use telefang imagery
+Walk Menu
+- [x] Update walk screen to at least use telefang imagery
+- [ ] Move the screen
+- [ ] Generate random backgrounds
+- [ ] Pull in map data to generate backgrounds. use this maybe: https://dev.virtualearth.net/REST/v1/LocationRecog/${n},${n}?key=key&top=10&includeEntityTypes=businessAndPOI
+- [ ] Pull in map data to determine "type" of area and spawn denjuu and items accordingly
 
-Use https://dev.virtualearth.net/REST/v1/LocationRecog/${n},${n}?key=key&top=10&includeEntityTypes=businessAndPOI to determine "type" of area and spawn denjuu and items accordingly
-
-Maybe pull in map data?
-
-Fusion Event type
-
-Alerts menu item should show when there are alerts
+Alert Menu
+- [ ] Fusion Event type. Should allow users to fuse/mod evolve denju
+- [x] Alerts menu item should show when there are alerts
+- [ ] Spawn Store events where items can be purchased???? Add money???
+- [ ] Better alert type icons
