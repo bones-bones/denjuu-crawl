@@ -16,7 +16,6 @@ export const inventorySlice = createSlice({
             const itemInIndex = state.items.findIndex(
                 (entry) => entry.itemId === itemId
             );
-            console.log(itemInIndex, '∆');
             if (itemInIndex > -1) {
                 state.items[itemInIndex].count++;
             } else {

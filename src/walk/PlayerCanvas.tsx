@@ -124,7 +124,7 @@ export const PlayerCanvas = () => {
                 // const SPEED = 1;
 
                 const currentMoment = new Date().getTime();
-                canvasContext.current?.save()
+                canvasContext.current?.save();
                 canvasContext.current?.translate(canvasRef.current.width, 0);
                 canvasContext.current?.scale(-1, 1);
                 if (currentMoment - step.lastUpdatedTime < 1300) {
@@ -162,15 +162,13 @@ export const PlayerCanvas = () => {
                 canvasContext.current?.restore();
             }
         }, 200);
-        return () =>
-            clearInterval(intl);
-
+        return () => clearInterval(intl);
     });
     return <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />;
 };
 
 const PCanvas = styled.canvas`
     border: 1px solid white;
-   
-    width:60vw;
+
+    width: 60vw;
 `;

@@ -1,7 +1,11 @@
 export interface Move {
     displayId: string;
     animation?: string;
-    effects: { type: EffectType; value?: number, target: 'self' | 'opponent' }[];
+    effects: {
+        type: EffectType;
+        value?: number;
+        target: 'self' | 'opponent';
+    }[];
     type: MoveType;
 }
 
@@ -20,14 +24,14 @@ export enum EffectType {
     SpeedChange = 'SpeedUp',
     DefenseChange = 'DefenseChange',
     Sleep = 'Sleep',
-    Fly = 'Fly'
+    Fly = 'Fly',
 }
 
 export const moveList: Move[] = [
     {
         displayId: 'Rush',
         type: MoveType.Normal,
-        effects: [{ type: EffectType.Damage, value: 5, target: 'opponent' }],
+        effects: [{ type: EffectType.Damage, value: 666, target: 'opponent' }],
     },
     {
         displayId: 'Bite',
@@ -44,7 +48,8 @@ export const moveList: Move[] = [
         type: MoveType.Wind,
         effects: [{ type: EffectType.Damage, value: 6, target: 'opponent' }],
     },
-    { //4
+    {
+        //4
         displayId: 'Strike',
         type: MoveType.Normal,
         effects: [{ type: EffectType.Damage, value: 4, target: 'opponent' }],
@@ -62,27 +67,35 @@ export const moveList: Move[] = [
     {
         displayId: 'Glare',
         type: MoveType.Normal,
-        effects: [{ type: EffectType.DefenseChange, value: -6, target: 'opponent' }],
+        effects: [
+            { type: EffectType.DefenseChange, value: -6, target: 'opponent' },
+        ],
     },
-    { //8
+    {
+        //8
         displayId: 'Lullaby',
         type: MoveType.Normal,
         effects: [{ type: EffectType.Sleep, target: 'opponent' }],
     },
-    { //9
+    {
+        //9
         displayId: 'Claw',
         type: MoveType.Normal,
         effects: [{ type: EffectType.Damage, value: 10, target: 'opponent' }],
     },
-    { //10
+    {
+        //10
         displayId: 'Flap',
         type: MoveType.Wind,
-        effects: [{ type: EffectType.Fly, target: 'self' }, { type: EffectType.Damage, value: 4, target: 'opponent' }],
+        effects: [
+            { type: EffectType.Fly, target: 'self' },
+            { type: EffectType.Damage, value: 4, target: 'opponent' },
+        ],
     },
-    { //11
+    {
+        //11
         displayId: 'Horn',
         type: MoveType.Machine,
         effects: [{ type: EffectType.Damage, value: 10, target: 'opponent' }],
     },
-
 ];

@@ -13,5 +13,5 @@ export const getExperienceValue = ({
 };
 
 export const getExperienceNeededToLevel = (level: number) => {
-    return level * level * level
-}
+    return level * level * level;
+};

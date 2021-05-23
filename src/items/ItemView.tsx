@@ -11,8 +11,10 @@ export const ItemView = () => {
             {inventory.items.map((entry) => (
                 <ItemContainer key={entry.itemId}>
                     <span>{itemList[entry.itemId].displayId}</span>
-                    <div><img src={itemList[entry.itemId].image} />
-                        <span>{entry.count}</span></div>
+                    <div>
+                        <img src={itemList[entry.itemId].image} />
+                        <span>{entry.count}</span>
+                    </div>
                 </ItemContainer>
             ))}
         </BackgroundPanel>

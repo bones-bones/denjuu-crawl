@@ -53,7 +53,8 @@ function handleChange() {
     if (
         activeTurnValue != previousValue &&
         activeTurnValue === 1 &&
-        store.getState().battle.p2?.stats.hp! > 0
+        store.getState().battle.p2?.stats.hp! > 0 &&
+        store.getState().battle.winner !== undefined
     ) {
         setTimeout(() => {
             store.dispatch(battleSlice.actions.p2Attack({ moveId: 1 }));

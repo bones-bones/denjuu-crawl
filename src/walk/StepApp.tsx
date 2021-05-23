@@ -3,11 +3,12 @@ import React from 'react';
 
 import { Counter } from './Counter';
 import { PlayerCanvas } from './PlayerCanvas';
-export const StepApp = () => <BackgroundPanel>
-    <Counter />
-    <PlayerCanvas />
-</BackgroundPanel>
-
+export const StepApp = () => (
+    <BackgroundPanel>
+        <Counter />
+        <PlayerCanvas />
+    </BackgroundPanel>
+);
 
 const BackgroundPanel = styled.div({
     backgroundColor: 'black',
@@ -16,5 +17,5 @@ const BackgroundPanel = styled.div({
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
 });

@@ -58,7 +58,9 @@ export const AlertView = () => {
                     }}
                     key={entry.id}
                 >
-                    <EventIcon>{entry.eventData.type[0].toUpperCase()}</EventIcon>
+                    <EventIcon>
+                        {entry.eventData.type[0].toUpperCase()}
+                    </EventIcon>
                     <div>
                         <ListItemTitle>
                             {getEventTitle(entry.eventData)}
@@ -69,21 +71,18 @@ export const AlertView = () => {
                         </ListItemSubTitle>
                     </div>
                 </EventListItem>
-            ))
-            }
-            {
-                activeAlert && (
-                    <Popup
-                        closeCallback={() => {
-                            dispatch(removeEvent({ eventId: activeAlert.id }));
-                            setActiveEventId(undefined);
-                        }}
-                    >
-                        {getEventPopupContent(activeAlert)}
-                    </Popup>
-                )
-            }
-        </PanelDiv >
+            ))}
+            {activeAlert && (
+                <Popup
+                    closeCallback={() => {
+                        dispatch(removeEvent({ eventId: activeAlert.id }));
+                        setActiveEventId(undefined);
+                    }}
+                >
+                    {getEventPopupContent(activeAlert)}
+                </Popup>
+            )}
+        </PanelDiv>
     );
 };
 
@@ -115,7 +114,9 @@ const ItemConfirmation = ({ activeAlert }: { activeAlert: AlertWrapper }) => {
                     itemList[(activeAlert.eventData as ItemAlert).itemId].image
                 }
             />
-            {`It's a ${itemList[(activeAlert.eventData as ItemAlert).itemId].displayId}`}
+            {`It's a ${
+                itemList[(activeAlert.eventData as ItemAlert).itemId].displayId
+            }`}
         </MessageBackground>
     );
 };
@@ -124,7 +125,7 @@ const MessageBackground = styled.div({
     backgroundColor: 'white',
     borderRadius: '15px',
     width: '85vw',
-    padding: '20px'
+    padding: '20px',
 });
 
 const getEventTitle = (entry: Alert) => {
@@ -149,8 +150,9 @@ const getEventSubtitle = (entry: Alert) => {
             return ``;
         }
         case 'battle': {
-            return `Level: ${(entry as BattleAlert).level} ${denjuuList[(entry as BattleAlert).denjuuId - 1].displayId
-                }`;
+            return `Level: ${(entry as BattleAlert).level} ${
+                denjuuList[(entry as BattleAlert).denjuuId - 1].displayId
+            }`;
         }
         case 'message': {
             return `"${(entry as MessageAlert).message.substr(0, 60)}...`;
@@ -174,7 +176,7 @@ const EventIcon = styled.div({
     alignItems: 'center',
     fontFamily: 'Mate SC',
     fontWeight: 'bold',
-    fontSize: '6vh'
+    fontSize: '6vh',
 });
 
 const EventListItem = styled.button({

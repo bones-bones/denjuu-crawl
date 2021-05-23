@@ -12,6 +12,7 @@ export interface BattleState {
     p2?: BattleMonster;
     activePlayer: number;
     battleLog: string[];
+    winner?: 'player' | 'opponent';
 }
 
 interface BattleMonster {

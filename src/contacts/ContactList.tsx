@@ -12,7 +12,6 @@ export const ContactList = () => {
         ({ contactList }: RootState) => contactList
     );
 
-
     return (
         <BackgroundPanel>
             {playerDenjuu.denjuu.map((entry) => {
@@ -20,15 +19,17 @@ export const ContactList = () => {
                     ({ id }) => id === entry.denjuuId
                 )!;
                 return (
-                    <DenjuuDiv denjuuTemplate={denjuuTemplate} playerDenjuu={playerDenjuu} entry={entry} key={entry.instanceId} />
+                    <DenjuuDiv
+                        denjuuTemplate={denjuuTemplate}
+                        playerDenjuu={playerDenjuu}
+                        entry={entry}
+                        key={entry.instanceId}
+                    />
                 );
-
             })}
         </BackgroundPanel>
     );
 };
-
-
 
 const BackgroundPanel = styled.div({
     backgroundColor: 'lightgrey',
@@ -37,24 +38,48 @@ const BackgroundPanel = styled.div({
     overflow: 'scroll',
 });
 
-const DenjuuDiv = ({ denjuuTemplate, playerDenjuu, entry }: { denjuuTemplate: DenjuuTemplate, playerDenjuu: PlayerDenjuuContactList, entry: PlayerDenjuu }) => {
-    const [showDetails, setShowDetails] = useState<boolean>(false)
-    console.log('render', showDetails);
-    return <div><DenjuuSummary onClick={() => { setShowDetails(true) }}>
+const DenjuuDiv = ({
+    denjuuTemplate,
+    playerDenjuu,
+    entry,
+}: {
+    denjuuTemplate: DenjuuTemplate;
+    playerDenjuu: PlayerDenjuuContactList;
+    entry: PlayerDenjuu;
+}) => {
+    const [showDetails, setShowDetails] = useState<boolean>(false);
+    return (
         <div>
-            <span>{denjuuTemplate.displayId}</span>
-            {playerDenjuu.activeDenju ==
-                entry.instanceId && <span>⭐</span>}
+            <DenjuuSummary
+                onClick={() => {
+                    setShowDetails(true);
+                }}
+            >
+                <div>
+                    <span>{denjuuTemplate.displayId}</span>
+                    {playerDenjuu.activeDenju == entry.instanceId && (
+                        <span>⭐</span>
+                    )}
+                </div>
+                <img src={denjuuTemplate.sprites.normal.front} />
+                <HpBar
+                    dir="ltr"
+                    currentHp={entry.temporalStats.hp}
+                    maxHp={entry.stats.hp}
+                />
+            </DenjuuSummary>
+            {showDetails && (
+                <Popup
+                    closeCallback={() => {
+                        setShowDetails(false);
+                    }}
+                >
+                    <DenjuuDetails denjuu={entry} />
+                </Popup>
+            )}
         </div>
-        <img src={denjuuTemplate.sprites.normal.front} />
-        <HpBar dir='ltr' currentHp={entry.temporalStats.hp} maxHp={entry.stats.hp} />
-
-
-    </DenjuuSummary>{showDetails && <Popup closeCallback={() => { console.log('eee'); setShowDetails(false); console.log(showDetails) }}>
-        <DenjuuDetails denjuu={entry} />
-    </Popup>}</div>
-
-}
+    );
+};
 
 const DenjuuSummary = styled.div({
     width: '33vw',
@@ -63,5 +88,5 @@ const DenjuuSummary = styled.div({
     justifyContent: 'center',
     alignItems: 'center',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
 });

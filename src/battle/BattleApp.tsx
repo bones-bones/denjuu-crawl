@@ -11,7 +11,7 @@ import { HpBar } from '../hpBar';
 
 export const BattleApp = () => {
     const dispatch = useDispatch();
-    const { p1, p2, activePlayer, battleLog } = useSelector(
+    const { p1, p2, activePlayer, battleLog, winner } = useSelector(
         ({ battle }: RootState) => battle
     );
     const { hp: p1hp } = useSelector(
@@ -51,6 +51,7 @@ export const BattleApp = () => {
             </BattleMessage>
             <BottomNav>
                 {p1 &&
+                    !winner &&
                     p1.moves.map((move) => (
                         <MoveButton
                             disabled={!(activePlayer == 0)}
@@ -63,6 +64,7 @@ export const BattleApp = () => {
                             {moveList[move].displayId}
                         </MoveButton>
                     ))}
+                {p1 && p2 && winner && <div></div>}
             </BottomNav>
         </Container>
     );
@@ -75,7 +77,6 @@ const Container = styled.div({
     borderBottom: '0.5vh groove',
     borderRight: '1vw groove',
     overflow: 'hidden',
-
 });
 
 const BattleMessage = styled.div({
@@ -110,57 +111,52 @@ const P2 = ({
     onClick,
     status,
     sprites,
-    maxHp
+    maxHp,
 }: {
     hp: number;
     onClick?: () => void;
     status: string;
     sprites: Sprites;
-    maxHp: number
-}) => {
-    return (
-        <FloatSection
-            top="5vh"
-            right="4vw"
-            onClick={onClick}
-            status={status}
-            key={'' + hp}
-        >
-            <HpBar dir='rtl' maxHp={maxHp} currentHp={hp} barWidth={100} />
+    maxHp: number;
+}) => (
+    <FloatSection
+        top="5vh"
+        right="4vw"
+        onClick={onClick}
+        status={status}
+        key={'' + hp}
+    >
+        <HpBar dir="rtl" maxHp={maxHp} currentHp={hp} barWidth={100} />
 
-            <img
-                width="100%"
-                height="100%"
-                src={sprites[status == 'attack' ? 'attack' : 'normal'].front}
-            />
-        </FloatSection>
-    );
-};
+        <img
+            width="100%"
+            height="100%"
+            src={sprites[status == 'attack' ? 'attack' : 'normal'].front}
+        />
+    </FloatSection>
+);
 
 const P1 = ({
     hp,
     status,
     sprites,
-    maxHp
+    maxHp,
 }: {
     hp: number;
     maxHp: number;
     status: string;
     sprites: Sprites;
     moveId?: number;
-}) => {
-    return (
-        <FloatSection bottom="5vh" left="4vw" status={status} key={'' + hp}>
-            <img
-                width="100%"
-                height="100%"
-                src={sprites[status == 'attack' ? 'attack' : 'normal'].back}
-            />
-            <HpBar dir='ltr' maxHp={maxHp} currentHp={hp} barWidth={100} />
-        </FloatSection>
-    );
-};
-
+}) => (
+    <FloatSection bottom="5vh" left="4vw" status={status} key={'' + hp}>
+        <img
+            width="100%"
+            height="100%"
+            src={sprites[status == 'attack' ? 'attack' : 'normal'].back}
+        />
+        <HpBar dir="ltr" maxHp={maxHp} currentHp={hp} barWidth={100} />
+    </FloatSection>
+);
 
 const FloatSection = styled.div(
     ({

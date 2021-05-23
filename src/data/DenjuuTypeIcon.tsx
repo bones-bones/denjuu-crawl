@@ -1,15 +1,14 @@
-import styled from '@emotion/styled';
 import React from 'react';
-import { MonsterType } from "./denjuu";
-import Aquatic from '../images/denjuu_aquatic.gif'
-import Desert from '../images/denjuu_desert.gif'
-import Forest from '../images/denjuu_forest.gif'
-import Grassland from '../images/denjuu_grassland.gif'
-import Mountain from '../images/denjuu_mountain.gif'
-import Sky from '../images/denjuu_sky.gif'
+import { MonsterType } from './denjuu';
+import Aquatic from '../images/denjuu_aquatic.gif';
+import Desert from '../images/denjuu_desert.gif';
+import Forest from '../images/denjuu_forest.gif';
+import Grassland from '../images/denjuu_grassland.gif';
+import Mountain from '../images/denjuu_mountain.gif';
+import Sky from '../images/denjuu_sky.gif';
 
 interface Props {
-    type: MonsterType
+    type: MonsterType;
 }
 export const DenjuuTypeIcon = ({ type }: Props) => {
     const typeImageMapping = {
@@ -20,7 +19,7 @@ export const DenjuuTypeIcon = ({ type }: Props) => {
         [MonsterType.Mountain]: Mountain,
         [MonsterType.Sky]: Sky,
     };
-    const TypeImage = new Image()
-    TypeImage.src = typeImageMapping[type]
-    return <img src={typeImageMapping[type]} />
-}
+    const TypeImage = new Image();
+    TypeImage.src = typeImageMapping[type];
+    return <img src={typeImageMapping[type]} />;
+};

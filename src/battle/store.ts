@@ -25,7 +25,6 @@ export const startBattleThunk = (enemy: EnemyStats) => (
     dispatch: Dispatch,
     getState: () => RootState
 ) => {
-
     const { contactList } = getState() as RootState;
 
     const playerDenuu = contactList.denjuu.find(
@@ -55,9 +54,28 @@ export const battleSlice = createSlice({
             state.activePlayer = 0;
             state.p1 = { status: 'static', ...payload.player };
             state.p2 = { status: 'static', ...payload.enemy };
+            state.winner = undefined; //overkill
         },
-        endBattle: () =>
-            initBattleState,
+        declareWinner: (
+            state,
+            { payload }: PayloadAction<'player' | 'opponent'>
+        ) => {
+            console.log('Winner!');
+            state.winner = payload;
+            state.battleLog.unshift(
+                payload == 'player'
+                    ? `You've defeated ${
+                          denjuuList[state.p2?.denjuuId!].displayId
+                      }!`
+                    : `You have been defeated by ${
+                          denjuuList[state.p2?.denjuuId!].displayId
+                      }...`
+            );
+            //winner: undefined
+        },
+        newBattleMessage: (state, { payload }: PayloadAction<string>) => {
+            state.battleLog.unshift(payload);
+        },
         p1Attack: (state, { payload: { moveId } }: PayloadAction<Attack>) => {
             if (!state.p1 || !state.p2) {
                 return state;
@@ -78,7 +96,8 @@ export const battleSlice = createSlice({
             state.p2.status = 'damage';
             state.activePlayer = 1;
             state.battleLog.unshift(
-                `${denjuuList[state.p1!.denjuuId - 1].displayId} used ${moveList[moveId].displayId
+                `${denjuuList[state.p1!.denjuuId - 1].displayId} used ${
+                    moveList[moveId].displayId
                 }`
             );
 
@@ -108,10 +127,25 @@ export const battleSlice = createSlice({
             state.p1.status = 'damage';
             state.activePlayer = 0;
             state.battleLog.unshift(
-                `${denjuuList[state.p2.denjuuId - 1].displayId} used ${moveList[moveId].displayId
+                `${denjuuList[state.p2.denjuuId - 1].displayId} used ${
+                    moveList[moveId].displayId
                 }`
             );
         },
     },
 });
-export const { p1Attack, startBattle, endBattle } = battleSlice.actions;
+export const {
+    p1Attack,
+    startBattle,
+    declareWinner,
+    newBattleMessage,
+} = battleSlice.actions;
+
+export const delayedBattleMessageThunk = (
+    message: string,
+    delay: number = 500
+) => (dispatch: Dispatch) => {
+    setTimeout(() => {
+        dispatch(newBattleMessage(message));
+    }, delay);
+};

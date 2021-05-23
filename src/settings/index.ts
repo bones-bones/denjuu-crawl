@@ -1,1 +1,1 @@
-export * from './SettingsApp'
+export * from './SettingsApp';

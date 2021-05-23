@@ -1,1 +1,1 @@
-export * from './HPBar'
+export * from './HPBar';

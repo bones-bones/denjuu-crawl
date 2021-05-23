@@ -6,7 +6,7 @@ export interface DenjuuTemplate {
     sprites: Sprites;
     type: MonsterType;
     movesAtLevel: {
-        [key: number]: number[]
+        [key: number]: number[];
     };
 }
 export interface Sprites {
@@ -31,7 +31,6 @@ export enum MonsterType {
     Aquatic = 'Aquatic',
     Mountain = 'Mountain',
 }
-
 
 export const denjuuList: DenjuuTemplate[] = [
     {
@@ -67,7 +66,7 @@ export const denjuuList: DenjuuTemplate[] = [
         },
         movesAtLevel: {
             0: [0, 7],
-            9: [8]
+            9: [8],
         },
     },
     {
@@ -103,7 +102,7 @@ export const denjuuList: DenjuuTemplate[] = [
         },
         movesAtLevel: {
             0: [1, 8],
-            15: [9]
+            15: [9],
         },
     },
     {
@@ -137,7 +136,7 @@ export const denjuuList: DenjuuTemplate[] = [
                     'https://www.wiki.telefang.net/images/b/b2/T2-163-FA.gif',
             },
         },
-        movesAtLevel: { 0: [0, 10], 8: [9] }
+        movesAtLevel: { 0: [0, 10], 8: [9] },
     },
     {
         id: 4,
@@ -170,6 +169,6 @@ export const denjuuList: DenjuuTemplate[] = [
                     'https://www.wiki.telefang.net/images/d/df/T2-167-FA.gif',
             },
         },
-        movesAtLevel: { 0: [4, 5], 11: [11] }
+        movesAtLevel: { 0: [4, 5], 11: [11] },
     },
 ];
