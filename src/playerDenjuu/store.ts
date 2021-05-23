@@ -10,7 +10,7 @@ const initialState: PlayerDenjuuContactList = {
             instanceId: '1oshe',
             level: 5,
             exp: 30,
-            moves: [],
+            moves: [0],
             temporalStats: { ...getDenjuuAtLevel(1, 5).stats },
         },
     ],
@@ -21,7 +21,7 @@ export const contactListSlice = createSlice({
     name: 'contactList',
     initialState,
     reducers: {
-        setHpTo: (
+        setTemporalHpTo: (
             state,
             {
                 payload: { hp, instanceId },
@@ -44,4 +44,4 @@ export const contactListSlice = createSlice({
     },
 });
 
-export const { setHpTo, addExperience } = contactListSlice.actions;
+export const { setTemporalHpTo, addExperience } = contactListSlice.actions;

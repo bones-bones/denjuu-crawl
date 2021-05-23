@@ -6,21 +6,18 @@ interface Props {
     children: React.ReactNode;
 }
 
-export const Popup = ({ closeCallback, children }: Props) => {
-    return (
-        <PopupContainer>
-            <MessageBackground>
-                <DismissButton onClick={closeCallback}>X</DismissButton>
-                {children}
-            </MessageBackground>
-        </PopupContainer>
-    );
-};
+export const Popup = ({ closeCallback, children }: Props) =>
+    <PopupContainer>
+        <MessageBackground>
+            <DismissButton onClick={closeCallback}>X</DismissButton>
+            {children}
+        </MessageBackground>
+    </PopupContainer>
+
 
 const DismissButton = styled.button({ position: 'absolute', zIndex: 6 });
 const MessageBackground = styled.div({
     margin: '5px',
-
     opacity: 1,
     alignItems: 'flex-start',
     display: 'flex',
@@ -28,7 +25,7 @@ const MessageBackground = styled.div({
 const PopupContainer = styled.div({
     position: 'fixed',
     height: '100vh',
-    width: '100vw',
+    width: '96vw',
     padding: '2vw',
     zIndex: 5,
     top: 0,

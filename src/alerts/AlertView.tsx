@@ -33,7 +33,6 @@ export const AlertView = () => {
                 <EventListItem
                     onClick={() => {
                         setActiveEventId(entry.id);
-
                         if (entry.eventData.type == 'battle') {
                             const enemyLevel = entry.eventData.level;
                             const enemyDenjuu = getDenjuuAtLevel(
@@ -44,6 +43,7 @@ export const AlertView = () => {
                                 startBattleThunk({
                                     instanceId: '' + new Date(),
                                     stats: enemyDenjuu.stats,
+                                    temporalStats: enemyDenjuu.stats,
                                     denjuuId: enemyDenjuu.denjuuId,
                                     moves: enemyDenjuu.moves,
                                     level: enemyLevel,
@@ -58,7 +58,7 @@ export const AlertView = () => {
                     }}
                     key={entry.id}
                 >
-                    <EventIcon />
+                    <EventIcon>{entry.eventData.type[0].toUpperCase()}</EventIcon>
                     <div>
                         <ListItemTitle>
                             {getEventTitle(entry.eventData)}
@@ -69,18 +69,21 @@ export const AlertView = () => {
                         </ListItemSubTitle>
                     </div>
                 </EventListItem>
-            ))}
-            {activeAlert && (
-                <Popup
-                    closeCallback={() => {
-                        dispatch(removeEvent({ eventId: activeAlert.id }));
-                        setActiveEventId(undefined);
-                    }}
-                >
-                    {getEventPopupContent(activeAlert)}
-                </Popup>
-            )}
-        </PanelDiv>
+            ))
+            }
+            {
+                activeAlert && (
+                    <Popup
+                        closeCallback={() => {
+                            dispatch(removeEvent({ eventId: activeAlert.id }));
+                            setActiveEventId(undefined);
+                        }}
+                    >
+                        {getEventPopupContent(activeAlert)}
+                    </Popup>
+                )
+            }
+        </PanelDiv >
     );
 };
 
@@ -107,13 +110,12 @@ const getEventPopupContent = (activeAlert: AlertWrapper) => {
 const ItemConfirmation = ({ activeAlert }: { activeAlert: AlertWrapper }) => {
     return (
         <MessageBackground>
-            {' '}
             <img
                 src={
                     itemList[(activeAlert.eventData as ItemAlert).itemId].image
                 }
             />
-            you got an item!
+            {`It's a ${itemList[(activeAlert.eventData as ItemAlert).itemId].displayId}`}
         </MessageBackground>
     );
 };
@@ -121,6 +123,8 @@ const ItemConfirmation = ({ activeAlert }: { activeAlert: AlertWrapper }) => {
 const MessageBackground = styled.div({
     backgroundColor: 'white',
     borderRadius: '15px',
+    width: '85vw',
+    padding: '20px'
 });
 
 const getEventTitle = (entry: Alert) => {
@@ -142,12 +146,11 @@ const getEventTitle = (entry: Alert) => {
 const getEventSubtitle = (entry: Alert) => {
     switch (entry.type) {
         case 'item': {
-            return `It's a ${itemList[(entry as ItemAlert).itemId].displayId}`;
+            return ``;
         }
         case 'battle': {
-            return `Level: ${(entry as BattleAlert).level} ${
-                denjuuList[(entry as BattleAlert).denjuuId - 1].displayId
-            }`;
+            return `Level: ${(entry as BattleAlert).level} ${denjuuList[(entry as BattleAlert).denjuuId - 1].displayId
+                }`;
         }
         case 'message': {
             return `"${(entry as MessageAlert).message.substr(0, 60)}...`;
@@ -162,9 +165,16 @@ const ListItemTitle = styled.span({ fontWeight: 'bold' });
 const ListItemSubTitle = styled.span({ overflow: 'hidden', lineClamp: 1 });
 
 const EventIcon = styled.div({
-    height: '7vh',
-    width: '7vh',
+    minHeight: '7vh',
+    color: 'white',
+    minWidth: '7vh',
     backgroundColor: 'black',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontFamily: 'Mate SC',
+    fontWeight: 'bold',
+    fontSize: '6vh'
 });
 
 const EventListItem = styled.button({

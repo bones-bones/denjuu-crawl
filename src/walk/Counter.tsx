@@ -30,8 +30,11 @@ export const Counter = () => {
 
 const StepValue = styled.div<{ stepVal: number }>`
     height: 50px;
-    width: 50vw;
+    width: 60vw;
     font-family: Fipps;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: ${({ stepVal }) => {
         if (stepVal > 0.3) {
             return 'GREEN';

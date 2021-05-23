@@ -23,7 +23,6 @@ export const PlayerCanvas = () => {
 
     useLayoutEffect(() => {
         let ir = 0;
-
         const intl = setInterval(() => {
             if (canvasRef.current) {
                 canvasContext.current?.clearRect(
@@ -125,7 +124,9 @@ export const PlayerCanvas = () => {
                 // const SPEED = 1;
 
                 const currentMoment = new Date().getTime();
-
+                canvasContext.current?.save()
+                canvasContext.current?.translate(canvasRef.current.width, 0);
+                canvasContext.current?.scale(-1, 1);
                 if (currentMoment - step.lastUpdatedTime < 1300) {
                     let step = 6;
                     if (ir == 0) {
@@ -133,7 +134,6 @@ export const PlayerCanvas = () => {
                     } else if (ir == 2) {
                         step += 2;
                     }
-
                     canvasContext.current?.drawImage(
                         PlayerSheet,
                         step * tileSize,
@@ -145,7 +145,6 @@ export const PlayerCanvas = () => {
                         tileSize * 2,
                         tileSize * 2
                     );
-
                     ir = (ir + 1) % 4;
                 } else {
                     canvasContext.current?.drawImage(
@@ -160,16 +159,18 @@ export const PlayerCanvas = () => {
                         tileSize * 2
                     );
                 }
+                canvasContext.current?.restore();
             }
         }, 200);
-        return () => {
+        return () =>
             clearInterval(intl);
-        };
+
     });
     return <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />;
 };
 
 const PCanvas = styled.canvas`
     border: 1px solid white;
-    width: 200px;
+   
+    width:60vw;
 `;

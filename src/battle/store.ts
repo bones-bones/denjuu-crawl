@@ -25,7 +25,6 @@ export const startBattleThunk = (enemy: EnemyStats) => (
     dispatch: Dispatch,
     getState: () => RootState
 ) => {
-    console.log('meh');
 
     const { contactList } = getState() as RootState;
 
@@ -38,10 +37,8 @@ export const startBattleThunk = (enemy: EnemyStats) => (
             enemy,
             player: {
                 instanceId: playerDenuu.instanceId,
-                stats: {
-                    ...playerDenuu.stats,
-                    hp: playerDenuu.temporalStats.hp,
-                },
+                stats: playerDenuu.stats,
+                temporalStats: playerDenuu.temporalStats,
                 moves: playerDenuu.moves,
                 denjuuId: playerDenuu.denjuuId,
             },
@@ -59,22 +56,20 @@ export const battleSlice = createSlice({
             state.p1 = { status: 'static', ...payload.player };
             state.p2 = { status: 'static', ...payload.enemy };
         },
-        endBattle: () => {
-            return initBattleState;
-        },
+        endBattle: () =>
+            initBattleState,
         p1Attack: (state, { payload: { moveId } }: PayloadAction<Attack>) => {
             if (!state.p1 || !state.p2) {
                 return state;
             }
-
             state.p1.status = 'attack';
             state.p1.activeMoveId = moveId;
             moveList[moveId].effects.forEach((effect) => {
                 switch (effect.type) {
                     case EffectType.Damage: {
-                        state.p2!.stats.hp = Math.max(
+                        state.p2!.temporalStats.hp = Math.max(
                             0,
-                            state.p2!.stats.hp - effect.value!
+                            state.p2!.temporalStats.hp - effect.value!
                         );
                         break;
                     }
@@ -102,9 +97,9 @@ export const battleSlice = createSlice({
             moveList[moveId].effects.forEach((effect) => {
                 switch (effect.type) {
                     case EffectType.Damage: {
-                        state.p1!.stats.hp = Math.max(
+                        state.p1!.temporalStats.hp = Math.max(
                             0,
-                            state.p1!.stats.hp - effect.value!
+                            state.p1!.temporalStats.hp - effect.value!
                         );
                         break;
                     }

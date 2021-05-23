@@ -7,11 +7,18 @@ import { RootState } from '../store';
 import { denjuuList, Sprites } from '../data/denjuu';
 import { moveList } from '../data/moves';
 import { useWinCon } from './useWincon';
+import { HpBar } from '../hpBar';
 
 export const BattleApp = () => {
     const dispatch = useDispatch();
     const { p1, p2, activePlayer, battleLog } = useSelector(
         ({ battle }: RootState) => battle
+    );
+    const { hp: p1hp } = useSelector(
+        ({ battle }: RootState) => battle.p1?.temporalStats || { hp: 0 }
+    );
+    const { hp: p2hp } = useSelector(
+        ({ battle }: RootState) => battle.p2?.temporalStats || { hp: 0 }
     );
     useWinCon();
 
@@ -20,7 +27,8 @@ export const BattleApp = () => {
             <Background>
                 {p1 && (
                     <P1
-                        hp={p1.stats.hp}
+                        hp={p1hp}
+                        maxHp={p1.stats.hp}
                         status={p1.status}
                         // garbage hack on the next lines, used a -1 cause of index stuff
                         sprites={denjuuList[p1.denjuuId - 1].sprites}
@@ -29,7 +37,8 @@ export const BattleApp = () => {
                 )}
                 {p2 && (
                     <P2
-                        hp={p2.stats.hp}
+                        hp={p2hp}
+                        maxHp={p2.stats.hp}
                         status={p2.status}
                         sprites={denjuuList[p2.denjuuId - 1].sprites}
                     />
@@ -42,7 +51,7 @@ export const BattleApp = () => {
             </BattleMessage>
             <BottomNav>
                 {p1 &&
-                    denjuuList[p1.denjuuId].moves.map((move) => (
+                    p1.moves.map((move) => (
                         <MoveButton
                             disabled={!(activePlayer == 0)}
                             key={move}
@@ -66,6 +75,7 @@ const Container = styled.div({
     borderBottom: '0.5vh groove',
     borderRight: '1vw groove',
     overflow: 'hidden',
+
 });
 
 const BattleMessage = styled.div({
@@ -100,11 +110,13 @@ const P2 = ({
     onClick,
     status,
     sprites,
+    maxHp
 }: {
-    hp?: number;
+    hp: number;
     onClick?: () => void;
     status: string;
     sprites: Sprites;
+    maxHp: number
 }) => {
     return (
         <FloatSection
@@ -114,7 +126,8 @@ const P2 = ({
             status={status}
             key={'' + hp}
         >
-            <HPSpan>HP: {hp}</HPSpan>
+            <HpBar dir='rtl' maxHp={maxHp} currentHp={hp} barWidth={100} />
+
             <img
                 width="100%"
                 height="100%"
@@ -128,8 +141,10 @@ const P1 = ({
     hp,
     status,
     sprites,
+    maxHp
 }: {
-    hp?: number;
+    hp: number;
+    maxHp: number;
     status: string;
     sprites: Sprites;
     moveId?: number;
@@ -141,16 +156,12 @@ const P1 = ({
                 height="100%"
                 src={sprites[status == 'attack' ? 'attack' : 'normal'].back}
             />
-            <HPSpan>HP: {hp}</HPSpan>
+            <HpBar dir='ltr' maxHp={maxHp} currentHp={hp} barWidth={100} />
         </FloatSection>
     );
 };
 
-const HPSpan = styled.span({
-    color: 'white',
-    fontWeight: 'bold',
-    left: '-10px',
-});
+
 const FloatSection = styled.div(
     ({
         top,

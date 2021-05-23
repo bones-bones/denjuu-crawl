@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { getExperienceValue } from '../data';
-import { addExperience } from '../playerDenjuu';
+import { addExperience, setTemporalHpTo } from '../playerDenjuu';
 
 import { RootState } from '../store';
 import { endBattle } from './store';
@@ -15,7 +15,7 @@ export const useWinCon = () => {
     }
 
     let p2Defeated = false;
-    if (p2.stats.hp <= 0) {
+    if (p2.temporalStats.hp <= 0) {
         p2Defeated = true;
     }
 
@@ -23,9 +23,10 @@ export const useWinCon = () => {
         dispatch(
             addExperience({
                 instanceId: p1.instanceId,
-                value: getExperienceValue(p2.stats!),
+                value: getExperienceValue(p2.temporalStats!),
             })
         );
+        dispatch(setTemporalHpTo({ hp: p1.temporalStats.hp, instanceId: p1.instanceId }))
         dispatch(endBattle());
     }
 };

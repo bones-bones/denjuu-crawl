@@ -11,3 +11,7 @@ export const getExperienceValue = ({
         (speed + attack + defense + denmaAttack + denmaDefense) / 4
     );
 };
+
+export const getExperienceNeededToLevel = (level: number) => {
+    return level * level * level
+}

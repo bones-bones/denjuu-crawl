@@ -17,6 +17,7 @@ export interface BattleState {
 interface BattleMonster {
     status: 'attack' | 'damage' | 'static';
     stats: Stats;
+    temporalStats: Stats;
     denjuuId: number;
     moves: number[];
     activeMoveId?: number;
@@ -26,12 +27,14 @@ interface BattleMonster {
 export interface BattleStart {
     player: {
         stats: Stats;
+        temporalStats: Stats;
         moves: number[];
         denjuuId: number;
         instanceId: string;
     };
     enemy: {
         stats: Stats;
+        temporalStats: Stats;
         moves: number[];
         denjuuId: number;
         level: number;
@@ -41,6 +44,7 @@ export interface BattleStart {
 export interface EnemyStats {
     stats: Stats;
     moves: number[];
+    temporalStats: Stats;
     denjuuId: number;
     level: number;
     instanceId: string;
