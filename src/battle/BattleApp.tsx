@@ -4,7 +4,7 @@ import { keyframes } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { /*attackThunk,*/ p1Attack } from '../battle';
 import { RootState } from '../store';
-import { denjuuList, Sprites } from '../data/denjuu';
+import { denjuuList, Sprites } from '../data';
 import { moveList } from '../data/moves';
 import { useWinCon } from './useWincon';
 import { HpBar } from '../hpBar';
@@ -128,13 +128,17 @@ const P2 = ({
     >
         <HpBar dir="rtl" maxHp={maxHp} currentHp={hp} barWidth={100} />
 
-        <img
+        <ImageHolder
             width="100%"
             height="100%"
             src={sprites[status == 'attack' ? 'attack' : 'normal'].front}
         />
     </FloatSection>
 );
+
+const ImageHolder = styled.img({
+    imageRendering: 'pixelated',
+});
 
 const P1 = ({
     hp,
@@ -149,7 +153,7 @@ const P1 = ({
     moveId?: number;
 }) => (
     <FloatSection bottom="5vh" left="4vw" status={status} key={'' + hp}>
-        <img
+        <ImageHolder
             width="100%"
             height="100%"
             src={sprites[status == 'attack' ? 'attack' : 'normal'].back}

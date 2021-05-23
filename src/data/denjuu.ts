@@ -1,36 +1,23 @@
-export interface DenjuuTemplate {
-    id: number;
-    displayId: string;
-    stats: Stats;
-    statLevelRates: Stats;
-    sprites: Sprites;
-    type: MonsterType;
-    movesAtLevel: {
-        [key: number]: number[];
-    };
-}
-export interface Sprites {
-    normal: { back: string; front: string };
-    attack: { back: string; front: string };
-}
+import AngiosAttackBack from '../images/denjuu/angios_attack_back.gif';
+import AngiosAttackFront from '../images/denjuu/angios_attack_front.gif';
+import AngiosStandBack from '../images/denjuu/angios_stand_back.gif';
+import AngiosStandFront from '../images/denjuu/angios_stand_front.gif';
 
-export interface Stats {
-    hp: number;
-    speed: number;
-    attack: number;
-    defense: number;
-    denmaAttack: number;
-    denmaDefense: number;
-}
+import FungusAttackBack from '../images/denjuu/fungus_attack_back.gif';
+import FungusAttackFront from '../images/denjuu/fungus_attack_front.gif';
+import FungusStandBack from '../images/denjuu/fungus_stand_back.gif';
+import FungusStandFront from '../images/denjuu/fungus_stand_front.gif';
 
-export enum MonsterType {
-    Grassland = 'Grassland',
-    Desert = 'Desert',
-    Forest = 'Forest',
-    Sky = 'Sky',
-    Aquatic = 'Aquatic',
-    Mountain = 'Mountain',
-}
+import OsheAttackBack from '../images/denjuu/oshe_attack_back.gif';
+import OsheAttackFront from '../images/denjuu/oshe_attack_front.gif';
+import OsheStandBack from '../images/denjuu/oshe_stand_back.gif';
+import OsheStandFront from '../images/denjuu/oshe_stand_front.gif';
+
+import WaratahAttackBack from '../images/denjuu/waratah_attack_back.gif';
+import WaratahAttackFront from '../images/denjuu/waratah_attack_front.gif';
+import WaratahStandBack from '../images/denjuu/waratah_stand_back.gif';
+import WaratahStandFront from '../images/denjuu/waratah_stand_front.gif';
+import { DenjuuTemplate, MonsterType } from './types';
 
 export const denjuuList: DenjuuTemplate[] = [
     {
@@ -55,13 +42,12 @@ export const denjuuList: DenjuuTemplate[] = [
         },
         sprites: {
             normal: {
-                back: 'https://www.wiki.telefang.net/images/5/5e/T2-145-B.gif',
-                front: 'https://www.wiki.telefang.net/images/0/0d/T2-145-F.gif',
+                back: OsheStandBack,
+                front: OsheStandFront,
             },
             attack: {
-                back: 'https://www.wiki.telefang.net/images/0/01/T2-145-BA.gif',
-                front:
-                    'https://www.wiki.telefang.net/images/e/e5/T2-145-FA.gif',
+                back: OsheAttackBack,
+                front: OsheAttackFront,
             },
         },
         movesAtLevel: {
@@ -91,13 +77,12 @@ export const denjuuList: DenjuuTemplate[] = [
         },
         sprites: {
             normal: {
-                back: 'https://www.wiki.telefang.net/images/e/ef/T2-156-B.gif',
-                front: 'https://www.wiki.telefang.net/images/b/b3/T2-156-F.gif',
+                back: WaratahStandBack,
+                front: WaratahStandFront,
             },
             attack: {
-                back: 'https://www.wiki.telefang.net/images/8/81/T2-156-BA.gif',
-                front:
-                    'https://www.wiki.telefang.net/images/b/b8/T2-156-FA.gif',
+                back: WaratahAttackBack,
+                front: WaratahAttackFront,
             },
         },
         movesAtLevel: {
@@ -127,13 +112,12 @@ export const denjuuList: DenjuuTemplate[] = [
         },
         sprites: {
             normal: {
-                back: 'https://www.wiki.telefang.net/images/4/49/T2-163-B.gif',
-                front: 'https://www.wiki.telefang.net/images/a/a5/T2-163-F.gif',
+                back: AngiosStandBack,
+                front: AngiosStandFront,
             },
             attack: {
-                back: 'https://www.wiki.telefang.net/images/7/75/T2-163-BA.gif',
-                front:
-                    'https://www.wiki.telefang.net/images/b/b2/T2-163-FA.gif',
+                back: AngiosAttackBack,
+                front: AngiosAttackFront,
             },
         },
         movesAtLevel: { 0: [0, 10], 8: [9] },
@@ -160,13 +144,12 @@ export const denjuuList: DenjuuTemplate[] = [
         },
         sprites: {
             normal: {
-                back: 'https://www.wiki.telefang.net/images/5/5f/T2-167-B.gif',
-                front: 'https://www.wiki.telefang.net/images/1/15/T2-167-F.gif',
+                back: FungusStandBack,
+                front: FungusStandFront,
             },
             attack: {
-                back: 'https://www.wiki.telefang.net/images/c/c9/T2-167-BA.gif',
-                front:
-                    'https://www.wiki.telefang.net/images/d/df/T2-167-FA.gif',
+                back: FungusAttackBack,
+                front: FungusAttackFront,
             },
         },
         movesAtLevel: { 0: [4, 5], 11: [11] },

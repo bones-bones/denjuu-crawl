@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { denjuuList, DenjuuTemplate } from '../data/denjuu';
+import { denjuuList, DenjuuTemplate } from '../data';
 import { HpBar } from '../hpBar';
 import { PlayerDenjuu, PlayerDenjuuContactList } from '../playerDenjuu';
 import { Popup } from '../popup';

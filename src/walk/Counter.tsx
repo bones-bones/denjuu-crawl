@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useEvent from '../stepCounter/stepCounter';
-import { RootState, incremented } from '../store';
+import { RootState, incremented, resetSteps } from '../store';
 
 export const Counter = () => {
     const dispatch = useDispatch();
@@ -18,15 +18,26 @@ export const Counter = () => {
     const incrementStepValue = () => {
         dispatch(incremented());
     };
+    const resetStepCount = () => {
+        dispatch(resetSteps());
+    };
 
     useEvent(incrementStepValue);
     return (
         <>
-            <button onClick={incrementStepValue}>Step</button>
+            <DebugButtons>
+                Debug commands:
+                <button onClick={incrementStepValue}>Step</button>
+                <button onClick={resetStepCount}>Reset Steps</button>
+            </DebugButtons>
             <StepValue stepVal={stepValue}>{stepValue}</StepValue>
         </>
     );
 };
+
+const DebugButtons = styled.div({
+    color: 'white',
+});
 
 const StepValue = styled.div<{ stepVal: number }>`
     height: 50px;

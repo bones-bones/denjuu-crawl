@@ -1,4 +1,4 @@
-import { Stats } from './denjuu';
+import { Stats } from './types';
 
 export const getExperienceValue = ({
     speed,

@@ -24,6 +24,11 @@ Battle
 -   [ ] existing code is gross and needs a huge refactor
 -   [ ] decouple experince + leveling from battle
 
+Meeting Denju
+
+-   [ ] design conversations
+-   [ ] implement conversations
+
 Setting Menu
 
 -   [x] Add settings menu

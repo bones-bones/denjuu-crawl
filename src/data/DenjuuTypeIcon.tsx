@@ -1,5 +1,5 @@
 import React from 'react';
-import { MonsterType } from './denjuu';
+import { MonsterType } from './types';
 import Aquatic from '../images/denjuu_aquatic.gif';
 import Desert from '../images/denjuu_desert.gif';
 import Forest from '../images/denjuu_forest.gif';

@@ -1,4 +1,4 @@
-import { Stats } from '../data/denjuu';
+import { Stats } from '../data';
 
 export interface PlayerDenjuu {
     stats: Stats;

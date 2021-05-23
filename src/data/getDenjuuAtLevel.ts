@@ -1,4 +1,5 @@
-import { denjuuList, DenjuuTemplate, Stats } from './denjuu';
+import { denjuuList } from './denjuu';
+import { DenjuuTemplate, Stats } from './types';
 
 interface DenjuuSummary extends Pick<DenjuuTemplate, 'stats'> {
     denjuuId: number;

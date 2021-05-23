@@ -22,8 +22,10 @@ export const PlayerCanvas = () => {
     });
 
     useLayoutEffect(() => {
-        let ir = 0;
-        const intl = setInterval(() => {
+        let stepOffset = 0;
+
+        const draw = setInterval(() => {
+            const playerX = (step.value % 100) * 0.25;
             if (canvasRef.current) {
                 canvasContext.current?.clearRect(
                     0,
@@ -36,68 +38,67 @@ export const PlayerCanvas = () => {
                 //5x14
                 //1x1
                 //6,9
-
                 //1,11
                 //1,13
-                for (let k = 0; k < 8; k++) {
-                    for (let i = 0; i < 8; i++) {
-                        if (k == 0) {
+                for (let y = 0; y < 8; y++) {
+                    for (let x = 0; x < 8; x++) {
+                        if (y == 0) {
                             canvasContext.current?.drawImage(
                                 TileSheet,
                                 1 * tileSize,
                                 0 * tileSize,
                                 tileSize,
                                 tileSize,
-                                i * tileSize * 2,
-                                k * tileSize * 2,
+                                x * tileSize * 2,
+                                y * tileSize * 2,
                                 tileSize * 2,
                                 tileSize * 2
                             );
-                        } else if (k == 3) {
+                        } else if (y == 3) {
                             canvasContext.current?.drawImage(
                                 TileSheet,
                                 1 * tileSize,
                                 11 * tileSize,
                                 tileSize,
                                 tileSize,
-                                i * tileSize * 2,
-                                k * tileSize * 2,
+                                x * tileSize * 2,
+                                y * tileSize * 2,
                                 tileSize * 2,
                                 tileSize * 2
                             );
-                        } else if (k == 4) {
+                        } else if (y == 4) {
                             canvasContext.current?.drawImage(
                                 TileSheet,
                                 1 * tileSize,
                                 13 * tileSize,
                                 tileSize,
                                 tileSize,
-                                i * tileSize * 2,
-                                k * tileSize * 2,
+                                x * tileSize * 2,
+                                y * tileSize * 2,
                                 tileSize * 2,
                                 tileSize * 2
                             );
-                        } else if (k == 6) {
+                        } else if (y == 6) {
                             canvasContext.current?.drawImage(
                                 TileSheet,
                                 5 * tileSize,
                                 14 * tileSize,
                                 tileSize,
                                 tileSize,
-                                i * tileSize * 2,
-                                k * tileSize * 2,
+                                x * tileSize * 2,
+                                y * tileSize * 2,
                                 tileSize * 2,
                                 tileSize * 2
                             );
-                        } else if (k > 6) {
+                        } else if (y > 6) {
                             canvasContext.current?.drawImage(
                                 TileSheet,
                                 1 * tileSize,
                                 1 * tileSize,
                                 tileSize,
                                 tileSize,
-                                i * tileSize * 2,
-                                k * tileSize * 2,
+                                x * tileSize * 2,
+                                y * tileSize * 2,
                                 tileSize * 2,
                                 tileSize * 2
                             );
@@ -108,8 +109,8 @@ export const PlayerCanvas = () => {
                                 0 * tileSize,
                                 tileSize,
                                 tileSize,
-                                i * tileSize * 2,
-                                k * tileSize * 2,
+                                x * tileSize * 2,
+                                y * tileSize * 2,
                                 tileSize * 2,
                                 tileSize * 2
                             );
@@ -124,14 +125,16 @@ export const PlayerCanvas = () => {
                 // const SPEED = 1;
 
                 const currentMoment = new Date().getTime();
+                const drawPlayerX = 14 - playerX;
                 canvasContext.current?.save();
                 canvasContext.current?.translate(canvasRef.current.width, 0);
                 canvasContext.current?.scale(-1, 1);
+
                 if (currentMoment - step.lastUpdatedTime < 1300) {
                     let step = 6;
-                    if (ir == 0) {
+                    if (stepOffset == 0) {
                         step += 1;
-                    } else if (ir == 2) {
+                    } else if (stepOffset == 2) {
                         step += 2;
                     }
                     canvasContext.current?.drawImage(
@@ -140,12 +143,12 @@ export const PlayerCanvas = () => {
                         0 * tileSize,
                         tileSize,
                         tileSize,
-                        6 * tileSize,
+                        drawPlayerX * tileSize,
                         6 * tileSize,
                         tileSize * 2,
                         tileSize * 2
                     );
-                    ir = (ir + 1) % 4;
+                    stepOffset = (stepOffset + 1) % 4;
                 } else {
                     canvasContext.current?.drawImage(
                         PlayerSheet,
@@ -153,7 +156,7 @@ export const PlayerCanvas = () => {
                         0 * tileSize,
                         tileSize,
                         tileSize,
-                        6 * tileSize,
+                        drawPlayerX * tileSize,
                         6 * tileSize,
                         tileSize * 2,
                         tileSize * 2
@@ -162,13 +165,12 @@ export const PlayerCanvas = () => {
                 canvasContext.current?.restore();
             }
         }, 200);
-        return () => clearInterval(intl);
+        return () => clearInterval(draw);
     });
     return <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />;
 };
 
-const PCanvas = styled.canvas`
-    border: 1px solid white;
-
-    width: 60vw;
-`;
+const PCanvas = styled.canvas({
+    border: '1px solid white',
+    width: '60vw',
+});

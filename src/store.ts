@@ -39,6 +39,13 @@ const counterSlice = createSlice({
                 state.step.triggerCount = getTriggerCount();
             }
         },
+        resetSteps: () => ({
+            step: {
+                value: 0,
+                lastUpdatedTime: new Date().getTime(),
+                triggerCount: 5,
+            },
+        }),
     },
 });
 
@@ -81,7 +88,7 @@ const applicationSlice = createSlice({
 });
 
 export const { startFighting, startWalking } = applicationSlice.actions;
-export const { incremented } = counterSlice.actions;
+export const { incremented, resetSteps } = counterSlice.actions;
 
 export const store = configureStore({
     reducer: combineReducers({
