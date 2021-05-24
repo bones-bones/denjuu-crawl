@@ -31,7 +31,7 @@ export const moveList: Move[] = [
     {
         displayId: 'Rush',
         type: MoveType.Normal,
-        effects: [{ type: EffectType.Damage, value: 666, target: 'opponent' }],
+        effects: [{ type: EffectType.Damage, value: 6, target: 'opponent' }],
     },
     {
         displayId: 'Bite',

@@ -25,7 +25,7 @@ export const PlayerCanvas = () => {
         let stepOffset = 0;
 
         const draw = setInterval(() => {
-            const playerX = (step.value % 100) * 0.25;
+            const playerX = (step.value % 65) * 0.25;
             if (canvasRef.current) {
                 canvasContext.current?.clearRect(
                     0,
@@ -125,7 +125,7 @@ export const PlayerCanvas = () => {
                 // const SPEED = 1;
 
                 const currentMoment = new Date().getTime();
-                const drawPlayerX = 14 - playerX;
+                const drawPlayerX = 15 - playerX;
                 canvasContext.current?.save();
                 canvasContext.current?.translate(canvasRef.current.width, 0);
                 canvasContext.current?.scale(-1, 1);
