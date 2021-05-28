@@ -14,7 +14,7 @@ export const randomEventGenerator = (): AlertWrapper['eventData'] | void => {
         return {
             type: 'battle',
             level: Math.floor(Math.random() * 3) + 1,
-            denjuuId: 2,
+            denjuuId: 1,
         };
     }
 };

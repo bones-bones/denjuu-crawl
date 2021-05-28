@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Inventory, ItemForTransaction } from './types';
 
-const initialState: Inventory = {
-    items: [{ itemId: 1, count: 3 }],
-};
+const initialState: Inventory =
+    localStorage.getItem('reduxState') &&
+    JSON.parse(localStorage.getItem('reduxState')!).items
+        ? JSON.parse(localStorage.getItem('reduxState')!).items
+        : {
+              items: [{ itemId: 1, count: 3 }],
+          };
 
 export const inventorySlice = createSlice({
     name: 'inventory',

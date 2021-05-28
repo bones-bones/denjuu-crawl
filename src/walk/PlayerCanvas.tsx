@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
-import React, { createRef, useLayoutEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import React, { createRef, useEffect, useLayoutEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import tileSheet from '../images/tileSheet.png';
 import playerSheet from '../images/playerSheet.png';
 import { RootState } from '../store';
+import { getMapForType } from './spawnMap';
+import { DenjuuTypeIcon, randomMonsterType } from '../data';
+import { setNewLocation } from './store';
 
 const TileSheet = new Image();
 TileSheet.src = tileSheet;
@@ -13,6 +16,10 @@ export const PlayerCanvas = () => {
     const canvasRef = createRef<HTMLCanvasElement>();
     const canvasContext = useRef<CanvasRenderingContext2D>();
     const step = useSelector(({ counter: { step } }: RootState) => step);
+    const location = useSelector(
+        ({ counter: { location } }: RootState) => location
+    );
+    const dispatch = useDispatch();
 
     useLayoutEffect(() => {
         canvasContext.current = canvasRef.current!.getContext(
@@ -21,156 +28,190 @@ export const PlayerCanvas = () => {
         canvasContext.current.imageSmoothingEnabled = false;
     });
 
+    useEffect(() => {
+        const baseType = randomMonsterType();
+        dispatch(
+            setNewLocation({
+                type: baseType,
+                map: getMapForType(baseType),
+            })
+        );
+    }, []);
+
     useLayoutEffect(() => {
         let stepOffset = 0;
 
         const draw = setInterval(() => {
-            const playerX = (step.value % 65) * 0.25;
-            if (canvasRef.current) {
-                canvasContext.current?.clearRect(
-                    0,
-                    0,
-                    canvasRef.current.width,
-                    canvasRef.current.height
-                );
+            if (location?.map) {
+                const playerX = (step.value % 65) * 0.25;
+                if (canvasRef.current) {
+                    canvasContext.current?.clearRect(
+                        0,
+                        0,
+                        canvasRef.current.width,
+                        canvasRef.current.height
+                    );
 
-                const tileSize = 16;
-                //5x14
-                //1x1
-                //6,9
-                //1,11
-                //1,13
-                for (let y = 0; y < 8; y++) {
-                    for (let x = 0; x < 8; x++) {
-                        if (y == 0) {
+                    const tileSize = 16;
+                    //5x14
+                    //1x1
+                    //6,9
+                    //1,11
+                    //1,13
+                    const drawArray = location.map;
+
+                    for (let y = 0; y < 8; y++) {
+                        for (let x = 0; x < 8; x++) {
                             canvasContext.current?.drawImage(
                                 TileSheet,
-                                1 * tileSize,
-                                0 * tileSize,
-                                tileSize,
-                                tileSize,
+                                drawArray[y][x].x * tileSize,
+                                drawArray[y][x].y * tileSize,
+                                (drawArray[y][x].width || 1) * tileSize,
+                                (drawArray[y][x].height || 1) * tileSize,
                                 x * tileSize * 2,
                                 y * tileSize * 2,
-                                tileSize * 2,
-                                tileSize * 2
-                            );
-                        } else if (y == 3) {
-                            canvasContext.current?.drawImage(
-                                TileSheet,
-                                1 * tileSize,
-                                11 * tileSize,
-                                tileSize,
-                                tileSize,
-                                x * tileSize * 2,
-                                y * tileSize * 2,
-                                tileSize * 2,
-                                tileSize * 2
-                            );
-                        } else if (y == 4) {
-                            canvasContext.current?.drawImage(
-                                TileSheet,
-                                1 * tileSize,
-                                13 * tileSize,
-                                tileSize,
-                                tileSize,
-                                x * tileSize * 2,
-                                y * tileSize * 2,
-                                tileSize * 2,
-                                tileSize * 2
-                            );
-                        } else if (y == 6) {
-                            canvasContext.current?.drawImage(
-                                TileSheet,
-                                5 * tileSize,
-                                14 * tileSize,
-                                tileSize,
-                                tileSize,
-                                x * tileSize * 2,
-                                y * tileSize * 2,
-                                tileSize * 2,
-                                tileSize * 2
-                            );
-                        } else if (y > 6) {
-                            canvasContext.current?.drawImage(
-                                TileSheet,
-                                1 * tileSize,
-                                1 * tileSize,
-                                tileSize,
-                                tileSize,
-                                x * tileSize * 2,
-                                y * tileSize * 2,
-                                tileSize * 2,
-                                tileSize * 2
-                            );
-                        } else {
-                            canvasContext.current?.drawImage(
-                                TileSheet,
-                                0 * tileSize,
-                                0 * tileSize,
-                                tileSize,
-                                tileSize,
-                                x * tileSize * 2,
-                                y * tileSize * 2,
-                                tileSize * 2,
-                                tileSize * 2
+                                (drawArray[y][x].width || 1) * tileSize * 2,
+                                (drawArray[y][x].height || 1) * tileSize * 2
                             );
                         }
                     }
-                }
 
-                // const canvasWidth = canvasRef.current?.getBoundingClientRect()
-                //     .width;
-                // const canvasOffset = step.value % canvasWidth;
+                    // const canvasWidth = canvasRef.current?.getBoundingClientRect()
+                    //     .width;
+                    // const canvasOffset = step.value % canvasWidth;
 
-                // const SPEED = 1;
+                    // const SPEED = 1;
 
-                const currentMoment = new Date().getTime();
-                const drawPlayerX = 15 - playerX;
-                canvasContext.current?.save();
-                canvasContext.current?.translate(canvasRef.current.width, 0);
-                canvasContext.current?.scale(-1, 1);
+                    const currentMoment = new Date().getTime();
+                    const drawPlayerX = 15 - playerX;
+                    canvasContext.current?.save();
+                    canvasContext.current?.translate(
+                        canvasRef.current.width,
+                        0
+                    );
+                    canvasContext.current?.scale(-1, 1);
 
-                if (currentMoment - step.lastUpdatedTime < 1300) {
-                    let step = 6;
-                    if (stepOffset == 0) {
-                        step += 1;
-                    } else if (stepOffset == 2) {
-                        step += 2;
+                    if (currentMoment - step.lastUpdatedTime < 1300) {
+                        let step = 6;
+                        if (stepOffset == 0) {
+                            step += 1;
+                        } else if (stepOffset == 2) {
+                            step += 2;
+                        }
+                        canvasContext.current?.drawImage(
+                            PlayerSheet,
+                            step * tileSize,
+                            0 * tileSize,
+                            tileSize,
+                            tileSize,
+                            drawPlayerX * tileSize,
+                            6 * tileSize,
+                            tileSize * 2,
+                            tileSize * 2
+                        );
+                        stepOffset = (stepOffset + 1) % 4;
+                    } else {
+                        canvasContext.current?.drawImage(
+                            PlayerSheet,
+                            6 * tileSize,
+                            0 * tileSize,
+                            tileSize,
+                            tileSize,
+                            drawPlayerX * tileSize,
+                            6 * tileSize,
+                            tileSize * 2,
+                            tileSize * 2
+                        );
                     }
-                    canvasContext.current?.drawImage(
-                        PlayerSheet,
-                        step * tileSize,
-                        0 * tileSize,
-                        tileSize,
-                        tileSize,
-                        drawPlayerX * tileSize,
-                        6 * tileSize,
-                        tileSize * 2,
-                        tileSize * 2
-                    );
-                    stepOffset = (stepOffset + 1) % 4;
-                } else {
-                    canvasContext.current?.drawImage(
-                        PlayerSheet,
-                        6 * tileSize,
-                        0 * tileSize,
-                        tileSize,
-                        tileSize,
-                        drawPlayerX * tileSize,
-                        6 * tileSize,
-                        tileSize * 2,
-                        tileSize * 2
-                    );
+                    canvasContext.current?.restore();
                 }
-                canvasContext.current?.restore();
             }
         }, 200);
         return () => clearInterval(draw);
     });
-    return <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />;
+    return (
+        <>
+            {location?.type && <DenjuuTypeIcon type={location.type} />}
+            <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />
+        </>
+    );
 };
 
 const PCanvas = styled.canvas({
     border: '1px solid white',
     width: '60vw',
 });
+
+// if (y == 0) {
+//     canvasContext.current?.drawImage(
+//         TileSheet,
+//         1 * tileSize,
+//         0 * tileSize,
+//         tileSize,
+//         tileSize,
+//         x * tileSize * 2,
+//         y * tileSize * 2,
+//         tileSize * 2,
+//         tileSize * 2
+//     );
+// } else if (y == 3) {
+//     canvasContext.current?.drawImage(
+//         TileSheet,
+//         1 * tileSize,
+//         11 * tileSize,
+//         tileSize,
+//         tileSize,
+//         x * tileSize * 2,
+//         y * tileSize * 2,
+//         tileSize * 2,
+//         tileSize * 2
+//     );
+// } else if (y == 4) {
+//     canvasContext.current?.drawImage(
+//         TileSheet,
+//         1 * tileSize,
+//         13 * tileSize,
+//         tileSize,
+//         tileSize,
+//         x * tileSize * 2,
+//         y * tileSize * 2,
+//         tileSize * 2,
+//         tileSize * 2
+//     );
+// } else if (y == 6) {
+//     canvasContext.current?.drawImage(
+//         TileSheet,
+//         5 * tileSize,
+//         14 * tileSize,
+//         tileSize,
+//         tileSize,
+//         x * tileSize * 2,
+//         y * tileSize * 2,
+//         tileSize * 2,
+//         tileSize * 2
+//     );
+// } else if (y > 6) {
+//     canvasContext.current?.drawImage(
+//         TileSheet,
+//         1 * tileSize,
+//         1 * tileSize,
+//         tileSize,
+//         tileSize,
+//         x * tileSize * 2,
+//         y * tileSize * 2,
+//         tileSize * 2,
+//         tileSize * 2
+//     );
+// } else {
+//     canvasContext.current?.drawImage(
+//         TileSheet,
+//         0 * tileSize,
+//         0 * tileSize,
+//         tileSize,
+//         tileSize,
+//         x * tileSize * 2,
+//         y * tileSize * 2,
+//         tileSize * 2,
+//         tileSize * 2
+//     );
+// }

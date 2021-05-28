@@ -96,7 +96,7 @@ export const battleSlice = createSlice({
             state.p2.status = 'damage';
             state.activePlayer = 1;
             state.battleLog.unshift(
-                `${denjuuList[state.p1!.denjuuId - 1].displayId} used ${
+                `${denjuuList[state.p1!.denjuuId].displayId} used ${
                     moveList[moveId].displayId
                 }`
             );
@@ -127,7 +127,7 @@ export const battleSlice = createSlice({
             state.p1.status = 'damage';
             state.activePlayer = 0;
             state.battleLog.unshift(
-                `${denjuuList[state.p2.denjuuId - 1].displayId} used ${
+                `${denjuuList[state.p2.denjuuId].displayId} used ${
                     moveList[moveId].displayId
                 }`
             );

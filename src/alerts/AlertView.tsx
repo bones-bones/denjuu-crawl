@@ -106,17 +106,15 @@ const getEventPopupContent = (activeAlert: AlertWrapper) => {
     }
 };
 
-const ItemConfirmation = ({ activeAlert }: { activeAlert: AlertWrapper }) => {
+const ItemConfirmation = ({
+    activeAlert: { eventData },
+}: {
+    activeAlert: AlertWrapper;
+}) => {
     return (
         <MessageBackground>
-            <img
-                src={
-                    itemList[(activeAlert.eventData as ItemAlert).itemId].image
-                }
-            />
-            {`It's a ${
-                itemList[(activeAlert.eventData as ItemAlert).itemId].displayId
-            }`}
+            <img src={itemList[(eventData as ItemAlert).itemId].image} />
+            {`It's a ${itemList[(eventData as ItemAlert).itemId].displayId}`}
         </MessageBackground>
     );
 };
@@ -151,7 +149,7 @@ const getEventSubtitle = (entry: Alert) => {
         }
         case 'battle': {
             return `Level: ${(entry as BattleAlert).level} ${
-                denjuuList[(entry as BattleAlert).denjuuId - 1].displayId
+                denjuuList[(entry as BattleAlert).denjuuId].displayId
             }`;
         }
         case 'message': {

@@ -15,7 +15,7 @@ const initialState: AlertState = {
             eventData: {
                 type: 'battle',
                 level: Math.floor(Math.random() * 3) + 1,
-                denjuuId: 2,
+                denjuuId: 1,
             },
         },
     ],

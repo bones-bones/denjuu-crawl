@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Fipps from './font/Fipps-Regular.otf';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 //import { addToStepHook } from './stepCounter';
@@ -16,18 +16,20 @@ import { SettingsApp } from './settings';
 
 function App() {
     //const activeFunction = useSelector(({ application: { activeFunction } }: RootState) => activeFunction);
+    const rootRef = useRef<HTMLDivElement>(null);
     const alerts = useSelector(({ events: { events } }: RootState) => events);
 
     const navItems = [
-        { title: 'Denju', path: '/contacts' },
-        { title: 'Items', path: '/items' },
+        { title: 'Denju', path: 'contacts' },
+        { title: 'Items', path: 'items' },
         {
             title: 'Settings',
-            path: '/settings',
+            path: 'settings',
         },
     ];
     return (
         <div
+            ref={rootRef}
             className="App"
             style={{
                 backgroundColor: 'black',
@@ -35,10 +37,10 @@ function App() {
         >
             <Router>
                 <Header>
-                    <Link to={''} key={'Walk'}>
+                    <Link to={'walk'} key={'Walk'}>
                         <NavItem key={'Walk'}>{'Walk'[0]}</NavItem>
                     </Link>
-                    <Link to={'/alerts'} key={'Alerts'}>
+                    <Link to={'alerts'} key={'Alerts'}>
                         <NavItem key={'Alerts'}>
                             {'Alerts'[0]}
                             {alerts.length > 0 && `(${alerts.length})`}
@@ -60,22 +62,25 @@ function App() {
                     `}
                 />
                 <Switch>
-                    <Route path="/battle">
+                    <Route path="/denjuu-crawl/battle">
                         <BattleApp />
                     </Route>
-                    <Route path="/alerts">
+                    <Route path="/denjuu-crawl/alerts">
                         <AlertView />
                     </Route>
-                    <Route path="/contacts">
+                    <Route path="/denjuu-crawl/contacts">
                         <ContactList />
                     </Route>
-                    <Route path="/items">
+                    <Route path="/denjuu-crawl/items">
                         <ItemView />
                     </Route>
-                    <Route path="/settings">
-                        <SettingsApp />
+                    <Route path="/denjuu-crawl/settings">
+                        <SettingsApp rootRef={rootRef} />
                     </Route>
-                    <Route path="/">
+                    <Route path="/denjuu-crawl/walk">
+                        <StepApp />
+                    </Route>
+                    <Route path="/denjuu-crawl/">
                         <StepApp />
                     </Route>
                 </Switch>

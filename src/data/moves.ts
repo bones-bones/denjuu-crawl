@@ -65,6 +65,7 @@ export const moveList: Move[] = [
         effects: [{ type: EffectType.DefenseChange, value: 6, target: 'self' }],
     },
     {
+        //7
         displayId: 'Glare',
         type: MoveType.Normal,
         effects: [

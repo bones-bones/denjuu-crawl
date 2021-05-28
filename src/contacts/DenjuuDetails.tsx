@@ -76,7 +76,6 @@ export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
                             </StatEntry>
                         </td>
                         <td>
-                            {' '}
                             {denjuu.exp}/
                             {getExperienceNeededToLevel(denjuu.level + 1)}
                         </td>
@@ -86,7 +85,6 @@ export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
             <MoveContainer>
                 {denjuu.moves.map((entry) => (
                     <div key={entry}>
-                        {' '}
                         {moveList[entry].displayId}
                         <MoveTypeIcon type={moveList[entry].type} />
                     </div>
@@ -113,10 +111,3 @@ const StatEntry = styled.div(({ entryColor }: { entryColor: string }) => ({
 const StatTable = styled.tbody({
     fontWeight: 'bold',
 });
-
-// HP #FFFF00
-// spped #9999CC
-// attack #FF3300
-// defense 33CC00
-//CC9933 denma attack
-// 33CC66 denma defense

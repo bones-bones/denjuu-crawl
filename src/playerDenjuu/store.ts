@@ -8,17 +8,22 @@ import {
 import { PlayerDenjuuContactList } from './types';
 
 const initPlayerDenjuuLevel = 1;
+const initPlayerDenjuuId = 0;
 const initialState: PlayerDenjuuContactList = {
     denjuu: [
         {
-            stats: { ...getDenjuuAtLevel(1, initPlayerDenjuuLevel).stats },
-            denjuuId: 1,
+            stats: {
+                ...getDenjuuAtLevel(initPlayerDenjuuId, initPlayerDenjuuLevel)
+                    .stats,
+            },
+            denjuuId: initPlayerDenjuuId,
             instanceId: '1oshe',
             level: initPlayerDenjuuLevel,
             exp: 0,
-            moves: getDenjuuAtLevel(1, 5).moves,
+            moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
             temporalStats: {
-                ...getDenjuuAtLevel(1, initPlayerDenjuuLevel).stats,
+                ...getDenjuuAtLevel(initPlayerDenjuuId, initPlayerDenjuuLevel)
+                    .stats,
             },
         },
     ],

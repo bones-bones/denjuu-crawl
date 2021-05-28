@@ -24,7 +24,9 @@ export const ItemView = () => {
 const ItemContainer = styled.div({
     width: '25vw',
     height: '25vw',
-    border: '1px solid black',
+    // border: '1px solid black',
+    backgroundColor: 'white',
+    margin: '5px',
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center',

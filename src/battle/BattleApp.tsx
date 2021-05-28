@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { keyframes } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { /*attackThunk,*/ p1Attack } from '../battle';
 import { RootState } from '../store';
@@ -8,6 +7,8 @@ import { denjuuList, Sprites } from '../data';
 import { moveList } from '../data/moves';
 import { useWinCon } from './useWincon';
 import { HpBar } from '../hpBar';
+import { BattleLog } from './BattleLog';
+import { statusToAnimation } from './statusToAnimation';
 
 export const BattleApp = () => {
     const dispatch = useDispatch();
@@ -24,31 +25,30 @@ export const BattleApp = () => {
 
     return (
         <Container>
-            <Background>
+            <Battlefield>
                 {p1 && (
                     <P1
                         hp={p1hp}
                         maxHp={p1.stats.hp}
                         status={p1.status}
                         // garbage hack on the next lines, used a -1 cause of index stuff
-                        sprites={denjuuList[p1.denjuuId - 1].sprites}
+                        sprites={denjuuList[p1.denjuuId].sprites}
                         moveId={p1.activeMoveId}
                     />
                 )}
+                <AttackAnimation>
+                    <Bar />
+                </AttackAnimation>
                 {p2 && (
                     <P2
                         hp={p2hp}
                         maxHp={p2.stats.hp}
                         status={p2.status}
-                        sprites={denjuuList[p2.denjuuId - 1].sprites}
+                        sprites={denjuuList[p2.denjuuId].sprites}
                     />
                 )}
-            </Background>
-            <BattleMessage>
-                {battleLog.map((e, i) => (
-                    <BattleLogMessage key={i}>{e}</BattleLogMessage>
-                ))}
-            </BattleMessage>
+            </Battlefield>
+            <BattleLog battleLog={battleLog} />
             <BottomNav>
                 {p1 &&
                     !winner &&
@@ -79,15 +79,22 @@ const Container = styled.div({
     overflow: 'hidden',
 });
 
-const BattleMessage = styled.div({
-    height: '9vh',
-    backgroundColor: 'white',
-    overflowY: 'scroll',
+// This is garbage but it is good enough for now
+const AttackAnimation = styled.div({
+    height: '25vh',
+    backgroundColor: 'yellow',
+    width: '50vw',
+    position: 'absolute',
+    top: '20vh',
+    left: '20vw',
 });
 
-const BattleLogMessage = styled.span({ display: 'block', height: '3vh' });
+const Bar = styled.div({
+    position: 'absolute',
+    width: '100vw',
+});
 
-const Background = styled.div({
+const Battlefield = styled.div({
     backgroundColor: 'green',
     position: 'relative',
     height: '60vh',
@@ -147,7 +154,7 @@ const P1 = ({
     maxHp,
 }: {
     hp: number;
-    maxHp: number;
+    maxHp: number; //20
     status: string;
     sprites: Sprites;
     moveId?: number;
@@ -186,50 +193,3 @@ const FloatSection = styled.div(
         right,
     })
 );
-
-const statusToAnimation = (status: string) => {
-    switch (status) {
-        case 'damage': {
-            return damageKf;
-        }
-        default:
-            return kf;
-    }
-};
-
-const kf = keyframes`
-from, 20%, 53%, 80%, to {
-    transform: translate3d(0,0,0);
-  }
-
-  40%, 43% {
-    transform: translate3d(0, -30px, 0);
-  }
-
-  70% {
-    transform: translate3d(0, -15px, 0);
-  }
-
-  90% {
-    transform: translate3d(0,-4px,0);
-  }`;
-
-const damageKf = keyframes`
-from, 20%, 53%, 80%, to {
-    transform: translate3d(0,0,-135px);
-  }
-
-  30% {
-    transform: perspective(500px) translate3d( 30px,0, 0);
-    background-color:red;
-    border-radius:10px;
-  }
-
-  70% {
-    transform: translate3d( 15px,0, 0);
-  }
-
-  90% {
-    transform: translate3d(4px,0,0);
-  }
-`;

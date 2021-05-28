@@ -21,7 +21,7 @@ import { DenjuuTemplate, MonsterType } from './types';
 
 export const denjuuList: DenjuuTemplate[] = [
     {
-        id: 1,
+        id: 0,
         displayId: 'Oshe',
         type: MonsterType.Mountain,
         stats: {
@@ -56,7 +56,7 @@ export const denjuuList: DenjuuTemplate[] = [
         },
     },
     {
-        id: 2,
+        id: 1,
         displayId: 'Waratah',
         type: MonsterType.Forest,
         stats: {
@@ -91,7 +91,7 @@ export const denjuuList: DenjuuTemplate[] = [
         },
     },
     {
-        id: 3,
+        id: 2,
         displayId: 'Angios',
         type: MonsterType.Sky,
         stats: {
@@ -123,7 +123,7 @@ export const denjuuList: DenjuuTemplate[] = [
         movesAtLevel: { 0: [0, 10], 8: [9] },
     },
     {
-        id: 4,
+        id: 3,
         displayId: 'Fungus',
         type: MonsterType.Grassland,
         stats: {

@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useEvent from '../stepCounter/stepCounter';
-import { RootState, incremented, resetSteps } from '../store';
+import { RootState } from '../store';
+import { incrementThunk, resetSteps } from './store';
 
 export const Counter = () => {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export const Counter = () => {
     );
 
     const incrementStepValue = () => {
-        dispatch(incremented());
+        dispatch(incrementThunk());
     };
     const resetStepCount = () => {
         dispatch(resetSteps());
