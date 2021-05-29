@@ -5,15 +5,20 @@ import { RootState } from '../store';
 import { getMapForType } from './spawnMap';
 import { AppWalkState, Tile } from './types';
 
+const baseType = randomMonsterType()
 const initialState: AppWalkState = localStorage.getItem('reduxState')
     ? JSON.parse(localStorage.getItem('reduxState')!).counter
     : {
-          step: {
-              value: 0,
-              lastUpdatedTime: new Date().getTime(),
-              triggerCount: 5,
-          },
-      };
+        step: {
+            value: 0,
+            lastUpdatedTime: new Date().getTime(),
+            triggerCount: 5,
+        },
+        location: {
+            type: baseType,
+            map: getMapForType(baseType)
+        }
+    }
 
 export const incrementThunk = () => (
     dispatch: Dispatch,

@@ -3,11 +3,11 @@ import { Inventory, ItemForTransaction } from './types';
 
 const initialState: Inventory =
     localStorage.getItem('reduxState') &&
-    JSON.parse(localStorage.getItem('reduxState')!).items
-        ? JSON.parse(localStorage.getItem('reduxState')!).items
+        JSON.parse(localStorage.getItem('reduxState')!).inventory
+        ? JSON.parse(localStorage.getItem('reduxState')!).inventory
         : {
-              items: [{ itemId: 1, count: 3 }],
-          };
+            items: [{ itemId: 1, count: 3 }],
+        };
 
 export const inventorySlice = createSlice({
     name: 'inventory',

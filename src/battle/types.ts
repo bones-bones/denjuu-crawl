@@ -15,7 +15,7 @@ export interface BattleState {
     winner?: 'player' | 'opponent';
 }
 
-interface BattleMonster {
+export interface BattleMonster {
     status: 'attack' | 'damage' | 'static';
     stats: Stats;
     temporalStats: Stats;

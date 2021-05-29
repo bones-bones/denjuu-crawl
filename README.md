@@ -50,9 +50,10 @@ Walk Menu
 
 -   [x] Update walk screen to at least use telefang imagery
 -   [ ] Move the screen
--   [ ] Generate random backgrounds
+-   [x] Generate random backgrounds
 -   [ ] Pull in map data to generate backgrounds. use this maybe: https://dev.virtualearth.net/REST/v1/LocationRecog/${n},${n}?key=key&top=10&includeEntityTypes=businessAndPOI
 -   [ ] Pull in map data to determine "type" of area and spawn denjuu and items accordingly
+-   [ ] Persist counter but not map location
 
 Alert Menu
 

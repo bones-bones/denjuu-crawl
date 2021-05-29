@@ -1,12 +1,10 @@
 import styled from '@emotion/styled';
-import React, { createRef, useEffect, useLayoutEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { createRef, useLayoutEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import tileSheet from '../images/tileSheet.png';
 import playerSheet from '../images/playerSheet.png';
 import { RootState } from '../store';
-import { getMapForType } from './spawnMap';
-import { DenjuuTypeIcon, randomMonsterType } from '../data';
-import { setNewLocation } from './store';
+import { DenjuuTypeIcon } from '../data';
 
 const TileSheet = new Image();
 TileSheet.src = tileSheet;
@@ -19,7 +17,6 @@ export const PlayerCanvas = () => {
     const location = useSelector(
         ({ counter: { location } }: RootState) => location
     );
-    const dispatch = useDispatch();
 
     useLayoutEffect(() => {
         canvasContext.current = canvasRef.current!.getContext(
@@ -28,15 +25,7 @@ export const PlayerCanvas = () => {
         canvasContext.current.imageSmoothingEnabled = false;
     });
 
-    useEffect(() => {
-        const baseType = randomMonsterType();
-        dispatch(
-            setNewLocation({
-                type: baseType,
-                map: getMapForType(baseType),
-            })
-        );
-    }, []);
+
 
     useLayoutEffect(() => {
         let stepOffset = 0;
