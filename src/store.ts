@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { eventSlice } from './alerts';
 import { contactListSlice } from './playerDenjuu';
-import { battleSlice } from './battle';
+import { attackThunk, battleSlice } from './battle';
 import { inventorySlice } from './items';
 import { counterSlice } from './walk';
 
@@ -16,7 +16,8 @@ function handleChange() {
     ) {
         setTimeout(() => {
             if (store.getState().battle.winner === undefined) {
-                store.dispatch(battleSlice.actions.p2Attack({ moveId: 1 }));
+                store.dispatch(attackThunk({ player: '2', moveId: 1 }));
+                // store.dispatch(battleSlice.actions.p2Attack({ moveId: 1 }));
             }
         }, 1000);
     }

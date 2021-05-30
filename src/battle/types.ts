@@ -7,11 +7,17 @@ export interface Damage {
     damage: number;
 }
 
+export interface ActiveMove {
+    direction: 'front' | 'back';
+    moveId: number;
+}
+
 export interface BattleState {
     p1?: BattleMonster;
     p2?: BattleMonster;
     activePlayer: number;
     battleLog: string[];
+    activeMoveInfo?: ActiveMove;
     winner?: 'player' | 'opponent';
 }
 

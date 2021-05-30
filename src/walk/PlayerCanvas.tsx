@@ -25,8 +25,6 @@ export const PlayerCanvas = () => {
         canvasContext.current.imageSmoothingEnabled = false;
     });
 
-
-
     useLayoutEffect(() => {
         let stepOffset = 0;
 

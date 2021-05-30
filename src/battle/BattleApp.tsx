@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { /*attackThunk,*/ BattleMonster, p1Attack } from '../battle';
+import { attackThunk, BattleMonster } from '../battle';
 import { RootState } from '../store';
-import { denjuuList, moveList, Glare } from '../data';
+import { denjuuList, moveList, getMoveAnimation } from '../data';
 import { useWinCon } from './useWincon';
 import { HpBar } from '../hpBar';
 import { BattleLog } from './BattleLog';
@@ -20,6 +20,10 @@ export const BattleApp = () => {
     const { hp: p2hp } = useSelector(
         ({ battle }: RootState) => battle.p2?.temporalStats || { hp: 0 }
     );
+    const activeMove = useSelector(
+        ({ battle: { activeMoveInfo } }: RootState) => activeMoveInfo
+    );
+
     useWinCon();
 
     return (
@@ -29,20 +33,34 @@ export const BattleApp = () => {
                     <P1
                         denjuu={p1}
                         hp={p1hp}
-                        status={p1.status}
+                        status={
+                            activeMove?.direction == 'back'
+                                ? 'attack'
+                                : 'static'
+                        }
                         // garbage hack on the next lines, used a -1 cause of index stuff
                         moveId={p1.activeMoveId}
                     />
                 )}
                 <AttackAnimation>
-                    {<Glare />}{"ee" /*this is a hack cause SVG filter is not
-                    applied unless there is styling on the div i guess*/}
+                    {activeMove &&
+                        getMoveAnimation(activeMove.moveId).animation[
+                            activeMove.direction
+                        ]()}
+                    {
+                        'ee' /*this is a hack cause SVG filter is not
+                    applied unless there is styling on the div i guess*/
+                    }
                 </AttackAnimation>
                 {p2 && (
                     <P2
                         hp={p2hp}
                         denjuu={p2}
-                        status={p2.status}
+                        status={
+                            activeMove?.direction == 'front'
+                                ? 'attack'
+                                : 'static'
+                        }
                     />
                 )}
             </Battlefield>
@@ -56,7 +74,10 @@ export const BattleApp = () => {
                             key={move}
                             onClick={() => {
                                 // dispatch(attackThunk({ moveId: 0 }));
-                                dispatch(p1Attack({ moveId: move }));
+                                // dispatch(p1Attack({ moveId: move }));
+                                dispatch(
+                                    attackThunk({ player: '1', moveId: move })
+                                );
                             }}
                         >
                             {moveList[move].displayId}
@@ -71,37 +92,43 @@ export const BattleApp = () => {
 const P2 = ({
     hp,
     status,
-    denjuu
+    denjuu,
 }: {
     hp: number;
     status: string;
-    denjuu: BattleMonster
+    denjuu: BattleMonster;
 }) => (
-    <FloatSection
-        top="5vh"
-        right="4vw"
-        status={status}
-        key={'' + hp}
-    >
-        <HpBar dir="rtl" maxHp={denjuu.stats.hp} currentHp={hp} barWidth={100} />
+    <FloatSection top="5vh" right="4vw" status={status} key={'' + hp}>
+        <HpBar
+            dir="rtl"
+            maxHp={denjuu.stats.hp}
+            currentHp={hp}
+            barWidth={100}
+        />
 
         <ImageHolder
             width="100%"
             height="100%"
-            src={denjuuList[denjuu.denjuuId].sprites[status == 'attack' ? 'attack' : 'normal'].front}
+            src={
+                denjuuList[denjuu.denjuuId].sprites[
+                    status == 'attack' ? 'attack' : 'normal'
+                ].front
+            }
         />
     </FloatSection>
 );
 
 const ImageHolder = styled.img({
     imageRendering: 'pixelated',
-
 });
 
 const P1 = ({
     hp,
     status,
-    denjuu: { denjuuId, stats: { hp: maxHp } }
+    denjuu: {
+        denjuuId,
+        stats: { hp: maxHp },
+    },
 }: {
     hp: number;
     status: string;
@@ -112,7 +139,11 @@ const P1 = ({
         <ImageHolder
             width="100%"
             height="100%"
-            src={denjuuList[denjuuId].sprites[status == 'attack' ? 'attack' : 'normal'].back}
+            src={
+                denjuuList[denjuuId].sprites[
+                    status == 'attack' ? 'attack' : 'normal'
+                ].back
+            }
         />
         <HpBar dir="ltr" maxHp={maxHp} currentHp={hp} barWidth={100} />
     </FloatSection>
@@ -143,7 +174,6 @@ const FloatSection = styled.div(
     })
 );
 
-
 const Container = styled.div({
     backgroundColor: 'rgba(0, 0, 0, 1)',
     borderRadius: '15px',
@@ -171,10 +201,9 @@ const AttackAnimation = styled.div({
     top: '20vh',
     left: '20vw',
 
-    backgroundOrigin: '',
     filter: `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg'>
     <filter id='b' x='0' y='0'>
-        <feFlood x='4' y='4' height='2' width='2'/>
+        <feFlood x='2' y='2' height='2' width='2'/>
         <feComposite width='10' height='10'/>
         <feTile result='a'/>
         <feComposite in='SourceGraphic' in2='a' operator='in'/>
@@ -183,15 +212,12 @@ const AttackAnimation = styled.div({
     </svg>`)}#b")`,
 });
 
-
-
 const Battlefield = styled.div({
     backgroundColor: 'green',
     position: 'relative',
     height: '60vh',
     width: '90vw',
     overflow: 'hidden',
-
 });
 
 const BottomNav = styled.div({
@@ -204,8 +230,6 @@ const MoveButton = styled.button({
     width: '33vw',
     border: '2px solid black',
 });
-
-
 
 /*
 This effect tints a character

@@ -26,28 +26,26 @@ const HPText = styled.div({
     fontSize: '9px',
 });
 const HPBox = styled.div(
-    ({ barWidth, dir }: { barWidth: number; dir: 'ltr' | 'rtl' }) => {
-        return {
-            border: '2px solid black',
-            width: `${barWidth}px`,
-            backgroundColor: 'darkgrey',
-            ...(dir == 'rtl'
-                ? {
-                      borderTopRightRadius: '5px',
-                      borderBottomRightRadius: '5px',
-                  }
-                : {
-                      borderTopLeftRadius: '5px',
-                      borderBottomLeftRadius: '5px',
-                  }),
-            fontSize: '12px',
-            fontWeight: 'bold',
-            display: 'flex',
-            alignItems: 'center',
-            overflow: 'hidden',
-            height: '9px',
-        };
-    }
+    ({ barWidth, dir }: { barWidth: number; dir: 'ltr' | 'rtl' }) => ({
+        border: '2px solid black',
+        width: `${barWidth}px`,
+        backgroundColor: 'darkgrey',
+        ...(dir == 'rtl'
+            ? {
+                  borderTopRightRadius: '5px',
+                  borderBottomRightRadius: '5px',
+              }
+            : {
+                  borderTopLeftRadius: '5px',
+                  borderBottomLeftRadius: '5px',
+              }),
+        fontSize: '12px',
+        fontWeight: 'bold',
+        display: 'flex',
+        alignItems: 'center',
+        overflow: 'hidden',
+        height: '9px',
+    })
 );
 const HPBar = styled.div(
     ({

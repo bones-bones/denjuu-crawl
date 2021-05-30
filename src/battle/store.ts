@@ -1,25 +1,19 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
-import { denjuuList } from '../data/denjuu';
-import { EffectType, moveList } from '../data/moves';
+import { denjuuList } from '../data';
+import { EffectType, moveList } from '../data';
 import { RootState } from '../store';
-import { Attack, BattleStart, BattleState, EnemyStats } from './types';
+import {
+    ActiveMove,
+    Attack,
+    BattleStart,
+    BattleState,
+    EnemyStats,
+} from './types';
 
 const initBattleState: BattleState = {
     activePlayer: 0,
     battleLog: [],
 };
-
-// export const attackThunk = () => (
-//     dispatch: any,
-//     getState: any
-// ) => {
-//     console.log('meh')
-//     dispatch(p1Attack({ moveId: 0 }))
-//     const num = (getState() as RootState).battle.p1?.stats.hp
-//     if (num == 0) {
-//         dispatch(addItem({ itemId: 1 }));
-//     }
-// }
 
 export const startBattleThunk = (enemy: EnemyStats) => (
     dispatch: Dispatch,
@@ -27,7 +21,13 @@ export const startBattleThunk = (enemy: EnemyStats) => (
 ) => {
     const { contactList } = getState() as RootState;
 
-    const playerDenuu = contactList.denjuu.find(
+    const {
+        instanceId,
+        stats,
+        temporalStats,
+        moves,
+        denjuuId,
+    } = contactList.denjuu.find(
         ({ instanceId }) => contactList.activeDenju == instanceId
     )!;
 
@@ -35,11 +35,11 @@ export const startBattleThunk = (enemy: EnemyStats) => (
         startBattle({
             enemy,
             player: {
-                instanceId: playerDenuu.instanceId,
-                stats: playerDenuu.stats,
-                temporalStats: playerDenuu.temporalStats,
-                moves: playerDenuu.moves,
-                denjuuId: playerDenuu.denjuuId,
+                instanceId,
+                stats,
+                temporalStats: { ...stats, hp: temporalStats.hp },
+                moves,
+                denjuuId,
             },
         })
     );
@@ -55,6 +55,18 @@ export const battleSlice = createSlice({
             state.p1 = { status: 'static', ...payload.player };
             state.p2 = { status: 'static', ...payload.enemy };
             state.winner = undefined; //overkill
+        },
+        showMove: (state, { payload }: PayloadAction<ActiveMove>) => {
+            state.activeMoveInfo = payload;
+        },
+        clearMove: (state) => {
+            state.activeMoveInfo = undefined;
+            if (state.p1) {
+                state.p1.status = 'static';
+            }
+            if (state.p2) {
+                state.p2.status = 'static';
+            }
         },
         declareWinner: (
             state,
@@ -96,16 +108,10 @@ export const battleSlice = createSlice({
             state.p2.status = 'damage';
             state.activePlayer = 1;
             state.battleLog.unshift(
-                `${denjuuList[state.p1!.denjuuId].displayId} used ${
+                `${denjuuList[state.p1.denjuuId].displayId} used ${
                     moveList[moveId].displayId
                 }`
             );
-
-            // if (state.p2.stats.hp === 0) {
-            //     requestAnimationFrame(() => {
-            //         store.dispatch(setHpTo({ instanceId: '1oshe', hp: 0 }))
-            //     })
-            // }
         },
         p2Attack: (state, { payload: { moveId } }: PayloadAction<Attack>) => {
             if (!state.p1 || !state.p2) {
@@ -139,6 +145,9 @@ export const {
     startBattle,
     declareWinner,
     newBattleMessage,
+    showMove,
+    clearMove,
+    p2Attack,
 } = battleSlice.actions;
 
 export const delayedBattleMessageThunk = (
