@@ -14,7 +14,7 @@ export const attackThunk = ({
     // Animation block
     const move = getMoveAnimation(moveId);
     dispatch(showMove({ moveId, direction: player == '1' ? 'back' : 'front' }));
-    // dispatch animation
+
     setTimeout(() => {
         dispatch(clearMove());
         //Dispatch effects

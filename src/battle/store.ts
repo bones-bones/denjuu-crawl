@@ -13,6 +13,7 @@ import {
 const initBattleState: BattleState = {
     activePlayer: 0,
     battleLog: [],
+    turnCount: 1,
 };
 
 export const startBattleThunk = (enemy: EnemyStats) => (
@@ -58,6 +59,20 @@ export const battleSlice = createSlice({
         },
         showMove: (state, { payload }: PayloadAction<ActiveMove>) => {
             state.activeMoveInfo = payload;
+        },
+        nextTurn: (state) => {
+            const p1SpeedFactor = 201 - state.p1?.temporalStats.speed!;
+            const p2SpeedFactor = 201 - state.p2?.temporalStats.speed!;
+            let knowAnswer = false;
+            let counter = state.turnCount;
+            while (!knowAnswer) {
+                if (counter % p2SpeedFactor === 0) {
+                    knowAnswer = true;
+                } else if (counter % p1SpeedFactor === 0) {
+                    knowAnswer = true;
+                }
+                counter++;
+            }
         },
         clearMove: (state) => {
             state.activeMoveInfo = undefined;

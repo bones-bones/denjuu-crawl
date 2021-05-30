@@ -19,6 +19,7 @@ export interface BattleState {
     battleLog: string[];
     activeMoveInfo?: ActiveMove;
     winner?: 'player' | 'opponent';
+    turnCount: number;
 }
 
 export interface BattleMonster {

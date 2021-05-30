@@ -200,6 +200,7 @@ const AttackAnimation = styled.div({
     position: 'absolute',
     top: '20vh',
     left: '20vw',
+    overflow: 'hidden',
 
     filter: `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg'>
     <filter id='b' x='0' y='0'>
