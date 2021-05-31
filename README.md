@@ -6,7 +6,7 @@ a webclient game that rewards you for going different places and walking
 
 General
 
--   [ ] currently using a mixture of strings and numbers for ids, everything should be ids
+-   [x] currently using a mixture of strings and numbers for ids, everything should be numbers
 -   [ ] denjuu index is off by one, pull it back
 -   [ ] Load all denjuu
 -   [ ] decided which telefang to pull info from
@@ -20,7 +20,8 @@ Battle
 -   [ ] Switching denjuu logic
 -   [ ] actually use stats
 -   [ ] implement attack effect types
--   [ ] implement move thunk. pattern: dispatch move type, setTimeout, dispatch move effect
+-   [x] implement move thunk. pattern: dispatch move type, setTimeout, dispatch move effect
+-   [ ] implement move effect thunk
 -   [ ] existing code is gross and needs a huge refactor
 -   [ ] decouple experince + leveling from battle
 
@@ -45,6 +46,7 @@ Items Menu
 -   [x] Add items menu
 -   [ ] Better item descriptions and menus
 -   [ ] Make items usable from items menu
+-   [ ] Add healing items
 
 Walk Menu
 

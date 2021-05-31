@@ -5,13 +5,13 @@ import { attackThunk, battleSlice } from './battle';
 import { inventorySlice } from './items';
 import { counterSlice } from './walk';
 
-let activeTurnValue = 0;
+let activeTurnValue = '1';
 function handleChange() {
     const previousValue = activeTurnValue;
     activeTurnValue = store.getState().battle.activePlayer;
     if (
         activeTurnValue != previousValue &&
-        activeTurnValue === 1 &&
+        activeTurnValue === '2' &&
         store.getState().battle.p2?.stats.hp! > 0
     ) {
         setTimeout(() => {

@@ -15,7 +15,7 @@ export interface ActiveMove {
 export interface BattleState {
     p1?: BattleMonster;
     p2?: BattleMonster;
-    activePlayer: number;
+    activePlayer: '1' | '2';
     battleLog: string[];
     activeMoveInfo?: ActiveMove;
     winner?: 'player' | 'opponent';

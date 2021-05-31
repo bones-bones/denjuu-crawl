@@ -70,7 +70,7 @@ export const BattleApp = () => {
                     !winner &&
                     p1.moves.map((move) => (
                         <MoveButton
-                            disabled={!(activePlayer == 0)}
+                            disabled={!(activePlayer == '1')}
                             key={move}
                             onClick={() => {
                                 // dispatch(attackThunk({ moveId: 0 }));
