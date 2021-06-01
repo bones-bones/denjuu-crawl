@@ -54,6 +54,9 @@ export const denjuuList: DenjuuTemplate[] = [
             0: [0, 7],
             9: [8],
         },
+        experienceItems: {
+            favorite: 5,
+        },
     },
     {
         id: 1,
@@ -89,6 +92,9 @@ export const denjuuList: DenjuuTemplate[] = [
             0: [1, 8],
             15: [9],
         },
+        experienceItems: {
+            favorite: 6,
+        },
     },
     {
         id: 2,
@@ -121,6 +127,9 @@ export const denjuuList: DenjuuTemplate[] = [
             },
         },
         movesAtLevel: { 0: [0, 10], 8: [9] },
+        experienceItems: {
+            favorite: 7,
+        },
     },
     {
         id: 3,
@@ -153,5 +162,8 @@ export const denjuuList: DenjuuTemplate[] = [
             },
         },
         movesAtLevel: { 0: [4, 5], 11: [11] },
+        experienceItems: {
+            favorite: 3,
+        },
     },
 ];

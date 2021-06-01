@@ -15,26 +15,30 @@ export const inventorySlice = createSlice({
     reducers: {
         addItem: (
             state,
-            { payload: { itemId } }: PayloadAction<ItemForTransaction>
+            {
+                payload: { itemId, count = 1 },
+            }: PayloadAction<ItemForTransaction>
         ) => {
             const itemInIndex = state.items.findIndex(
                 (entry) => entry.itemId === itemId
             );
             if (itemInIndex > -1) {
-                state.items[itemInIndex].count++;
+                state.items[itemInIndex].count += count;
             } else {
                 state.items.push({ count: 1, itemId });
             }
         },
         removeItem: (
             state,
-            { payload: { itemId } }: PayloadAction<ItemForTransaction>
+            {
+                payload: { itemId, count = 1 },
+            }: PayloadAction<ItemForTransaction>
         ) => {
             const itemInIndex = state.items.findIndex(
                 (entry) => entry.itemId === itemId
             );
-            if (itemInIndex) {
-                state.items[itemInIndex].count--;
+            if (itemInIndex != -1) {
+                state.items[itemInIndex].count -= count;
                 if (state.items[itemInIndex].count <= 0) {
                     state.items.splice(itemInIndex, 1);
                 }

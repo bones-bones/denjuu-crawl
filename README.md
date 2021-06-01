@@ -7,7 +7,7 @@ a webclient game that rewards you for going different places and walking
 General
 
 -   [x] currently using a mixture of strings and numbers for ids, everything should be numbers
--   [ ] denjuu index is off by one, pull it back
+-   [x] denjuu index is off by one, pull it back
 -   [ ] Load all denjuu
 -   [ ] decided which telefang to pull info from
 -   [ ] load all items
@@ -45,8 +45,10 @@ Items Menu
 
 -   [x] Add items menu
 -   [ ] Better item descriptions and menus
--   [ ] Make items usable from items menu
--   [ ] Add healing items
+-   [ ] A mix of the small and details view of the items is being used. That is less than ideal
+-   [x] Make items usable from items menu
+-   [x] Add healing items
+-   [ ] add secondary Exp items to denjuu
 
 Walk Menu
 
@@ -63,3 +65,11 @@ Alert Menu
 -   [x] Alerts menu item should show when there are alerts
 -   [ ] Spawn Store events where items can be purchased???? Add money???
 -   [ ] Better alert type icons
+
+Credits
+
+-   [ ] implement credit menu. Call out https://startledpixels.itch.io/2d-pixel-item-asset-pack
+
+Popup
+
+-   [ ] implement proper zindex handling

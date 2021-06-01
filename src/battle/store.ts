@@ -66,21 +66,23 @@ export const battleSlice = createSlice({
             let knowAnswer = false;
             let counter = state.turnCount;
 
-            if (counter % p2SpeedFactor === 0 && counter % p1SpeedFactor === 0) {
+            if (
+                counter % p2SpeedFactor === 0 &&
+                counter % p1SpeedFactor === 0
+            ) {
                 knowAnswer = true;
-                state.activePlayer = state.activePlayer === '1' ? '2' : '1'
+                state.activePlayer = state.activePlayer === '1' ? '2' : '1';
                 counter++;
             }
-
 
             while (!knowAnswer) {
                 counter++;
                 if (counter % p1SpeedFactor === 0) {
                     knowAnswer = true;
-                    state.activePlayer = '1'
+                    state.activePlayer = '1';
                 } else if (counter % p2SpeedFactor === 0) {
                     knowAnswer = true;
-                    state.activePlayer = '2'
+                    state.activePlayer = '2';
                 }
             }
             state.turnCount = counter;
@@ -102,10 +104,12 @@ export const battleSlice = createSlice({
             state.winner = payload;
             state.battleLog.unshift(
                 payload == 'player'
-                    ? `You've defeated ${denjuuList[state.p2?.denjuuId!].displayId
-                    }!`
-                    : `You have been defeated by ${denjuuList[state.p2?.denjuuId!].displayId
-                    }...`
+                    ? `You've defeated ${
+                          denjuuList[state.p2?.denjuuId!].displayId
+                      }!`
+                    : `You have been defeated by ${
+                          denjuuList[state.p2?.denjuuId!].displayId
+                      }...`
             );
             //winner: undefined
         },
@@ -131,7 +135,8 @@ export const battleSlice = createSlice({
             });
             state.p2.status = 'damage';
             state.battleLog.unshift(
-                `${denjuuList[state.p1.denjuuId].displayId} used ${moveList[moveId].displayId
+                `${denjuuList[state.p1.denjuuId].displayId} used ${
+                    moveList[moveId].displayId
                 }`
             );
         },
@@ -154,7 +159,8 @@ export const battleSlice = createSlice({
             });
             state.p1.status = 'damage';
             state.battleLog.unshift(
-                `${denjuuList[state.p2.denjuuId].displayId} used ${moveList[moveId].displayId
+                `${denjuuList[state.p2.denjuuId].displayId} used ${
+                    moveList[moveId].displayId
                 }`
             );
         },
@@ -168,7 +174,7 @@ export const {
     showMove,
     clearMove,
     p2Attack,
-    nextTurn
+    nextTurn,
 } = battleSlice.actions;
 
 export const delayedBattleMessageThunk = (

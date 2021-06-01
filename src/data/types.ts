@@ -8,6 +8,9 @@ export interface DenjuuTemplate {
     movesAtLevel: {
         [key: number]: number[];
     };
+    experienceItems: {
+        favorite?: number;
+    };
 }
 export interface Sprites {
     normal: { back: string; front: string };

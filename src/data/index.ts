@@ -5,3 +5,4 @@ export * from './DenjuuTypeIcon';
 export * from './moves';
 export * from './types';
 export * from './getRandomMonsterType';
+export * from './items';

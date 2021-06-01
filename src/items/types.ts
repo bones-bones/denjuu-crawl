@@ -8,4 +8,5 @@ export interface Inventory {
 }
 export interface ItemForTransaction {
     itemId: number;
+    count?: number;
 }

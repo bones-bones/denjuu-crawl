@@ -9,26 +9,35 @@ import { PlayerDenjuuContactList } from './types';
 
 const initPlayerDenjuuLevel = 1;
 const initPlayerDenjuuId = 0;
-const initialState: PlayerDenjuuContactList = {
-    denjuu: [
-        {
-            stats: {
-                ...getDenjuuAtLevel(initPlayerDenjuuId, initPlayerDenjuuLevel)
-                    .stats,
-            },
-            denjuuId: initPlayerDenjuuId,
-            instanceId: '1oshe',
-            level: initPlayerDenjuuLevel,
-            exp: 0,
-            moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
-            temporalStats: {
-                ...getDenjuuAtLevel(initPlayerDenjuuId, initPlayerDenjuuLevel)
-                    .stats,
-            },
-        },
-    ],
-    activeDenju: '1oshe',
-};
+
+const initialState: PlayerDenjuuContactList =
+    localStorage.getItem('reduxState') &&
+    JSON.parse(localStorage.getItem('reduxState')!).contactList
+        ? JSON.parse(localStorage.getItem('reduxState')!).contactList
+        : {
+              denjuu: [
+                  {
+                      stats: {
+                          ...getDenjuuAtLevel(
+                              initPlayerDenjuuId,
+                              initPlayerDenjuuLevel
+                          ).stats,
+                      },
+                      denjuuId: initPlayerDenjuuId,
+                      instanceId: '1oshe',
+                      level: initPlayerDenjuuLevel,
+                      exp: 0,
+                      moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
+                      temporalStats: {
+                          ...getDenjuuAtLevel(
+                              initPlayerDenjuuId,
+                              initPlayerDenjuuLevel
+                          ).stats,
+                      },
+                  },
+              ],
+              activeDenju: '1oshe',
+          };
 
 export const contactListSlice = createSlice({
     name: 'contactList',
@@ -42,8 +51,13 @@ export const contactListSlice = createSlice({
         ) => {
             state.denjuu.find(
                 (entry) => entry.instanceId === instanceId
-            )!.temporalStats.hp = hp;
+            )!.temporalStats.hp = Math.min(
+                hp,
+                state.denjuu.find((entry) => entry.instanceId === instanceId)!
+                    .stats.hp
+            );
         },
+
         addExperience: (
             state,
             {
@@ -56,8 +70,10 @@ export const contactListSlice = createSlice({
             let newExpTotal =
                 state.denjuu.find((entry) => entry.instanceId === instanceId)!
                     .exp + value;
-
-            let nextLevel = getExperienceNeededToLevel(denjuuInQuestion.level);
+            let nextLevel = getExperienceNeededToLevel(
+                denjuuInQuestion.level + 1
+            );
+            console.log(value, newExpTotal, nextLevel);
 
             while (newExpTotal >= nextLevel) {
                 const newStats = getStatsDifferenceForLevel(
@@ -67,7 +83,9 @@ export const contactListSlice = createSlice({
                 );
                 denjuuInQuestion.level++;
                 newExpTotal -= nextLevel;
-                nextLevel = getExperienceNeededToLevel(denjuuInQuestion.level);
+                nextLevel = getExperienceNeededToLevel(
+                    denjuuInQuestion.level + 1
+                );
                 denjuuInQuestion.stats.hp += newStats.hp;
                 denjuuInQuestion.stats.speed += newStats.speed;
                 denjuuInQuestion.stats.attack += newStats.attack;

@@ -56,12 +56,13 @@ const DenjuuDiv = ({
                 }}
             >
                 <div>
-                    <span>{denjuuTemplate.displayId}</span>
+                    <span>{denjuuTemplate.displayId}</span>{' '}
+                    <Level>Lv{entry.level}</Level>
                     {playerDenjuu.activeDenju == entry.instanceId && (
                         <span>⭐</span>
                     )}
                 </div>
-                <img src={denjuuTemplate.sprites.normal.front} />
+                <ImageHolder src={denjuuTemplate.sprites.normal.front} />
                 <HpBar
                     dir="ltr"
                     currentHp={entry.temporalStats.hp}
@@ -81,6 +82,8 @@ const DenjuuDiv = ({
     );
 };
 
+const ImageHolder = styled.img({ imageRendering: 'pixelated' });
+
 const DenjuuSummary = styled.div({
     width: '33vw',
     height: '33vw',
@@ -89,4 +92,10 @@ const DenjuuSummary = styled.div({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
+});
+
+const Level = styled.span({
+    fontSize: '12px',
+    fontWeight: 'bold',
+    fontKerning: 'inherit',
 });

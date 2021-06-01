@@ -12,7 +12,7 @@ export const ItemView = () => {
                 <ItemContainer key={entry.itemId}>
                     <span>{itemList[entry.itemId].displayId}</span>
                     <div>
-                        <img src={itemList[entry.itemId].image} />
+                        <ImageHolder src={itemList[entry.itemId].image} />
                         <span>{entry.count}</span>
                     </div>
                 </ItemContainer>
@@ -20,6 +20,7 @@ export const ItemView = () => {
         </BackgroundPanel>
     );
 };
+const ImageHolder = styled.img({ imageRendering: 'pixelated' });
 
 const ItemContainer = styled.div({
     width: '25vw',

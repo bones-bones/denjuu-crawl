@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import {
     denjuuList,
     DenjuuTypeIcon,
@@ -7,18 +7,21 @@ import {
     moveList,
     MoveTypeIcon,
 } from '../data';
+import { ItemDenjuuSelector } from '../item-denjuu-selector';
 import { PlayerDenjuu } from '../playerDenjuu';
+import { Popup } from '../popup';
 
 export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
     const denjuuTemplate = denjuuList.find(({ id }) => id === denjuu.denjuuId)!;
+    const [showItemMenu, setShowItemMenu] = useState<boolean>(false);
 
     return (
         <Container>
             <h3>
-                {denjuuTemplate.displayId}{' '}
+                {denjuuTemplate.displayId}
                 <DenjuuTypeIcon type={denjuuTemplate.type} />
             </h3>
-            <img src={denjuuTemplate.sprites.normal.front} />
+            <ImageHolder src={denjuuTemplate.sprites.normal.front} />
             <table>
                 <StatTable>
                     <tr>
@@ -29,9 +32,9 @@ export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
                     </tr>
                     <tr>
                         <td>
-                            <StatEntry entryColor={'#FFFF00'}>Max HP</StatEntry>
+                            <StatEntry entryColor={'#FEE12B'}>HP</StatEntry>
                         </td>
-                        <td>{denjuu.stats.hp}</td>
+                        <td>{`${denjuu.stats.hp}/${denjuu.temporalStats.hp}`}</td>
                     </tr>
                     <tr>
                         <td>
@@ -76,23 +79,46 @@ export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
                             </StatEntry>
                         </td>
                         <td>
-                            {denjuu.exp}/
-                            {getExperienceNeededToLevel(denjuu.level + 1)}
+                            {`${denjuu.exp}/${getExperienceNeededToLevel(
+                                denjuu.level + 1
+                            )}`}
                         </td>
                     </tr>
                 </StatTable>
             </table>
             <MoveContainer>
                 {denjuu.moves.map((entry) => (
-                    <div key={entry}>
+                    <MoveEntry key={entry}>
                         {moveList[entry].displayId}
                         <MoveTypeIcon type={moveList[entry].type} />
-                    </div>
+                    </MoveEntry>
                 ))}
             </MoveContainer>
+            <ActionButtons>
+                <ActionButton onClick={() => setShowItemMenu(true)}>
+                    Use Item
+                </ActionButton>
+            </ActionButtons>
+            {showItemMenu && (
+                <Popup
+                    closeCallback={() => {
+                        setShowItemMenu(false);
+                    }}
+                >
+                    <ItemDenjuuSelector
+                        denjuuInstanceId={denjuu.instanceId}
+                        selectionCallback={() => setShowItemMenu(false)}
+                    />
+                </Popup>
+            )}
         </Container>
     );
 };
+const ActionButton = styled.button({});
+const ActionButtons = styled.div({});
+
+const ImageHolder = styled.img({ imageRendering: 'pixelated' });
+const MoveEntry = styled.div({ display: 'flex', alignItems: 'center' });
 const MoveContainer = styled.div({ borderTop: '1px solid black' });
 const Container = styled.div({
     padding: '13px',

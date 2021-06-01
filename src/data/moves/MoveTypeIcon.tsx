@@ -7,6 +7,7 @@ import Normal from '../../images/move_normal.gif';
 import Rock from '../../images/move_rock.gif';
 import Water from '../../images/move_water.gif';
 import Wind from '../../images/move_wind.gif';
+import styled from '@emotion/styled';
 
 interface Props {
     type: MoveType;
@@ -23,5 +24,6 @@ export const MoveTypeIcon = ({ type }: Props) => {
     };
     const TypeImage = new Image();
     TypeImage.src = typeImageMapping[type];
-    return <img src={typeImageMapping[type]} />;
+    return <ImageHolder src={typeImageMapping[type]} />;
 };
+const ImageHolder = styled.img({ imageRendering: 'pixelated' });

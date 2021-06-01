@@ -5,22 +5,40 @@ interface Props {
     closeCallback?: () => void;
     children: React.ReactNode;
 }
+// here is a huge hack but whatever
+let popupcounthack = 2;
 
-export const Popup = ({ closeCallback, children }: Props) => (
-    <PopupContainer>
-        <MessageBackground>
-            <DismissButton onClick={closeCallback}>X</DismissButton>
-            {children}
-        </MessageBackground>
-    </PopupContainer>
-);
+export const Popup = ({ closeCallback, children }: Props) => {
+    popupcounthack++;
+    return (
+        <PopupContainer>
+            <MessageBackground>
+                <DismissButton
+                    onClick={() => {
+                        popupcounthack--;
+                        if (closeCallback) {
+                            closeCallback();
+                        }
+                    }}
+                >
+                    X
+                </DismissButton>
+                {children}
+            </MessageBackground>
+        </PopupContainer>
+    );
+};
 
-const DismissButton = styled.button({ position: 'absolute', zIndex: 6 });
+const DismissButton = styled.button({
+    position: 'absolute',
+    zIndex: popupcounthack,
+});
 const MessageBackground = styled.div({
     margin: '5px',
     opacity: 1,
     alignItems: 'flex-start',
     display: 'flex',
+    position: 'relative',
 });
 const PopupContainer = styled.div({
     position: 'fixed',

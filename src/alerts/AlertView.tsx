@@ -2,19 +2,14 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BattleApp, startBattleThunk } from '../battle';
-import { denjuuList, getDenjuuAtLevel } from '../data';
+import { getDenjuuAtLevel } from '../data';
 import { itemList } from '../data/items';
 import { addItem } from '../items';
 import { Popup } from '../popup';
 import { RootState } from '../store';
+import { AlertListItem } from './AlertListItem';
 import { removeEvent } from './store';
-import {
-    Alert,
-    AlertWrapper,
-    BattleAlert,
-    ItemAlert,
-    MessageAlert,
-} from './types';
+import { AlertWrapper, ItemAlert } from './types';
 
 export const AlertView = () => {
     const stateAlerts = useSelector(
@@ -30,7 +25,9 @@ export const AlertView = () => {
     return (
         <PanelDiv>
             {stateAlerts.map((entry) => (
-                <EventListItem
+                <AlertListItem
+                    key={entry.id}
+                    eventData={entry.eventData}
                     onClick={() => {
                         setActiveEventId(entry.id);
                         if (entry.eventData.type == 'battle') {
@@ -56,21 +53,7 @@ export const AlertView = () => {
                         }
                         // dispatch(removeEvent({ eventId: entry.id }))
                     }}
-                    key={entry.id}
-                >
-                    <EventIcon>
-                        {entry.eventData.type[0].toUpperCase()}
-                    </EventIcon>
-                    <div>
-                        <ListItemTitle>
-                            {getEventTitle(entry.eventData)}
-                        </ListItemTitle>
-                        <br />
-                        <ListItemSubTitle>
-                            {getEventSubtitle(entry.eventData)}
-                        </ListItemSubTitle>
-                    </div>
-                </EventListItem>
+                />
             ))}
             {activeAlert && (
                 <Popup
@@ -79,14 +62,14 @@ export const AlertView = () => {
                         setActiveEventId(undefined);
                     }}
                 >
-                    {getEventPopupContent(activeAlert)}
+                    <EventPopupContent activeAlert={activeAlert} />
                 </Popup>
             )}
         </PanelDiv>
     );
 };
 
-const getEventPopupContent = (activeAlert: AlertWrapper) => {
+const EventPopupContent = ({ activeAlert }: { activeAlert: AlertWrapper }) => {
     switch (activeAlert.eventData.type) {
         case 'message': {
             return (
@@ -103,6 +86,9 @@ const getEventPopupContent = (activeAlert: AlertWrapper) => {
                 <ItemConfirmation activeAlert={activeAlert}></ItemConfirmation>
             );
         }
+        default: {
+            return <div>unknown event type</div>;
+        }
     }
 };
 
@@ -111,84 +97,21 @@ const ItemConfirmation = ({
 }: {
     activeAlert: AlertWrapper;
 }) => {
+    const { image, displayId } = itemList[(eventData as ItemAlert).itemId];
     return (
         <MessageBackground>
-            <img src={itemList[(eventData as ItemAlert).itemId].image} />
-            {`It's a ${itemList[(eventData as ItemAlert).itemId].displayId}`}
+            <ImageHolder src={image} />
+            {`It's a ${displayId}`}
         </MessageBackground>
     );
 };
+const ImageHolder = styled.img({ imageRendering: 'pixelated' });
 
 const MessageBackground = styled.div({
     backgroundColor: 'white',
     borderRadius: '15px',
     width: '85vw',
     padding: '20px',
-});
-
-const getEventTitle = (entry: Alert) => {
-    switch (entry.type) {
-        case 'item': {
-            return 'You found an item!';
-        }
-        case 'battle': {
-            return 'A challenger wants to fight';
-        }
-        case 'message': {
-            return "You've got a message!";
-        }
-        default: {
-            return '!!missing title template!!';
-        }
-    }
-};
-const getEventSubtitle = (entry: Alert) => {
-    switch (entry.type) {
-        case 'item': {
-            return ``;
-        }
-        case 'battle': {
-            return `Level: ${(entry as BattleAlert).level} ${
-                denjuuList[(entry as BattleAlert).denjuuId].displayId
-            }`;
-        }
-        case 'message': {
-            return `"${(entry as MessageAlert).message.substr(0, 60)}...`;
-        }
-        default: {
-            return '!!missing alert body!!';
-        }
-    }
-};
-
-const ListItemTitle = styled.span({ fontWeight: 'bold' });
-const ListItemSubTitle = styled.span({ overflow: 'hidden', lineClamp: 1 });
-
-const EventIcon = styled.div({
-    minHeight: '7vh',
-    color: 'white',
-    minWidth: '7vh',
-    backgroundColor: 'black',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontFamily: 'Mate SC',
-    fontWeight: 'bold',
-    fontSize: '6vh',
-});
-
-const EventListItem = styled.button({
-    width: '90vw',
-    height: '10vh',
-    minHeight: '10vh',
-    // border: '1px solid black',
-    position: 'relative',
-    display: 'flex',
-    marginLeft: '5vw',
-    marginRight: '5vw',
-    marginTop: '2vh',
-    justifyContent: 'left',
-    alignItems: 'center',
 });
 
 const PanelDiv = styled.div({

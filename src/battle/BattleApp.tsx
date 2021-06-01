@@ -3,11 +3,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { attackThunk, BattleMonster } from '../battle';
 import { RootState } from '../store';
-import { denjuuList, moveList, getMoveAnimation } from '../data';
+import { denjuuList, moveList } from '../data';
 import { useWinCon } from './useWincon';
 import { HpBar } from '../hpBar';
 import { BattleLog } from './BattleLog';
 import { statusToAnimation } from './statusToAnimation';
+import { AttackAnimation } from './AttackAnimation';
 
 export const BattleApp = () => {
     const dispatch = useDispatch();
@@ -38,20 +39,9 @@ export const BattleApp = () => {
                                 ? 'attack'
                                 : 'static'
                         }
-                        // garbage hack on the next lines, used a -1 cause of index stuff
-                        moveId={p1.activeMoveId}
                     />
                 )}
-                <AttackAnimation>
-                    {activeMove &&
-                        getMoveAnimation(activeMove.moveId).animation[
-                            activeMove.direction
-                        ]()}
-                    {
-                        'ee' /*this is a hack cause SVG filter is not
-                    applied unless there is styling on the div i guess*/
-                    }
-                </AttackAnimation>
+                <AttackAnimation activeMove={activeMove} />
                 {p2 && (
                     <P2
                         hp={p2hp}
@@ -92,25 +82,23 @@ export const BattleApp = () => {
 const P2 = ({
     hp,
     status,
-    denjuu,
+    denjuu: {
+        stats: { hp: maxHp },
+        denjuuId,
+    },
 }: {
     hp: number;
-    status: string;
+    status: 'attack' | 'static';
     denjuu: BattleMonster;
 }) => (
     <FloatSection top="5vh" right="4vw" status={status} key={'' + hp}>
-        <HpBar
-            dir="rtl"
-            maxHp={denjuu.stats.hp}
-            currentHp={hp}
-            barWidth={100}
-        />
+        <HpBar dir="rtl" maxHp={maxHp} currentHp={hp} barWidth={100} />
 
         <ImageHolder
             width="100%"
             height="100%"
             src={
-                denjuuList[denjuu.denjuuId].sprites[
+                denjuuList[denjuuId].sprites[
                     status == 'attack' ? 'attack' : 'normal'
                 ].front
             }
@@ -132,7 +120,6 @@ const P1 = ({
 }: {
     hp: number;
     status: string;
-    moveId?: number;
     denjuu: BattleMonster;
 }) => (
     <FloatSection bottom="5vh" left="4vw" status={status} key={'' + hp}>
@@ -183,34 +170,6 @@ const Container = styled.div({
     borderBottom: '0.5vh groove',
     borderRight: '1vw groove',
     overflow: 'hidden',
-});
-
-// https://codepen.io/tigt/pen/akYqAg
-// This is garbage but it is good enough for now
-const AttackAnimation = styled.div({
-    height: '30vh',
-    //color
-    //  border: '0.001px hidden green',
-    // backgroundColor: 'transparent',
-    //backgroundColor: 'red',
-
-    // Okay so, this sucks
-    width: '50vw',
-    color: 'green',
-    position: 'absolute',
-    top: '20vh',
-    left: '20vw',
-    overflow: 'hidden',
-
-    filter: `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg'>
-    <filter id='b' x='0' y='0'>
-        <feFlood x='2' y='2' height='2' width='2'/>
-        <feComposite width='10' height='10'/>
-        <feTile result='a'/>
-        <feComposite in='SourceGraphic' in2='a' operator='in'/>
-        <feMorphology operator='dilate' radius='4'/>
-    </filter>
-    </svg>`)}#b")`,
 });
 
 const Battlefield = styled.div({

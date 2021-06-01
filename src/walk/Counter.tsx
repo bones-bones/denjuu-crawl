@@ -29,6 +29,15 @@ export const Counter = () => {
             <DebugButtons>
                 Debug commands:
                 <button onClick={incrementStepValue}>Step</button>
+                <button
+                    onClick={() => {
+                        for (let i = 0; i < 50; i++) {
+                            incrementStepValue();
+                        }
+                    }}
+                >
+                    Step (50)
+                </button>
                 <button onClick={resetStepCount}>Reset Steps</button>
             </DebugButtons>
             <StepValue stepVal={stepValue}>{stepValue}</StepValue>
