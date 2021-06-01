@@ -1,3 +1,4 @@
+import { LinearAccelerationSensor } from 'motion-sensors-polyfill'; //for firefox
 const callbacks: ((args: any) => void)[] = [];
 const sensor = new LinearAccelerationSensor();
 enum Direction {

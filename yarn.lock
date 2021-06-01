@@ -1902,6 +1902,11 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
+"@types/motion-sensors-polyfill@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@types/motion-sensors-polyfill/-/motion-sensors-polyfill-0.3.0.tgz#c3e7cecff4a141441f4af73f2b8827f198b67b20"
+  integrity sha512-6rJhut/5qNFsL+pms6avfxxjr8L6fdbu4chvx0ruVxmmQ3qkHcln5q4Nb5gnt10WwJjxJxjzOEYr6GM9vj8DQg==
+
 "@types/node@*":
   version "14.14.31"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.31.tgz#72286bd33d137aa0d152d47ec7c1762563d34055"
@@ -7608,6 +7613,11 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
+
+motion-sensors-polyfill@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/motion-sensors-polyfill/-/motion-sensors-polyfill-0.3.1.tgz#f8dfe18614b719c75d8c466914a3931bfc8c8d1f"
+  integrity sha1-+N/hhhS3GcddjEZpFKOTG/yMjR8=
 
 move-concurrently@^1.0.1:
   version "1.0.1"

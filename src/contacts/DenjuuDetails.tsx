@@ -35,7 +35,7 @@ export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
                         <td>
                             <StatEntry entryColor={'#FEE12B'}>HP</StatEntry>
                         </td>
-                        <td>{`${denjuu.stats.hp}/${denjuu.temporalStats.hp}`}</td>
+                        <td>{`${denjuu.temporalStats.hp}/${denjuu.stats.hp}`}</td>
                     </tr>
                     <tr>
                         <td>

@@ -1,32 +1,35 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 
-import { newRandomEvent } from '../alerts';
-import { MonsterType, randomMonsterType } from '../data';
+import { newAlert } from '../alerts';
+import { denjuuList, itemList, MonsterType, randomMonsterType } from '../data';
+import { healDenjuu } from '../playerDenjuu';
 import { RootState } from '../store';
 import { getMapForType } from './spawnMap';
 import { AppWalkState, Tile } from './types';
-
+const getTriggerCount = () => {
+    return 30;
+};
 const baseType = randomMonsterType();
 const initialState: AppWalkState = localStorage.getItem('reduxState')
     ? JSON.parse(localStorage.getItem('reduxState')!).counter
     : {
-          step: {
-              value: 0,
-              lastUpdatedTime: new Date().getTime(),
-              triggerCount: 5,
-          },
-          location: {
-              type: baseType,
-              map: getMapForType(baseType),
-          },
-      };
+        step: {
+            value: 0,
+            lastUpdatedTime: new Date().getTime(),
+            triggerCount: getTriggerCount(),
+        },
+        location: {
+            type: baseType,
+            map: getMapForType(baseType),
+        },
+    };
 
 export const incrementThunk = () => (
     dispatch: Dispatch,
     getState: () => RootState
 ) => {
     // there is some garbage up here where we preempt the values we'd be changing in the incremented slice
-    const { step } = getState().counter;
+    const { counter: { step, location }, contactList } = getState();
     const newStepCount = step.value + 1;
 
     if (newStepCount % 65 === 0) {
@@ -39,9 +42,32 @@ export const incrementThunk = () => (
             })
         );
     }
+    if (step.value % 10) {
+        dispatch(healDenjuu({ value: 1 }))
+    }
 
     if (step.triggerCount == 1) {
-        dispatch(newRandomEvent());
+        const eventNumber = Math.floor(Math.random() * 100);
+        if (eventNumber <= 7) {
+            // dispatch items
+            dispatch(newAlert({
+                type: 'item',
+                itemId: Math.floor(Math.random() * itemList.length),
+            }))
+        } else if (eventNumber > 7 && eventNumber <= 35) {
+            //dispatch fight
+            const possibleDenjuu = denjuuList.filter(entry => entry.type == location?.type)
+            const selectedDenjuu = possibleDenjuu[Math.floor(Math.random() * possibleDenjuu.length)]
+            if (selectedDenjuu) {
+                dispatch(newAlert({
+                    type: 'battle',
+                    level: Math.floor(Math.random() * 3) - 1 + contactList.denjuu.find(entry => entry.instanceId == contactList.activeDenju)!.level,
+                    denjuuId: selectedDenjuu.id
+                }));
+            }
+
+        }
+
     }
     dispatch(incremented());
 };
@@ -66,7 +92,7 @@ export const counterSlice = createSlice({
             step: {
                 value: 0,
                 lastUpdatedTime: new Date().getTime(),
-                triggerCount: 5,
+                triggerCount: getTriggerCount(),
             },
         }),
         setNewLocation: (
@@ -83,7 +109,5 @@ export const counterSlice = createSlice({
     },
 });
 
-const getTriggerCount = () => {
-    return 5;
-};
+
 export const { incremented, resetSteps, setNewLocation } = counterSlice.actions;

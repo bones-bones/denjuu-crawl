@@ -64,8 +64,6 @@ export const BattleApp = () => {
                             disabled={!(activePlayer == '1')}
                             key={move}
                             onClick={() => {
-                                // dispatch(attackThunk({ moveId: 0 }));
-                                // dispatch(p1Attack({ moveId: move }));
                                 dispatch(
                                     attackThunk({ player: '1', moveId: move })
                                 );

@@ -57,6 +57,7 @@ export const battleSlice = createSlice({
             state.p1 = { status: 'static', ...payload.player };
             state.p2 = { status: 'static', ...payload.enemy };
             state.winner = undefined; //overkill
+            state.turnCount = 1
         },
         showMove: (state, { payload }: PayloadAction<ActiveMove>) => {
             state.activeMoveInfo = payload;
@@ -105,12 +106,10 @@ export const battleSlice = createSlice({
             state.winner = payload;
             state.battleLog.unshift(
                 payload == 'player'
-                    ? `You've defeated ${
-                          denjuuList[state.p2?.denjuuId!].displayId
-                      }!`
-                    : `You have been defeated by ${
-                          denjuuList[state.p2?.denjuuId!].displayId
-                      }...`
+                    ? `You've defeated ${denjuuList[state.p2?.denjuuId!].displayId
+                    }!`
+                    : `You have been defeated by ${denjuuList[state.p2?.denjuuId!].displayId
+                    }...`
             );
             //winner: undefined
         },
@@ -136,8 +135,7 @@ export const battleSlice = createSlice({
             });
             state.p2.status = 'damage';
             state.battleLog.unshift(
-                `${denjuuList[state.p1.denjuuId].displayId} used ${
-                    moveList[moveId].displayId
+                `${denjuuList[state.p1.denjuuId].displayId} used ${moveList[moveId].displayId
                 }`
             );
         },
@@ -160,8 +158,7 @@ export const battleSlice = createSlice({
             });
             state.p1.status = 'damage';
             state.battleLog.unshift(
-                `${denjuuList[state.p2.denjuuId].displayId} used ${
-                    moveList[moveId].displayId
+                `${denjuuList[state.p2.denjuuId].displayId} used ${moveList[moveId].displayId
                 }`
             );
         },
