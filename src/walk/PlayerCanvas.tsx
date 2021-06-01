@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import React, { createRef, useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import tileSheet from '../images/tileSheet.png';
-import playerSheet from '../images/playerSheet.png';
-import { RootState } from '../store';
+
 import { DenjuuTypeIcon } from '../data';
+import playerSheet from '../images/playerSheet.png';
+import tileSheet from '../images/tileSheet.png';
+import { RootState } from '../store';
 
 const TileSheet = new Image();
 TileSheet.src = tileSheet;

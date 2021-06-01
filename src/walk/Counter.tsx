@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import useEvent from '../stepCounter/stepCounter';
 import { RootState } from '../store';
 import { incrementThunk, resetSteps } from './store';
@@ -36,7 +37,7 @@ export const Counter = () => {
                         }
                     }}
                 >
-                    Step (50)
+                    Step x50
                 </button>
                 <button onClick={resetStepCount}>Reset Steps</button>
             </DebugButtons>

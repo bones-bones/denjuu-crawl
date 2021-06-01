@@ -21,7 +21,7 @@ module.exports = {
         },
         sourceType: 'module',
     },
-    plugins: ['react', '@typescript-eslint'],
+    plugins: ['react', '@typescript-eslint', 'simple-import-sort'],
     rules: {
         'prefer-destructuring': ['error', { object: true, array: false }],
         'import/prefer-default-export': 0,
@@ -33,6 +33,8 @@ module.exports = {
         'no-cond-assign': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
         '@typescript-eslint/no-non-null-assertion': 0,
-        '@typescript-eslint/no-non-null-asserted-optional-chain': 0, // Look i know what i'm doing, honest
+        '@typescript-eslint/no-non-null-asserted-optional-chain': 0, // Look i know what i'm doing, honest,
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error"
     },
 };

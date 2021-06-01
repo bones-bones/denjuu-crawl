@@ -6,12 +6,8 @@ export const getExperienceValue = ({
     defense,
     denmaAttack,
     denmaDefense,
-}: Stats) => {
-    return Math.floor(
-        (speed + attack + defense + denmaAttack + denmaDefense) / 4
-    );
-};
+}: Stats) =>
+    Math.floor((speed + attack + defense + denmaAttack + denmaDefense) / 4);
 
-export const getExperienceNeededToLevel = (level: number) => {
-    return level * level * level;
-};
+export const getExperienceNeededToLevel = (level: number) =>
+    level * level * level;

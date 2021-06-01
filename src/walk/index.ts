@@ -1,4 +1,4 @@
-export * from './StepApp';
 export * from './spawnMap';
-export * from './types';
+export * from './StepApp';
 export * from './store';
+export * from './types';

@@ -1,18 +1,18 @@
-import React, { useRef } from 'react';
-import Fipps from './font/Fipps-Regular.otf';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 //import { addToStepHook } from './stepCounter';
-
 import { css, Global } from '@emotion/react';
-import { StepApp } from './walk/StepApp';
-import { BattleApp } from './battle/BattleApp';
 import styled from '@emotion/styled';
-import { AlertView } from './alerts';
-import { ContactList } from './contacts';
+import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from './store';
+import { BrowserRouter as Router, Link,Route, Switch } from 'react-router-dom';
+
+import { AlertView } from './alerts';
+import { BattleApp } from './battle/BattleApp';
+import { ContactList } from './contacts';
+import Fipps from './font/Fipps-Regular.otf';
 import { ItemView } from './items';
 import { SettingsApp } from './settings';
+import { RootState } from './store';
+import { StepApp } from './walk/StepApp';
 
 function App() {
     //const activeFunction = useSelector(({ application: { activeFunction } }: RootState) => activeFunction);

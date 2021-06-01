@@ -1,12 +1,13 @@
+import styled from '@emotion/styled';
 import React from 'react';
-import { MonsterType } from './types';
+
 import Aquatic from '../images/denjuu_aquatic.gif';
 import Desert from '../images/denjuu_desert.gif';
 import Forest from '../images/denjuu_forest.gif';
 import Grassland from '../images/denjuu_grassland.gif';
 import Mountain from '../images/denjuu_mountain.gif';
 import Sky from '../images/denjuu_sky.gif';
-import styled from '@emotion/styled';
+import { MonsterType } from './types';
 
 interface Props {
     type: MonsterType;

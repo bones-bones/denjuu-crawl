@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
+
 import { denjuuList, getExperienceValue } from '../data';
 import { addExperience, setTemporalHpTo } from '../playerDenjuu';
-
 import { RootState } from '../store';
 import { declareWinner, delayedBattleMessageThunk } from './store';
 

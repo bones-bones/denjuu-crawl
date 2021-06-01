@@ -34,3 +34,8 @@ export enum MonsterType {
     Aquatic = 'Aquatic',
     Mountain = 'Mountain',
 }
+
+export interface DenjuuSummary extends Pick<DenjuuTemplate, 'stats'> {
+    denjuuId: number;
+    moves: number[];
+}

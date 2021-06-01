@@ -1,10 +1,5 @@
 import { denjuuList } from './denjuu';
-import { DenjuuTemplate, Stats } from './types';
-
-interface DenjuuSummary extends Pick<DenjuuTemplate, 'stats'> {
-    denjuuId: number;
-    moves: number[];
-}
+import { DenjuuSummary, Stats } from './types';
 
 export const getDenjuuAtLevel = (denjuuId: number, level: number) => {
     const baseDenjuu = denjuuList.find(({ id }) => id === denjuuId)!;

@@ -1,8 +1,9 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { combineReducers,configureStore } from '@reduxjs/toolkit';
+
 import { eventSlice } from './alerts';
-import { contactListSlice } from './playerDenjuu';
 import { attackThunk, battleSlice } from './battle';
 import { inventorySlice } from './items';
+import { contactListSlice } from './playerDenjuu';
 import { counterSlice } from './walk';
 
 let activeTurnValue = '1';

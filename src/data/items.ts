@@ -1,11 +1,11 @@
+import Antenna from '../images/items/antenna.gif';
+import Crane from '../images/items/crane.gif';
+import Flamethrower from '../images/items/flame_thrower.gif';
 import GameMachine from '../images/items/game_machine.gif';
 import GasTank from '../images/items/gas_tank.gif';
 import Gun from '../images/items/gun.gif';
-import Antenna from '../images/items/antenna.gif';
 import SmallPotion from '../images/items/S_ItemLightOutline_PotionRed_00.png';
-import Crane from '../images/items/crane.gif';
 import Sabre from '../images/items/sabre.gif';
-import Flamethrower from '../images/items/flame_thrower.gif';
 
 interface Item {
     id: number;
@@ -59,7 +59,7 @@ export const itemList: Item[] = [
         displayId: 'Small Potion',
         image: SmallPotion,
         price: 50,
-        effect: { type: ItemEffectType.HealHp, value: 10 },
+        effect: { type: ItemEffectType.HealHp, value: 20 },
     },
     {
         id: 5,

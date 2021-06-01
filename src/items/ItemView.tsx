@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import { useSelector } from 'react-redux';
+
 import { itemList } from '../data/items';
 import { RootState } from '../store';
 export const ItemView = () => {

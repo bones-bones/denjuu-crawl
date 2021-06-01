@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { Inventory, ItemForTransaction } from './types';
 
 const initialState: Inventory =

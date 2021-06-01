@@ -2,17 +2,14 @@ import AngiosAttackBack from '../images/denjuu/angios_attack_back.gif';
 import AngiosAttackFront from '../images/denjuu/angios_attack_front.gif';
 import AngiosStandBack from '../images/denjuu/angios_stand_back.gif';
 import AngiosStandFront from '../images/denjuu/angios_stand_front.gif';
-
 import FungusAttackBack from '../images/denjuu/fungus_attack_back.gif';
 import FungusAttackFront from '../images/denjuu/fungus_attack_front.gif';
 import FungusStandBack from '../images/denjuu/fungus_stand_back.gif';
 import FungusStandFront from '../images/denjuu/fungus_stand_front.gif';
-
 import OsheAttackBack from '../images/denjuu/oshe_attack_back.gif';
 import OsheAttackFront from '../images/denjuu/oshe_attack_front.gif';
 import OsheStandBack from '../images/denjuu/oshe_stand_back.gif';
 import OsheStandFront from '../images/denjuu/oshe_stand_front.gif';
-
 import WaratahAttackBack from '../images/denjuu/waratah_attack_back.gif';
 import WaratahAttackFront from '../images/denjuu/waratah_attack_front.gif';
 import WaratahStandBack from '../images/denjuu/waratah_stand_back.gif';

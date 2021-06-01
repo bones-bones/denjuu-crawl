@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { itemList } from '../data/items';
 import { itemThunk } from '../playerDenjuu';
 import { RootState } from '../store';

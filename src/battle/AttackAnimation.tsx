@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
+
 import { getMoveAnimation } from '../data';
 import { ActiveMove } from './types';
 
@@ -7,20 +8,18 @@ export const AttackAnimation = ({
     activeMove,
 }: {
     activeMove?: ActiveMove;
-}) => {
-    return (
-        <AttackField>
-            {activeMove &&
-                getMoveAnimation(activeMove.moveId).animation[
-                    activeMove.direction
-                ]()}
-            {
-                'ee' /*this is a hack cause SVG filter is not
+}) => (
+    <AttackField>
+        {activeMove &&
+            getMoveAnimation(activeMove.moveId).animation[
+                activeMove.direction
+            ]()}
+        {
+            'ee' /*this is a hack cause SVG filter is not
     applied unless there is styling on the div i guess*/
-            }
-        </AttackField>
-    );
-};
+        }
+    </AttackField>
+);
 
 // https://codepen.io/tigt/pen/akYqAg
 // This is garbage but it is good enough for now

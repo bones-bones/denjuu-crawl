@@ -1,4 +1,5 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
+
 import { denjuuList } from '../data';
 import { EffectType, moveList } from '../data';
 import { RootState } from '../store';

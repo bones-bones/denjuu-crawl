@@ -1,14 +1,15 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { attackThunk, BattleMonster } from '../battle';
-import { RootState } from '../store';
 import { denjuuList, moveList } from '../data';
-import { useWinCon } from './useWincon';
 import { HpBar } from '../hpBar';
+import { RootState } from '../store';
+import { AttackAnimation } from './AttackAnimation';
 import { BattleLog } from './BattleLog';
 import { statusToAnimation } from './statusToAnimation';
-import { AttackAnimation } from './AttackAnimation';
+import { useWinCon } from './useWincon';
 
 export const BattleApp = () => {
     const dispatch = useDispatch();

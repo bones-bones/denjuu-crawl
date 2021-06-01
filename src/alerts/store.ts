@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { randomEventGenerator } from './randomEventGenerator';
 
+import { randomEventGenerator } from './randomEventGenerator';
 import { AlertState, AlertWrapper } from './types';
 
 const introMessage = `Hello there, this is a project that i started because i enjoy bootleg pokemon, wanted to learn about SPA development, and improve my ts/react/redux skills.
