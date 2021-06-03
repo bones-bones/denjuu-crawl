@@ -7,6 +7,17 @@ export interface Damage {
     damage: number;
 }
 
+export interface StatModification {
+    stat:
+        | 'hp'
+        | 'speed'
+        | 'attack'
+        | 'defense'
+        | 'denmaAttack'
+        | 'denmaDefense';
+    value: number;
+}
+
 export interface ActiveMove {
     direction: 'front' | 'back';
     moveId: number;
@@ -30,6 +41,7 @@ export interface BattleMonster {
     moves: number[];
     activeMoveId?: number;
     instanceId: string;
+    level: number;
 }
 
 export interface BattleStart {
@@ -39,6 +51,7 @@ export interface BattleStart {
         moves: number[];
         denjuuId: number;
         instanceId: string;
+        level: number;
     };
     enemy: {
         stats: Stats;

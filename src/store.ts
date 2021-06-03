@@ -17,10 +17,10 @@ function handleChange() {
     ) {
         setTimeout(() => {
             if (store.getState().battle.winner === undefined) {
-                const p2Moves = store.getState().battle.p2!.moves
-                const moveToUse = p2Moves[Math.floor(Math.random() * p2Moves.length)]
+                const p2Moves = store.getState().battle.p2!.moves;
+                const moveToUse =
+                    p2Moves[Math.floor(Math.random() * p2Moves.length)];
                 store.dispatch(attackThunk({ player: '2', moveId: moveToUse }));
-                // store.dispatch(battleSlice.actions.p2Attack({ moveId: 1 }));
             }
         }, 1000);
     }

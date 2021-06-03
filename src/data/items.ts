@@ -4,6 +4,7 @@ import Flamethrower from '../images/items/flame_thrower.gif';
 import GameMachine from '../images/items/game_machine.gif';
 import GasTank from '../images/items/gas_tank.gif';
 import Gun from '../images/items/gun.gif';
+import Pencil from '../images/items/pencil.gif'
 import SmallPotion from '../images/items/S_ItemLightOutline_PotionRed_00.png';
 import Sabre from '../images/items/sabre.gif';
 
@@ -82,4 +83,5 @@ export const itemList: Item[] = [
         image: Flamethrower,
         effect: { type: ItemEffectType.Experience },
     },
+    { id: 8, displayId: 'Pencil', price: 5, image: Pencil, effect: { type: ItemEffectType.Experience }, }
 ];

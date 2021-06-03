@@ -12,6 +12,7 @@ General
 -   [ ] decided which telefang to pull info from
 -   [ ] load all items
 -   [ ] load all moves
+-   [ ] dispatch alerts telling the user if there are browser issues
 
 Battle
 

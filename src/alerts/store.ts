@@ -7,33 +7,38 @@ There's a lot to be done, check out the Walk mode, Alerts menu, Denjuu list, and
 
 const initialState: AlertState =
     localStorage.getItem('reduxState') &&
-        JSON.parse(localStorage.getItem('reduxState')!).events
+    JSON.parse(localStorage.getItem('reduxState')!).events
         ? JSON.parse(localStorage.getItem('reduxState')!).events
         : {
-            lastNotification: 0,
-            events: [
-                { id: 0, eventData: { type: 'message', message: introMessage } },
-                {
-                    id: 1,
-                    eventData: {
-                        type: 'battle',
-                        level: Math.floor(Math.random() * 3) + 1,
-                        denjuuId: 1,
-                    },
-                },
-            ],
-        };
-
+              lastNotification: 0,
+              events: [
+                  {
+                      id: 0,
+                      eventData: { type: 'message', message: introMessage },
+                  },
+                  {
+                      id: 1,
+                      eventData: {
+                          type: 'battle',
+                          level: Math.floor(Math.random() * 3) + 1,
+                          denjuuId: 1,
+                      },
+                  },
+              ],
+          };
 
 export const eventSlice = createSlice({
     name: 'eventState',
     initialState,
 
     reducers: {
-        newAlert: (state, { payload }: PayloadAction<AlertWrapper['eventData']>) => {
+        newAlert: (
+            state,
+            { payload }: PayloadAction<AlertWrapper['eventData']>
+        ) => {
             state.events.push({
                 id: state.events.length,
-                eventData: payload
+                eventData: payload,
             });
         },
         removeEvent: (

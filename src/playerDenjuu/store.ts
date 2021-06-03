@@ -13,32 +13,32 @@ const initPlayerDenjuuId = 0;
 
 const initialState: PlayerDenjuuContactList =
     localStorage.getItem('reduxState') &&
-        JSON.parse(localStorage.getItem('reduxState')!).contactList
+    JSON.parse(localStorage.getItem('reduxState')!).contactList
         ? JSON.parse(localStorage.getItem('reduxState')!).contactList
         : {
-            denjuu: [
-                {
-                    stats: {
-                        ...getDenjuuAtLevel(
-                            initPlayerDenjuuId,
-                            initPlayerDenjuuLevel
-                        ).stats,
-                    },
-                    denjuuId: initPlayerDenjuuId,
-                    instanceId: '1oshe',
-                    level: initPlayerDenjuuLevel,
-                    exp: 0,
-                    moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
-                    temporalStats: {
-                        ...getDenjuuAtLevel(
-                            initPlayerDenjuuId,
-                            initPlayerDenjuuLevel
-                        ).stats,
-                    },
-                },
-            ],
-            activeDenju: '1oshe',
-        };
+              denjuu: [
+                  {
+                      stats: {
+                          ...getDenjuuAtLevel(
+                              initPlayerDenjuuId,
+                              initPlayerDenjuuLevel
+                          ).stats,
+                      },
+                      denjuuId: initPlayerDenjuuId,
+                      instanceId: '1oshe',
+                      level: initPlayerDenjuuLevel,
+                      exp: 0,
+                      moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
+                      temporalStats: {
+                          ...getDenjuuAtLevel(
+                              initPlayerDenjuuId,
+                              initPlayerDenjuuLevel
+                          ).stats,
+                      },
+                  },
+              ],
+              activeDenju: '1oshe',
+          };
 
 export const contactListSlice = createSlice({
     name: 'contactList',
@@ -58,11 +58,20 @@ export const contactListSlice = createSlice({
                     .stats.hp
             );
         },
-        healDenjuu: (state, { payload: { instanceId, value } }: PayloadAction<{ instanceId?: string, value: number }>) => {
-            const targetIid = instanceId || state.activeDenju
-            const targetDenjuu = state.denjuu.find(entry => entry.instanceId == targetIid)!
-            targetDenjuu.temporalStats.hp = Math.min(targetDenjuu.temporalStats.hp + value, targetDenjuu.stats.hp!)
-
+        healDenjuu: (
+            state,
+            {
+                payload: { instanceId, value },
+            }: PayloadAction<{ instanceId?: string; value: number }>
+        ) => {
+            const targetIid = instanceId || state.activeDenju;
+            const targetDenjuu = state.denjuu.find(
+                (entry) => entry.instanceId == targetIid
+            )!;
+            targetDenjuu.temporalStats.hp = Math.min(
+                targetDenjuu.temporalStats.hp + value,
+                targetDenjuu.stats.hp!
+            );
         },
 
         addExperience: (
@@ -103,12 +112,12 @@ export const contactListSlice = createSlice({
 
                 if (
                     denjuuList[denjuuInQuestion.denjuuId].movesAtLevel[
-                    denjuuInQuestion.level
+                        denjuuInQuestion.level
                     ]
                 ) {
                     denjuuInQuestion.moves = denjuuInQuestion.moves.concat(
                         denjuuList[denjuuInQuestion.denjuuId].movesAtLevel[
-                        denjuuInQuestion.level
+                            denjuuInQuestion.level
                         ]
                     );
                 }
@@ -118,4 +127,8 @@ export const contactListSlice = createSlice({
     },
 });
 
-export const { setTemporalHpTo, addExperience, healDenjuu } = contactListSlice.actions;
+export const {
+    setTemporalHpTo,
+    addExperience,
+    healDenjuu,
+} = contactListSlice.actions;

@@ -1,14 +1,14 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 
 import { denjuuList } from '../data';
-import { EffectType, moveList } from '../data';
 import { RootState } from '../store';
 import {
     ActiveMove,
-    Attack,
     BattleStart,
     BattleState,
+    Damage,
     EnemyStats,
+    StatModification,
 } from './types';
 
 const initBattleState: BattleState = {
@@ -29,6 +29,7 @@ export const startBattleThunk = (enemy: EnemyStats) => (
         temporalStats,
         moves,
         denjuuId,
+        level,
     } = contactList.denjuu.find(
         ({ instanceId }) => contactList.activeDenju == instanceId
     )!;
@@ -42,6 +43,7 @@ export const startBattleThunk = (enemy: EnemyStats) => (
                 temporalStats: { ...stats, hp: temporalStats.hp },
                 moves,
                 denjuuId,
+                level,
             },
         })
     );
@@ -57,7 +59,7 @@ export const battleSlice = createSlice({
             state.p1 = { status: 'static', ...payload.player };
             state.p2 = { status: 'static', ...payload.enemy };
             state.winner = undefined; //overkill
-            state.turnCount = 1
+            state.turnCount = 1;
         },
         showMove: (state, { payload }: PayloadAction<ActiveMove>) => {
             state.activeMoveInfo = payload;
@@ -106,73 +108,85 @@ export const battleSlice = createSlice({
             state.winner = payload;
             state.battleLog.unshift(
                 payload == 'player'
-                    ? `You've defeated ${denjuuList[state.p2?.denjuuId!].displayId
-                    }!`
-                    : `You have been defeated by ${denjuuList[state.p2?.denjuuId!].displayId
-                    }...`
+                    ? `You've defeated ${
+                          denjuuList[state.p2?.denjuuId!].displayId
+                      }!`
+                    : `You have been defeated by ${
+                          denjuuList[state.p2?.denjuuId!].displayId
+                      }...`
             );
             //winner: undefined
         },
         newBattleMessage: (state, { payload }: PayloadAction<string>) => {
             state.battleLog.unshift(payload);
         },
-        p1Attack: (state, { payload: { moveId } }: PayloadAction<Attack>) => {
-            if (!state.p1 || !state.p2) {
+        p1TakeDamage: (
+            state,
+            { payload: { damage } }: PayloadAction<Damage>
+        ) => {
+            if (!state.p1) {
                 return state;
             }
-            state.p1.status = 'attack';
-            state.p1.activeMoveId = moveId;
-            moveList[moveId].effects.forEach((effect) => {
-                switch (effect.type) {
-                    case EffectType.Damage: {
-                        state.p2!.temporalStats.hp = Math.max(
-                            0,
-                            state.p2!.temporalStats.hp - effect.value!
-                        );
-                        break;
-                    }
-                }
-            });
-            state.p2.status = 'damage';
-            state.battleLog.unshift(
-                `${denjuuList[state.p1.denjuuId].displayId} used ${moveList[moveId].displayId
-                }`
+            state.p1.status = 'damage';
+            state.p1.temporalStats.hp = Math.max(
+                0,
+                state.p1.temporalStats.hp - damage
             );
         },
-        p2Attack: (state, { payload: { moveId } }: PayloadAction<Attack>) => {
-            if (!state.p1 || !state.p2) {
+        p2TakeDamage: (
+            state,
+            { payload: { damage } }: PayloadAction<Damage>
+        ) => {
+            if (!state.p2) {
                 return state;
             }
-            state.p2.status = 'attack';
-            state.p2.activeMoveId = moveId;
-            moveList[moveId].effects.forEach((effect) => {
-                switch (effect.type) {
-                    case EffectType.Damage: {
-                        state.p1!.temporalStats.hp = Math.max(
-                            0,
-                            state.p1!.temporalStats.hp - effect.value!
-                        );
-                        break;
-                    }
-                }
-            });
-            state.p1.status = 'damage';
-            state.battleLog.unshift(
-                `${denjuuList[state.p2.denjuuId].displayId} used ${moveList[moveId].displayId
-                }`
+            state.p2.status = 'damage';
+            state.p2.temporalStats.hp = Math.max(
+                0,
+                state.p2.temporalStats.hp - damage
             );
+        },
+        p1StatModification: (
+            state,
+            { payload: { value, stat } }: PayloadAction<StatModification>
+        ) => {
+            if (!state.p1) {
+                return state;
+            }
+            // 200 was the abitrary cap
+            state.p1.temporalStats[stat] = Math.min(
+                200,
+                Math.max(0, state.p1.temporalStats[stat] + value)
+            );
+            console.log(`p1 ${stat} is ${state.p1.temporalStats[stat]}`);
+        },
+        p2StatModification: (
+            state,
+            { payload: { value, stat } }: PayloadAction<StatModification>
+        ) => {
+            if (!state.p2) {
+                return state;
+            }
+            // 200 was the abitrary cap
+            state.p2.temporalStats[stat] = Math.min(
+                200,
+                Math.max(1, state.p2.temporalStats[stat] + value)
+            );
+            console.log(`p2 ${stat} is ${state.p2.temporalStats[stat]}`);
         },
     },
 });
 export const {
-    p1Attack,
     startBattle,
     declareWinner,
     newBattleMessage,
     showMove,
     clearMove,
-    p2Attack,
     nextTurn,
+    p1TakeDamage,
+    p2TakeDamage,
+    p2StatModification,
+    p1StatModification,
 } = battleSlice.actions;
 
 export const delayedBattleMessageThunk = (

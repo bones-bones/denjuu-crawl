@@ -3,7 +3,7 @@ import { css, Global } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { BrowserRouter as Router, Link,Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 
 import { AlertView } from './alerts';
 import { BattleApp } from './battle/BattleApp';

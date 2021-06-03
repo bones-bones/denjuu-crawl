@@ -34,7 +34,7 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 0,
         '@typescript-eslint/no-non-null-assertion': 0,
         '@typescript-eslint/no-non-null-asserted-optional-chain': 0, // Look i know what i'm doing, honest,
-        "simple-import-sort/imports": "error",
-        "simple-import-sort/exports": "error"
+        'simple-import-sort/imports': 'error',
+        'simple-import-sort/exports': 'error',
     },
 };

@@ -1,5 +1,6 @@
 export interface DenjuuTemplate {
     id: number;
+    stage: Stage;
     displayId: string;
     stats: Stats;
     statLevelRates: Stats;
@@ -15,6 +16,22 @@ export interface DenjuuTemplate {
 export interface Sprites {
     normal: { back: string; front: string };
     attack: { back: string; front: string };
+}
+
+export enum Stage {
+    Natural = 'Natural',
+    Cultivated = 'Cultivated',
+    Techno = 'Techno',
+    Big = 'Big',
+    Burst = 'Burst',
+    Explosion = 'Explosion',
+    SuperMachine = 'SuperMachine',
+    Super = 'Super',
+    Demon = 'Demon',
+    DarkSpace = 'DarkSpace',
+    True = 'True',
+    God = 'God',
+    Devil = 'Devil'
 }
 
 export interface Stats {
