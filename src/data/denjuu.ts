@@ -18,7 +18,7 @@ import WaratahAttackBack from '../images/denjuu/waratah_attack_back.gif';
 import WaratahAttackFront from '../images/denjuu/waratah_attack_front.gif';
 import WaratahStandBack from '../images/denjuu/waratah_stand_back.gif';
 import WaratahStandFront from '../images/denjuu/waratah_stand_front.gif';
-import { DenjuuTemplate, MonsterType, Stage } from './types';
+import { DenjuuTemplate, EvolutionTypes, MonsterType, Stage } from './types';
 
 export const denjuuList: DenjuuTemplate[] = [
     {
@@ -59,6 +59,7 @@ export const denjuuList: DenjuuTemplate[] = [
         experienceItems: {
             favorite: 5,
         },
+        evolutions: [{ type: EvolutionTypes.Natural, level: 15, denjuuId: 4 }]
     },
     {
         id: 1,

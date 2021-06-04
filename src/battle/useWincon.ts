@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { denjuuList, getExperienceValue } from '../data';
-import { addExperience, setTemporalHpTo } from '../playerDenjuu';
+import { denjuuList, EvolutionTypes, getExperienceValue } from '../data';
+import { addExperience, evolve, experienceThunk, setTemporalHpTo } from '../playerDenjuu';
 import { RootState } from '../store';
 import { declareWinner, delayedBattleMessageThunk } from './store';
 
@@ -40,12 +40,14 @@ export const useWinCon = () => {
         );
         dispatch(declareWinner('player'));
         const expValue = getExperienceValue(p2.temporalStats!);
+
         dispatch(
-            addExperience({
+            experienceThunk({
                 instanceId: p1.instanceId,
-                value: expValue,
+                expValue: expValue,
             })
         );
+
         dispatch(
             delayedBattleMessageThunk(
                 `${denjuuList[p1.denjuuId].displayId} gained ${expValue} exp.`,

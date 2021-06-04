@@ -2,48 +2,61 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
     denjuuList,
+    EvolutionTypes,
     getDenjuuAtLevel,
     getExperienceNeededToLevel,
     getStatsDifferenceForLevel,
 } from '../data';
+import { store } from '../store';
 import { PlayerDenjuuContactList } from './types';
 
 const initPlayerDenjuuLevel = 1;
 const initPlayerDenjuuId = 0;
-
 const initialState: PlayerDenjuuContactList =
     localStorage.getItem('reduxState') &&
-    JSON.parse(localStorage.getItem('reduxState')!).contactList
+        JSON.parse(localStorage.getItem('reduxState')!).contactList
         ? JSON.parse(localStorage.getItem('reduxState')!).contactList
         : {
-              denjuu: [
-                  {
-                      stats: {
-                          ...getDenjuuAtLevel(
-                              initPlayerDenjuuId,
-                              initPlayerDenjuuLevel
-                          ).stats,
-                      },
-                      denjuuId: initPlayerDenjuuId,
-                      instanceId: '1oshe',
-                      level: initPlayerDenjuuLevel,
-                      exp: 0,
-                      moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
-                      temporalStats: {
-                          ...getDenjuuAtLevel(
-                              initPlayerDenjuuId,
-                              initPlayerDenjuuLevel
-                          ).stats,
-                      },
-                  },
-              ],
-              activeDenju: '1oshe',
-          };
+            denjuu: [
+                {
+                    stats: {
+                        ...getDenjuuAtLevel(
+                            initPlayerDenjuuId,
+                            initPlayerDenjuuLevel
+                        ).stats,
+                    },
+                    denjuuId: initPlayerDenjuuId,
+                    instanceId: '1oshe',
+                    level: initPlayerDenjuuLevel,
+                    exp: 0,
+                    moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
+                    temporalStats: {
+                        ...getDenjuuAtLevel(
+                            initPlayerDenjuuId,
+                            initPlayerDenjuuLevel
+                        ).stats,
+                    },
+                },
+            ],
+            activeDenju: '1oshe',
+        };
 
 export const contactListSlice = createSlice({
     name: 'contactList',
     initialState,
     reducers: {
+        evolve: (state, { payload: { instanceId, type } }: PayloadAction<{ instanceId: string, type: EvolutionTypes }>) => {
+            const denjuuToEvolve = state.denjuu.find(
+                (entry) => entry.instanceId === instanceId)!;
+            const denjuuTemplate = denjuuList[denjuuToEvolve.denjuuId]
+            const targetEvolution = denjuuTemplate.evolutions?.find(entry => type == entry.type)!
+            denjuuToEvolve.denjuuId = targetEvolution.denjuuId;
+            const evolutionAtCurrentLevel = getDenjuuAtLevel(targetEvolution.denjuuId, denjuuToEvolve.level);
+            denjuuToEvolve.moves = evolutionAtCurrentLevel.moves;
+            console.log(instanceId, denjuuTemplate)
+
+
+        },
         setTemporalHpTo: (
             state,
             {
@@ -83,6 +96,7 @@ export const contactListSlice = createSlice({
             const denjuuInQuestion = state.denjuu.find(
                 (entry) => entry.instanceId === instanceId
             )!;
+
             let newExpTotal =
                 state.denjuu.find((entry) => entry.instanceId === instanceId)!
                     .exp + value;
@@ -112,12 +126,12 @@ export const contactListSlice = createSlice({
 
                 if (
                     denjuuList[denjuuInQuestion.denjuuId].movesAtLevel[
-                        denjuuInQuestion.level
+                    denjuuInQuestion.level
                     ]
                 ) {
                     denjuuInQuestion.moves = denjuuInQuestion.moves.concat(
                         denjuuList[denjuuInQuestion.denjuuId].movesAtLevel[
-                            denjuuInQuestion.level
+                        denjuuInQuestion.level
                         ]
                     );
                 }
@@ -131,4 +145,5 @@ export const {
     setTemporalHpTo,
     addExperience,
     healDenjuu,
+    evolve
 } = contactListSlice.actions;

@@ -9,6 +9,11 @@ import { AlertView } from './alerts';
 import { BattleApp } from './battle/BattleApp';
 import { ContactList } from './contacts';
 import Fipps from './font/Fipps-Regular.otf';
+import DMode from './images/menuIcons/d_mode.gif';
+import Items from './images/menuIcons/items.gif'
+import Mail from './images/menuIcons/mail.gif'
+import OptionsIcon from './images/menuIcons/options.gif'
+import PhoneBook from './images/menuIcons/phone_book.gif'
 import { ItemView } from './items';
 import { SettingsApp } from './settings';
 import { RootState } from './store';
@@ -20,37 +25,37 @@ function App() {
     const alerts = useSelector(({ events: { events } }: RootState) => events);
 
     const navItems = [
-        { title: 'Denju', path: 'contacts' },
         { title: 'Items', path: 'items' },
-        {
-            title: 'Settings',
-            path: 'settings',
-        },
+
     ];
     return (
         <div
             ref={rootRef}
             className="App"
             style={{
-                backgroundColor: 'black',
+                backgroundColor: 'black'
             }}
         >
             <Router>
                 <Header>
                     <Link to={'walk'} key={'Walk'}>
-                        <NavItem key={'Walk'}>{'Walk'[0]}</NavItem>
+                        <NavItem key={'Walk'}><img src={DMode} /></NavItem>
                     </Link>
                     <Link to={'alerts'} key={'Alerts'}>
                         <NavItem key={'Alerts'}>
-                            {'Alerts'[0]}
-                            {alerts.length > 0 && `(${alerts.length})`}
+                            <img src={Mail} />
+                            <AlertNumber>{alerts.length > 0 && `(${alerts.length})`}</AlertNumber>
                         </NavItem>
                     </Link>
-                    {navItems.map(({ title, path }) => (
-                        <Link to={path} key={title}>
-                            <NavItem key={title}>{title[0]}</NavItem>
-                        </Link>
-                    ))}
+                    <Link to='contacts' key='contacts'>
+                        <NavItem key='contacts'><img src={PhoneBook} /></NavItem>
+                    </Link>
+                    <Link to='items' key='items'>
+                        <NavItem key='items'><img src={Items} /></NavItem>
+                    </Link>
+                    <Link to='settings' key='settings'>
+                        <NavItem key='settings'><img src={OptionsIcon} /></NavItem>
+                    </Link>
                 </Header>
                 <Global
                     styles={css`
@@ -89,6 +94,7 @@ function App() {
     );
 }
 
+const AlertNumber = styled.span({ position: 'absolute', top: '3vh', right: '2px' })
 const NavItem = styled.button({
     display: 'inline-flex',
     height: '10vh',
@@ -97,6 +103,7 @@ const NavItem = styled.button({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',
+    position: 'relative'
 });
 
 const Header = styled.header({ height: '10vh' });

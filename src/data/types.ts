@@ -12,10 +12,29 @@ export interface DenjuuTemplate {
     experienceItems: {
         favorite?: number;
     };
+    evolutions?: (NaturalEvolution | ModificationEvolution)[]
 }
-export interface Sprites {
+interface Sprites {
     normal: { back: string; front: string };
     attack: { back: string; front: string };
+}
+
+export enum EvolutionTypes {
+    Natural = 'Natural',
+    Modification = 'Modification'
+}
+
+interface Evolution {
+    type: EvolutionTypes,
+    denjuuId: number
+}
+interface NaturalEvolution extends Evolution {
+    type: EvolutionTypes.Natural,
+    level: number
+}
+interface ModificationEvolution extends Evolution {
+    type: EvolutionTypes.Modification,
+    item: number
 }
 
 export enum Stage {

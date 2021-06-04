@@ -112,7 +112,7 @@ export const moveList: Move[] = [
             {
                 type: EffectType.StatChange,
                 stat: 'defense',
-                value: -6,
+                value: -4,
                 target: 'opponent',
             },
         ],
