@@ -1,16 +1,17 @@
-import { dialoge } from './dialogue';
+import { getRandomElementFromArray } from '../../common';
+import { diaglogue } from './dialogue';
 const unsure: string[] = [];
 const possibilities: { [key: string]: string[] } = {};
 export const getMarkovDialogue = () => {
-    for (let i = 0; i < dialoge.length; i++) {
+    for (let i = 0; i < diaglogue.length; i++) {
         let splitSentence: string[] = [];
-        const extractedString = /(.+) (<Q>.+)/.exec(dialoge[i]);
+        const extractedString = /(.+) (<Q>.+)/.exec(diaglogue[i]);
         if (extractedString) {
             splitSentence = extractedString[1]
                 .split(' ')
                 .concat(extractedString[2]);
         } else {
-            splitSentence = dialoge[i].split(' '); //todo, handle puctuation and regex
+            splitSentence = diaglogue[i].split(' '); //todo, handle puctuation and regex
         }
 
         unsure.push(splitSentence[0]);
@@ -26,11 +27,13 @@ export const getMarkovDialogue = () => {
     }
 };
 export const getSentence = () => {
-    const sentence = [randomArrayElement(unsure)];
+    const sentence = [getRandomElementFromArray(unsure)];
     let changed = true;
     while (changed) {
         const nextSegment = possibilities[sentence[sentence.length - 1]]
-            ? randomArrayElement(possibilities[sentence[sentence.length - 1]])
+            ? getRandomElementFromArray(
+                  possibilities[sentence[sentence.length - 1]]
+              )
             : null;
         if (nextSegment) {
             sentence.push(nextSegment);
@@ -39,7 +42,4 @@ export const getSentence = () => {
         }
     }
     return sentence.join(' ');
-};
-const randomArrayElement = (theArray: any[]) => {
-    return theArray[Math.floor(Math.random() * theArray.length)];
 };

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, { createRef, useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
+import { getNow } from '../common';
 import { DenjuuTypeIcon } from '../data';
 import playerSheet from '../images/playerSheet.png';
 import tileSheet from '../images/tileSheet.png';
@@ -70,7 +71,7 @@ export const PlayerCanvas = () => {
 
                     // const SPEED = 1;
 
-                    const currentMoment = new Date().getTime();
+                    const currentMoment = getNow();
                     const drawPlayerX = 15 - playerX;
                     canvasContext.current?.save();
                     canvasContext.current?.translate(

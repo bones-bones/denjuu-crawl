@@ -5,6 +5,7 @@ import { attackThunk, battleSlice } from './battle';
 import { conversationsSlice, name as conversationsName } from './conversation';
 import { inventorySlice } from './items';
 import { contactListSlice } from './playerDenjuu';
+import { name as settingsName, settingsSlice } from './settings';
 import { counterSlice } from './walk';
 
 let activeTurnValue = '1';
@@ -35,6 +36,7 @@ export const store = configureStore({
         contactList: contactListSlice.reducer,
         inventory: inventorySlice.reducer,
         [conversationsName]: conversationsSlice.reducer,
+        [settingsName]: settingsSlice.reducer,
     }),
 });
 

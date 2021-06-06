@@ -1,8 +1,16 @@
 import styled from '@emotion/styled';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { denjuuList } from '../data';
-import { Alert, AlertWrapper, BattleAlert, MessageAlert } from './types';
+import { RootState } from '../store';
+import {
+    Alert,
+    AlertWrapper,
+    BattleAlert,
+    ConversationAlert,
+    MessageAlert,
+} from './types';
 
 export const AlertListItem = ({
     eventData,
@@ -37,6 +45,17 @@ const getEventSubtitle = (entry: Alert) => {
         }
         case 'message': {
             return `"${(entry as MessageAlert).message.substr(0, 60)}...`;
+        }
+        case 'conversation': {
+            const conversations = useSelector((state: RootState) => {
+                return state.conversations;
+            });
+            const convo =
+                conversations[(entry as ConversationAlert).instanceId];
+            return (
+                convo.messages[convo.messages.length - 1]?.text.substr(0, 25) +
+                '...'
+            );
         }
         default: {
             return '!!missing alert body!!';
@@ -83,6 +102,14 @@ const getEventTitle = (entry: Alert) => {
         }
         case 'message': {
             return "You've got a message!";
+        }
+        case 'conversation': {
+            const conversations = useSelector((state: RootState) => {
+                return state.conversations;
+            });
+            const convo =
+                conversations[(entry as ConversationAlert).instanceId];
+            return convo.threadTitle;
         }
         default: {
             return '!!missing title template!!';

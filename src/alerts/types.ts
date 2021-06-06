@@ -1,7 +1,7 @@
 // This is a mess, figure out how to subclass better
 
 export interface Alert {
-    type: 'item' | 'battle' | 'message';
+    type: 'item' | 'battle' | 'message' | 'conversation';
 }
 
 export interface ItemAlert extends Alert {
@@ -14,6 +14,11 @@ export interface MessageAlert extends Alert {
     message: string;
 }
 
+export interface ConversationAlert extends Alert {
+    type: 'conversation';
+    instanceId: string;
+}
+
 export interface BattleAlert extends Alert {
     type: 'battle';
     denjuuId: number;
@@ -21,8 +26,9 @@ export interface BattleAlert extends Alert {
 }
 
 export interface AlertWrapper {
-    eventData: ItemAlert | MessageAlert | BattleAlert;
+    eventData: ItemAlert | MessageAlert | BattleAlert | ConversationAlert;
     id: number;
+    updated: number;
 }
 
 export interface AlertState {

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { getNow } from '../common';
 import {
     denjuuList,
     EvolutionTypes,
@@ -120,6 +121,21 @@ export const contactListSlice = createSlice({
         ) => {
             state.activeDenju = instanceId;
         },
+        newDenjuu: (
+            state,
+            {
+                payload: { denjuuId, level },
+            }: PayloadAction<{ denjuuId: number; level: number }>
+        ) => {
+            const denjuuStub = getDenjuuAtLevel(denjuuId, level);
+            state.denjuu.push({
+                exp: 0,
+                level,
+                instanceId: 'n' + getNow(),
+                ...denjuuStub,
+                temporalStats: denjuuStub.stats,
+            });
+        },
         addExperience: (
             state,
             {
@@ -180,4 +196,5 @@ export const {
     healDenjuu,
     evolve,
     setActive,
+    newDenjuu,
 } = contactListSlice.actions;

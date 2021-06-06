@@ -1,45 +1,22 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { denjuuList } from '../data';
+import { denjuuList, Sprites } from '../data';
 import { RootState } from '../store';
-import { getMarkovDialogue, getSentence } from './markov';
+import { addMessageToConversation } from './store';
 
-getMarkovDialogue();
-interface Message {
-    type: 'player' | 'denjuu';
-    text: string;
-}
-//const messages = [{ type: 'denjuu', text: getSentence() }, { type: 'denjuu', text: getSentence() }, { type: 'player', text: getSentence() }]
-const messages: Message[] = [];
-let hasQuestion = false;
-while (!hasQuestion) {
-    messages.push({ type: 'denjuu', text: getSentence() });
-    if (messages[messages.length - 1].text.includes('<Q')) {
-        hasQuestion = true;
+export const Conversation = ({ instanceId }: { instanceId: string }) => {
+    const conversation = useSelector(
+        ({ conversations }: RootState) => conversations[instanceId]
+    );
+
+    const dispatch = useDispatch();
+    let sprites: Sprites | undefined = undefined;
+    if (conversation.denjuuId) {
+        sprites = denjuuList[conversation.denjuuId].sprites!;
     }
-}
 
-const responseSection = messages.pop()!.text;
-messages.push({ type: 'player', text: "How's it going?" });
-const parsed = /(.+) <Q>(.+)<\|>(.+)<\/Q>/.exec(responseSection)!;
-const question = parsed[1];
-const answer1 = parsed[2];
-const answer2 = parsed[3];
-messages.push({ type: 'denjuu', text: question });
-
-export const Conversation = () => {
-    const {
-        activeDenju,
-        denjuu,
-    } = useSelector(({ contactList: { activeDenju, denjuu } }: RootState) => ({
-        activeDenju,
-        denjuu,
-    }));
-    const sprites = denjuuList[
-        denjuu.find((entry) => entry.instanceId === activeDenju)!.denjuuId
-    ].sprites!;
     const threadRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         if (threadRef.current) {
@@ -47,26 +24,18 @@ export const Conversation = () => {
                 threadRef.current?.scrollHeight -
                 threadRef.current?.clientHeight;
         }
-    }, []);
+    }, [conversation.messages]);
 
     return (
         <ConversationBackground>
             <Header>
                 <Profile>
-                    <img src={sprites.normal.front} />
-                    <span>
-                        {
-                            denjuuList[
-                                denjuu.find(
-                                    (entry) => entry.instanceId === activeDenju
-                                )!.denjuuId
-                            ].displayId
-                        }
-                    </span>
+                    {sprites && <img src={sprites.normal.front} />}
+                    <span>{conversation.threadTitle}</span>
                 </Profile>
             </Header>
             <Thread ref={threadRef}>
-                {messages.map((entry, i) => {
+                {conversation.messages.map((entry, i) => {
                     if (entry.type == 'player') {
                         return (
                             <PlayerMessageBox>{entry.text}</PlayerMessageBox>
@@ -81,8 +50,24 @@ export const Conversation = () => {
                 })}
             </Thread>
             <ReplySection>
-                <ReplyButton>{answer1}</ReplyButton>
-                <ReplyButton>{answer2}</ReplyButton>
+                {conversation.pendingResponses
+                    ? conversation.pendingResponses.map((entry, index) => (
+                          <ReplyButton
+                              key={index}
+                              onClick={() => {
+                                  dispatch(
+                                      addMessageToConversation({
+                                          type: 'player',
+                                          text: entry,
+                                          instanceId,
+                                      })
+                                  );
+                              }}
+                          >
+                              {entry}
+                          </ReplyButton>
+                      ))
+                    : '...'}
             </ReplySection>
         </ConversationBackground>
     );

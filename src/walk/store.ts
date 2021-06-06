@@ -1,21 +1,21 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 
 import { newAlert } from '../alerts';
+import { getNow } from '../common';
 import { denjuuList, itemList, MonsterType, randomMonsterType } from '../data';
 import { healDenjuu } from '../playerDenjuu';
 import { RootState } from '../store';
 import { getMapForType } from './spawnMap';
 import { AppWalkState, Tile } from './types';
-const getTriggerCount = () => {
-    return 30;
-};
+const getTriggerCount = () => 30;
+
 const baseType = randomMonsterType();
 const initialState: AppWalkState = localStorage.getItem('reduxState')
     ? JSON.parse(localStorage.getItem('reduxState')!).counter
     : {
           step: {
               value: 0,
-              lastUpdatedTime: new Date().getTime(),
+              lastUpdatedTime: getNow(),
               triggerCount: getTriggerCount(),
           },
           location: {
@@ -32,6 +32,7 @@ export const incrementThunk = () => (
     const {
         counter: { step, location },
         contactList,
+        settings: { vibration },
     } = getState();
     const newStepCount = step.value + 1;
 
@@ -53,6 +54,9 @@ export const incrementThunk = () => (
         const eventNumber = Math.floor(Math.random() * 100);
         if (eventNumber <= 7) {
             // dispatch items
+            if (navigator.vibrate && vibration) {
+                navigator.vibrate(200);
+            }
             dispatch(
                 newAlert({
                     type: 'item',
@@ -69,6 +73,9 @@ export const incrementThunk = () => (
                     Math.floor(Math.random() * possibleDenjuu.length)
                 ];
             if (selectedDenjuu) {
+                if (navigator.vibrate && vibration) {
+                    navigator.vibrate(200);
+                }
                 dispatch(
                     newAlert({
                         type: 'battle',
@@ -97,7 +104,7 @@ export const counterSlice = createSlice({
             // which detects changes to a "draft state" and produces a brand new
             // immutable state based off those changes
             state.step.value += 1;
-            state.step.lastUpdatedTime = new Date().getTime();
+            state.step.lastUpdatedTime = getNow();
             state.step.triggerCount--;
             if (state.step.triggerCount <= 0) {
                 state.step.triggerCount = getTriggerCount();
@@ -107,7 +114,7 @@ export const counterSlice = createSlice({
             ...state,
             step: {
                 value: 0,
-                lastUpdatedTime: new Date().getTime(),
+                lastUpdatedTime: getNow(),
                 triggerCount: getTriggerCount(),
             },
         }),

@@ -2,7 +2,6 @@ import { Stats } from '../data';
 
 export interface PlayerDenjuu {
     stats: Stats;
-
     instanceId: string;
     denjuuId: number;
     level: number;

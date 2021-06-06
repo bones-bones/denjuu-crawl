@@ -1,4 +1,6 @@
-export const dialoge: string[] = [
+// Diaglogue taken from https://github.com/telefang/telefang/tree/patch/gfx/evolve
+
+export const diaglogue: string[] = [
     `Hey, long time no see! Wanna try a Denjuu Quiz? <Q>Okay<|>No</Q><*A>`,
     `How many ways are there to evolve a Denjuu? <Q>3 ways!<|>4 ways!</Q><*A>`,
     `Do you hate quizzes? <Q>Yes<|>I don't!</Q><*A>`,

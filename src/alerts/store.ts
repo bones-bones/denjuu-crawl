@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { getNow } from '../common';
 import { AlertState, AlertWrapper } from './types';
 
-const introMessage = `Hello there, this is a project that i started because i enjoy bootleg pokemon, wanted to learn about Single Page Application development, and improve my ts/react/redux skills.
-There's a lot to be done, check out the Walk mode, Alerts menu, Denjuu list, and... the other ones don't work yet... The repo is publicly available at https://github.com/bones-bones/denjuu-crawl`;
 export const name = 'alerts';
 const initialState: AlertState =
     localStorage.getItem('reduxState') &&
@@ -14,7 +13,11 @@ const initialState: AlertState =
               events: [
                   {
                       id: 0,
-                      eventData: { type: 'message', message: introMessage },
+                      eventData: {
+                          type: 'conversation',
+                          instanceId: 'announcements',
+                      },
+                      updated: new Date(1623003499251).getTime(),
                   },
                   {
                       id: 1,
@@ -37,6 +40,7 @@ export const alertSlice = createSlice({
         ) => {
             state.events.push({
                 id: state.events.length,
+                updated: getNow(),
                 eventData: payload,
             });
         },

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BattleApp, startBattleThunk } from '../battle';
-import { Conversation } from '../conversation';
+import { Conversation, readConversation } from '../conversation';
 import { getDenjuuAtLevel } from '../data';
 import { itemList } from '../data/items';
 import { addItem } from '../items';
@@ -18,6 +18,9 @@ export const AlertView = () => {
     const stateAlerts = useSelector(
         ({ [name]: { events } }: RootState) => events
     );
+    // const conversations = useSelector(
+    //     ({ conversations }: RootState) => conversations
+    // );
 
     const dispatch = useDispatch();
     const [activeEventId, setActiveEventId] = useState<number | undefined>(
@@ -27,9 +30,6 @@ export const AlertView = () => {
 
     return (
         <PanelDiv>
-            { /*<Popup>
-                <Conversation />
-           </Popup>*/}
             {stateAlerts.map((entry) => (
                 <AlertListItem
                     key={entry.id}
@@ -56,6 +56,12 @@ export const AlertView = () => {
                             dispatch(
                                 addItem({ itemId: entry.eventData.itemId })
                             );
+                        } else if (entry.eventData.type == 'conversation') {
+                            dispatch(
+                                readConversation({
+                                    instanceId: entry.eventData.instanceId,
+                                })
+                            );
                         }
                         // dispatch(removeEvent({ eventId: entry.id }))
                     }}
@@ -75,22 +81,27 @@ export const AlertView = () => {
     );
 };
 
-const EventPopupContent = ({ activeAlert }: { activeAlert: AlertWrapper }) => {
-    switch (activeAlert.eventData.type) {
+const EventPopupContent = ({
+    activeAlert: { eventData },
+}: {
+    activeAlert: AlertWrapper;
+}) => {
+    switch (eventData.type) {
         case 'message': {
             return (
                 <MessageBackground>
-                    {activeAlert.eventData.message || 'no message'}
+                    {eventData.message || 'no message'}
                 </MessageBackground>
             );
+        }
+        case 'conversation': {
+            return <Conversation instanceId={eventData.instanceId} />;
         }
         case 'battle': {
             return <BattleApp />;
         }
         case 'item': {
-            return (
-                <ItemConfirmation activeAlert={activeAlert}></ItemConfirmation>
-            );
+            return <ItemConfirmation eventData={eventData}></ItemConfirmation>;
         }
         default: {
             return <div>unknown event type</div>;
@@ -99,11 +110,11 @@ const EventPopupContent = ({ activeAlert }: { activeAlert: AlertWrapper }) => {
 };
 
 const ItemConfirmation = ({
-    activeAlert: { eventData },
+    eventData: { itemId },
 }: {
-    activeAlert: AlertWrapper;
+    eventData: ItemAlert;
 }) => {
-    const { image, displayId } = itemList[(eventData as ItemAlert).itemId];
+    const { image, displayId } = itemList[itemId];
     return (
         <MessageBackground>
             <ImageHolder src={image} />

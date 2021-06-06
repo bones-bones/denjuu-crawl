@@ -9,7 +9,7 @@ General
 -   [x] currently using a mixture of strings and numbers for ids, everything should be numbers
 -   [x] denjuu index is off by one, pull it back
 -   [ ] Load all denjuu
--   [ ] decided which telefang to pull info from
+-   [ ] decided which telefang to pull info from. leaning towards 1 for denjuu and items, 2 for icons
 -   [ ] load all items
 -   [ ] load all moves
 -   [ ] dispatch alerts telling the user if there are browser issues
@@ -23,24 +23,27 @@ Battle
 -   [ ] implement attack effect types
 -   [x] implement move thunk. pattern: dispatch move type, setTimeout, dispatch move effect
 -   [x] implement move effect thunk
--   [ ] existing code is gross and needs a huge refactor
+-   [x] existing code is gross and needs a huge refactor
+-   [ ] existing code is kinda gross and needs a refactor
 -   [x] decouple experince + leveling from battle
 
 Meeting Denju
 
--   [ ] design conversations
+-   [x] design conversations
 -   [ ] implement conversations
+-   [ ] timestamp read messages
 
 Setting Menu
 
 -   [x] Add settings menu
 -   [ ] Actually have settings
+-   [x] vibration settings
 
 Denjuu Menu
 
 -   [x] Add denjuu menu
 -   [x] make items usable from denjuu menu
--   [ ] allow changing of active denju
+-   [x] allow changing of active denju
 
 Items Menu
 
