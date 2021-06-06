@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
     denjuuList,
@@ -9,12 +10,13 @@ import {
     MoveTypeIcon,
 } from '../data';
 import { ItemDenjuuSelector } from '../item-denjuu-selector';
-import { PlayerDenjuu } from '../playerDenjuu';
+import { PlayerDenjuu, setActive } from '../playerDenjuu';
 import { Popup } from '../popup';
 
 export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
     const denjuuTemplate = denjuuList.find(({ id }) => id === denjuu.denjuuId)!;
     const [showItemMenu, setShowItemMenu] = useState<boolean>(false);
+    const dispatch = useDispatch();
 
     return (
         <Container>
@@ -98,6 +100,13 @@ export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
             <ActionButtons>
                 <ActionButton onClick={() => setShowItemMenu(true)}>
                     Use Item
+                </ActionButton>
+                <ActionButton
+                    onClick={() => {
+                        dispatch(setActive({ instanceId: denjuu.instanceId }));
+                    }}
+                >
+                    Set as Active
                 </ActionButton>
             </ActionButtons>
             {showItemMenu && (

@@ -12,7 +12,7 @@ export interface DenjuuTemplate {
     experienceItems: {
         favorite?: number;
     };
-    evolutions?: (NaturalEvolution | ModificationEvolution)[]
+    evolutions?: (NaturalEvolution | ModificationEvolution)[];
 }
 interface Sprites {
     normal: { back: string; front: string };
@@ -21,20 +21,20 @@ interface Sprites {
 
 export enum EvolutionTypes {
     Natural = 'Natural',
-    Modification = 'Modification'
+    Modification = 'Modification',
 }
 
 interface Evolution {
-    type: EvolutionTypes,
-    denjuuId: number
+    type: EvolutionTypes;
+    denjuuId: number;
 }
 interface NaturalEvolution extends Evolution {
-    type: EvolutionTypes.Natural,
-    level: number
+    type: EvolutionTypes.Natural;
+    level: number;
 }
 interface ModificationEvolution extends Evolution {
-    type: EvolutionTypes.Modification,
-    item: number
+    type: EvolutionTypes.Modification;
+    item: number;
 }
 
 export enum Stage {
@@ -50,7 +50,7 @@ export enum Stage {
     DarkSpace = 'DarkSpace',
     True = 'True',
     God = 'God',
-    Devil = 'Devil'
+    Devil = 'Devil',
 }
 
 export interface Stats {

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BattleApp, startBattleThunk } from '../battle';
+import { Conversation } from '../conversation';
 import { getDenjuuAtLevel } from '../data';
 import { itemList } from '../data/items';
 import { addItem } from '../items';
@@ -10,11 +11,12 @@ import { Popup } from '../popup';
 import { RootState } from '../store';
 import { AlertListItem } from './AlertListItem';
 import { removeEvent } from './store';
+import { name } from './store';
 import { AlertWrapper, ItemAlert } from './types';
 
 export const AlertView = () => {
     const stateAlerts = useSelector(
-        ({ events: { events } }: RootState) => events
+        ({ [name]: { events } }: RootState) => events
     );
 
     const dispatch = useDispatch();
@@ -25,6 +27,9 @@ export const AlertView = () => {
 
     return (
         <PanelDiv>
+            { /*<Popup>
+                <Conversation />
+           </Popup>*/}
             {stateAlerts.map((entry) => (
                 <AlertListItem
                     key={entry.id}

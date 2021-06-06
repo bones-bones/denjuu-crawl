@@ -2,10 +2,10 @@ import AngiosAttackBack from '../images/denjuu/angios_attack_back.gif';
 import AngiosAttackFront from '../images/denjuu/angios_attack_front.gif';
 import AngiosStandBack from '../images/denjuu/angios_stand_back.gif';
 import AngiosStandFront from '../images/denjuu/angios_stand_front.gif';
-import BarriarmAttackBack from '../images/denjuu/barriarm_attack_back.gif'
-import BarriarmAttackFront from '../images/denjuu/barriarm_attack_front.gif'
+import BarriarmAttackBack from '../images/denjuu/barriarm_attack_back.gif';
+import BarriarmAttackFront from '../images/denjuu/barriarm_attack_front.gif';
 import BarriarmStandBack from '../images/denjuu/barriarm_stand_back.gif';
-import BarriarmStandFront from '../images/denjuu/barriarm_stand_front.gif'
+import BarriarmStandFront from '../images/denjuu/barriarm_stand_front.gif';
 import FungusAttackBack from '../images/denjuu/fungus_attack_back.gif';
 import FungusAttackFront from '../images/denjuu/fungus_attack_front.gif';
 import FungusStandBack from '../images/denjuu/fungus_stand_back.gif';
@@ -59,7 +59,7 @@ export const denjuuList: DenjuuTemplate[] = [
         experienceItems: {
             favorite: 5,
         },
-        evolutions: [{ type: EvolutionTypes.Natural, level: 15, denjuuId: 4 }]
+        evolutions: [{ type: EvolutionTypes.Natural, level: 15, denjuuId: 4 }],
     },
     {
         id: 1,
@@ -171,31 +171,42 @@ export const denjuuList: DenjuuTemplate[] = [
         experienceItems: {
             favorite: 3,
         },
-    }, {
+    },
+    {
         id: 4,
         displayId: 'Armaru',
         stage: Stage.Big,
         type: MonsterType.Mountain,
         stats: {
-            hp: 32, speed: 12, attack: 12, defense: 11, denmaAttack: 7, denmaDefense: 9
+            hp: 32,
+            speed: 12,
+            attack: 12,
+            defense: 11,
+            denmaAttack: 7,
+            denmaDefense: 9,
         },
         statLevelRates: {
-            hp: 2, speed: 1, attack: 2, defense: 2, denmaAttack: 1, denmaDefense: 1
+            hp: 2,
+            speed: 1,
+            attack: 2,
+            defense: 2,
+            denmaAttack: 1,
+            denmaDefense: 1,
         },
         sprites: {
-            // I'm just gonna use Barriarm's sprites 
+            // I'm just gonna use Barriarm's sprites
             normal: {
                 back: BarriarmStandBack,
-                front: BarriarmStandFront
+                front: BarriarmStandFront,
             },
             attack: {
                 back: BarriarmAttackBack,
-                front: BarriarmAttackFront
-            }
+                front: BarriarmAttackFront,
+            },
         },
         movesAtLevel: { 0: [12, 6, 7], 25: [13] },
         experienceItems: {
-            favorite: 8
-        }
-    }
+            favorite: 8,
+        },
+    },
 ];

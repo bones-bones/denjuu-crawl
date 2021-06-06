@@ -7,55 +7,83 @@ import {
     getExperienceNeededToLevel,
     getStatsDifferenceForLevel,
 } from '../data';
-import { store } from '../store';
 import { PlayerDenjuuContactList } from './types';
 
 const initPlayerDenjuuLevel = 1;
 const initPlayerDenjuuId = 0;
+const secondPlayerDenjuuLevel = 2;
+const secondPlayerDenjuuId = 2;
 const initialState: PlayerDenjuuContactList =
     localStorage.getItem('reduxState') &&
-        JSON.parse(localStorage.getItem('reduxState')!).contactList
+    JSON.parse(localStorage.getItem('reduxState')!).contactList
         ? JSON.parse(localStorage.getItem('reduxState')!).contactList
         : {
-            denjuu: [
-                {
-                    stats: {
-                        ...getDenjuuAtLevel(
-                            initPlayerDenjuuId,
-                            initPlayerDenjuuLevel
-                        ).stats,
-                    },
-                    denjuuId: initPlayerDenjuuId,
-                    instanceId: '1oshe',
-                    level: initPlayerDenjuuLevel,
-                    exp: 0,
-                    moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
-                    temporalStats: {
-                        ...getDenjuuAtLevel(
-                            initPlayerDenjuuId,
-                            initPlayerDenjuuLevel
-                        ).stats,
-                    },
-                },
-            ],
-            activeDenju: '1oshe',
-        };
+              denjuu: [
+                  {
+                      stats: {
+                          ...getDenjuuAtLevel(
+                              initPlayerDenjuuId,
+                              initPlayerDenjuuLevel
+                          ).stats,
+                      },
+                      denjuuId: initPlayerDenjuuId,
+                      instanceId: '1oshe',
+                      level: initPlayerDenjuuLevel,
+                      exp: 0,
+                      moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
+                      temporalStats: {
+                          ...getDenjuuAtLevel(
+                              initPlayerDenjuuId,
+                              initPlayerDenjuuLevel
+                          ).stats,
+                      },
+                  },
+                  {
+                      stats: {
+                          ...getDenjuuAtLevel(
+                              secondPlayerDenjuuId,
+                              secondPlayerDenjuuLevel
+                          ).stats,
+                      },
+                      denjuuId: secondPlayerDenjuuId,
+                      instanceId: 'angios',
+                      level: secondPlayerDenjuuLevel,
+                      exp: 0,
+                      moves: getDenjuuAtLevel(secondPlayerDenjuuId, 5).moves,
+                      temporalStats: {
+                          ...getDenjuuAtLevel(
+                              secondPlayerDenjuuId,
+                              secondPlayerDenjuuLevel
+                          ).stats,
+                      },
+                  },
+              ],
+              activeDenju: '1oshe',
+          };
 
 export const contactListSlice = createSlice({
     name: 'contactList',
     initialState,
     reducers: {
-        evolve: (state, { payload: { instanceId, type } }: PayloadAction<{ instanceId: string, type: EvolutionTypes }>) => {
+        evolve: (
+            state,
+            {
+                payload: { instanceId, type },
+            }: PayloadAction<{ instanceId: string; type: EvolutionTypes }>
+        ) => {
             const denjuuToEvolve = state.denjuu.find(
-                (entry) => entry.instanceId === instanceId)!;
-            const denjuuTemplate = denjuuList[denjuuToEvolve.denjuuId]
-            const targetEvolution = denjuuTemplate.evolutions?.find(entry => type == entry.type)!
+                (entry) => entry.instanceId === instanceId
+            )!;
+            const denjuuTemplate = denjuuList[denjuuToEvolve.denjuuId];
+            const targetEvolution = denjuuTemplate.evolutions?.find(
+                (entry) => type == entry.type
+            )!;
             denjuuToEvolve.denjuuId = targetEvolution.denjuuId;
-            const evolutionAtCurrentLevel = getDenjuuAtLevel(targetEvolution.denjuuId, denjuuToEvolve.level);
+            const evolutionAtCurrentLevel = getDenjuuAtLevel(
+                targetEvolution.denjuuId,
+                denjuuToEvolve.level
+            );
             denjuuToEvolve.moves = evolutionAtCurrentLevel.moves;
-            console.log(instanceId, denjuuTemplate)
-
-
         },
         setTemporalHpTo: (
             state,
@@ -86,7 +114,12 @@ export const contactListSlice = createSlice({
                 targetDenjuu.stats.hp!
             );
         },
-
+        setActive: (
+            state,
+            { payload: { instanceId } }: PayloadAction<{ instanceId: string }>
+        ) => {
+            state.activeDenju = instanceId;
+        },
         addExperience: (
             state,
             {
@@ -126,12 +159,12 @@ export const contactListSlice = createSlice({
 
                 if (
                     denjuuList[denjuuInQuestion.denjuuId].movesAtLevel[
-                    denjuuInQuestion.level
+                        denjuuInQuestion.level
                     ]
                 ) {
                     denjuuInQuestion.moves = denjuuInQuestion.moves.concat(
                         denjuuList[denjuuInQuestion.denjuuId].movesAtLevel[
-                        denjuuInQuestion.level
+                            denjuuInQuestion.level
                         ]
                     );
                 }
@@ -145,5 +178,6 @@ export const {
     setTemporalHpTo,
     addExperience,
     healDenjuu,
-    evolve
+    evolve,
+    setActive,
 } = contactListSlice.actions;

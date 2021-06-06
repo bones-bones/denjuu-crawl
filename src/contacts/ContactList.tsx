@@ -37,6 +37,9 @@ const BackgroundPanel = styled.div({
     height: '90vh',
     maxHeight: '90vh',
     overflow: 'scroll',
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignContent: 'flex-start',
 });
 
 const DenjuuDiv = ({
@@ -50,7 +53,7 @@ const DenjuuDiv = ({
 }) => {
     const [showDetails, setShowDetails] = useState<boolean>(false);
     return (
-        <div>
+        <BigDiv>
             <DenjuuSummary
                 onClick={() => {
                     setShowDetails(true);
@@ -79,20 +82,31 @@ const DenjuuDiv = ({
                     <DenjuuDetails denjuu={entry} />
                 </Popup>
             )}
-        </div>
+        </BigDiv>
     );
 };
 
 const ImageHolder = styled.img({ imageRendering: 'pixelated' });
 
-const DenjuuSummary = styled.div({
+const BigDiv = styled.div({
     width: '33vw',
     height: '33vw',
-    border: '1px solid grey',
+    minWidth: '33vw',
+    minHeight: '33vw',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+});
+
+const DenjuuSummary = styled.div({
+    height: '90%',
+    width: '90%',
+    margin: '2px',
     justifyContent: 'center',
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
+    backgroundColor: 'darkgray',
 });
 
 const Level = styled.span({

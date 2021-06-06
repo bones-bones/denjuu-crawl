@@ -1,7 +1,13 @@
 export interface Move {
     displayId: string;
     animation?: string;
-    effects: (DamageEffect | StatChangeEffect | FlyEffect | SleepEffect | DenmaDamageEffect)[];
+    effects: (
+        | DamageEffect
+        | StatChangeEffect
+        | FlyEffect
+        | SleepEffect
+        | DenmaDamageEffect
+    )[];
     type: MoveType;
 }
 interface Effect {
@@ -21,12 +27,12 @@ interface StatChangeEffect extends Effect {
     type: EffectType.StatChange;
     value: number;
     stat:
-    | 'hp'
-    | 'speed'
-    | 'attack'
-    | 'defense'
-    | 'denmaAttack'
-    | 'denmaDefense';
+        | 'hp'
+        | 'speed'
+        | 'attack'
+        | 'defense'
+        | 'denmaAttack'
+        | 'denmaDefense';
 }
 interface FlyEffect extends Effect {
     type: EffectType.Fly;
@@ -154,11 +160,14 @@ export const moveList: Move[] = [
         //13
         displayId: 'Rock',
         type: MoveType.Rock,
-        effects: [{ type: EffectType.DenmaDamage, value: 15, target: 'opponent' }, {
-            type: EffectType.StatChange,
-            stat: 'defense',
-            value: 2,
-            target: 'self',
-        }],
+        effects: [
+            { type: EffectType.DenmaDamage, value: 15, target: 'opponent' },
+            {
+                type: EffectType.StatChange,
+                stat: 'defense',
+                value: 2,
+                target: 'self',
+            },
+        ],
     },
 ];

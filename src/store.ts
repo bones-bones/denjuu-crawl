@@ -1,7 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { eventSlice } from './alerts';
+import { alertSlice, name as alertsName } from './alerts';
 import { attackThunk, battleSlice } from './battle';
+import { conversationsSlice, name as conversationsName } from './conversation';
 import { inventorySlice } from './items';
 import { contactListSlice } from './playerDenjuu';
 import { counterSlice } from './walk';
@@ -30,9 +31,10 @@ export const store = configureStore({
     reducer: combineReducers({
         counter: counterSlice.reducer,
         battle: battleSlice.reducer,
-        events: eventSlice.reducer,
+        [alertsName]: alertSlice.reducer,
         contactList: contactListSlice.reducer,
         inventory: inventorySlice.reducer,
+        [conversationsName]: conversationsSlice.reducer,
     }),
 });
 

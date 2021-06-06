@@ -4,11 +4,11 @@ import { AlertState, AlertWrapper } from './types';
 
 const introMessage = `Hello there, this is a project that i started because i enjoy bootleg pokemon, wanted to learn about Single Page Application development, and improve my ts/react/redux skills.
 There's a lot to be done, check out the Walk mode, Alerts menu, Denjuu list, and... the other ones don't work yet... The repo is publicly available at https://github.com/bones-bones/denjuu-crawl`;
-
+export const name = 'alerts';
 const initialState: AlertState =
     localStorage.getItem('reduxState') &&
-    JSON.parse(localStorage.getItem('reduxState')!).events
-        ? JSON.parse(localStorage.getItem('reduxState')!).events
+    JSON.parse(localStorage.getItem('reduxState')!)[name]
+        ? JSON.parse(localStorage.getItem('reduxState')!)[name]
         : {
               lastNotification: 0,
               events: [
@@ -27,10 +27,9 @@ const initialState: AlertState =
               ],
           };
 
-export const eventSlice = createSlice({
-    name: 'eventState',
+export const alertSlice = createSlice({
+    name,
     initialState,
-
     reducers: {
         newAlert: (
             state,
@@ -53,4 +52,4 @@ export const eventSlice = createSlice({
     },
 });
 
-export const { newAlert, removeEvent } = eventSlice.actions;
+export const { newAlert, removeEvent } = alertSlice.actions;

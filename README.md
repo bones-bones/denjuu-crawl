@@ -19,12 +19,12 @@ Battle
 -   [ ] Transition out of battle nicely
 -   [ ] P1 defeat logic
 -   [ ] Switching denjuu logic
--   [ ] actually use stats
+-   [x] actually use stats
 -   [ ] implement attack effect types
 -   [x] implement move thunk. pattern: dispatch move type, setTimeout, dispatch move effect
--   [ ] implement move effect thunk
+-   [x] implement move effect thunk
 -   [ ] existing code is gross and needs a huge refactor
--   [ ] decouple experince + leveling from battle
+-   [x] decouple experince + leveling from battle
 
 Meeting Denju
 
@@ -39,7 +39,7 @@ Setting Menu
 Denjuu Menu
 
 -   [x] Add denjuu menu
--   [ ] make items usable from denjuu menu
+-   [x] make items usable from denjuu menu
 -   [ ] allow changing of active denju
 
 Items Menu
