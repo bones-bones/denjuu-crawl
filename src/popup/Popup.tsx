@@ -1,10 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-interface Props {
-    closeCallback?: () => void;
-    children: React.ReactNode;
-}
+import { Props } from './types';
+
 // here is a huge hack but whatever
 let popupcounthack = 2;
 

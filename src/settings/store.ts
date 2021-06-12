@@ -2,16 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface SettingsState {
     vibration: boolean;
+    wakeLock: boolean
 }
 
 export const name = 'settings';
 const initialState: SettingsState =
     localStorage.getItem('reduxState') &&
-    JSON.parse(localStorage.getItem('reduxState')!)[name]
+        JSON.parse(localStorage.getItem('reduxState')!)[name]
         ? JSON.parse(localStorage.getItem('reduxState')!)[name]
         : {
-              vibration: false,
-          };
+            vibration: false,
+            wakeLock: false
+        };
 
 export const settingsSlice = createSlice({
     name,
@@ -25,7 +27,15 @@ export const settingsSlice = createSlice({
         ) => {
             state.vibration = vibrationSetting;
         },
+        setWakeLock: (
+            state,
+            {
+                payload: { wakeLockSetting },
+            }: PayloadAction<{ wakeLockSetting: boolean }>
+        ) => {
+            state.wakeLock = wakeLockSetting;
+        },
     },
 });
 
-export const { setVibration } = settingsSlice.actions;
+export const { setVibration, setWakeLock } = settingsSlice.actions;

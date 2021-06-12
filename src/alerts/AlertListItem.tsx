@@ -53,8 +53,10 @@ const getEventSubtitle = (entry: Alert) => {
             const convo =
                 conversations[(entry as ConversationAlert).instanceId];
             return (
-                convo.messages[convo.messages.length - 1]?.text.substr(0, 25) +
-                '...'
+                convo?.messages[convo?.messages.length - 1]?.text.substr(
+                    0,
+                    25
+                ) + '...'
             );
         }
         default: {
@@ -109,7 +111,7 @@ const getEventTitle = (entry: Alert) => {
             });
             const convo =
                 conversations[(entry as ConversationAlert).instanceId];
-            return convo.threadTitle;
+            return convo?.threadTitle;
         }
         default: {
             return '!!missing title template!!';

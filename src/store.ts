@@ -3,7 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { alertSlice, name as alertsName } from './alerts';
 import { attackThunk, battleSlice } from './battle';
 import { conversationsSlice, name as conversationsName } from './conversation';
-import { inventorySlice } from './items';
+import { inventorySlice, name as inventoryName } from './inventory';
 import { contactListSlice } from './playerDenjuu';
 import { name as settingsName, settingsSlice } from './settings';
 import { counterSlice } from './walk';
@@ -34,7 +34,7 @@ export const store = configureStore({
         battle: battleSlice.reducer,
         [alertsName]: alertSlice.reducer,
         contactList: contactListSlice.reducer,
-        inventory: inventorySlice.reducer,
+        [inventoryName]: inventorySlice.reducer,
         [conversationsName]: conversationsSlice.reducer,
         [settingsName]: settingsSlice.reducer,
     }),

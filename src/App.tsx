@@ -15,7 +15,7 @@ import Items from './images/menuIcons/items.gif';
 import Mail from './images/menuIcons/mail.gif';
 import OptionsIcon from './images/menuIcons/options.gif';
 import PhoneBook from './images/menuIcons/phone_book.gif';
-import { ItemView } from './items';
+import { InventoryView } from './inventory';
 import { SettingsApp } from './settings';
 import { RootState } from './store';
 import { StepApp } from './walk/StepApp';
@@ -86,7 +86,7 @@ function App() {
                         <ContactList />
                     </Route>
                     <Route path="/denjuu-crawl/items">
-                        <ItemView />
+                        <InventoryView />
                     </Route>
                     <Route path="/denjuu-crawl/settings">
                         <SettingsApp rootRef={rootRef} />

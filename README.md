@@ -62,6 +62,7 @@ Walk Menu
 -   [ ] Pull in map data to generate backgrounds. use this maybe: https://dev.virtualearth.net/REST/v1/LocationRecog/${n},${n}?key=key&top=10&includeEntityTypes=businessAndPOI
 -   [ ] Pull in map data to determine "type" of area and spawn denjuu and items accordingly
 -   [ ] Persist counter but not map location
+-   [ ] Use proper typing for the wakelock
 
 Alert Menu
 
@@ -77,3 +78,9 @@ Credits
 Popup
 
 -   [ ] implement proper zindex handling
+
+Conversations
+
+-   [ ] Add terminal states to conversations
+-   [ ] Pesist conversations
+-   [ ] Text message animations

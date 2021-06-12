@@ -14,6 +14,7 @@ interface Item {
     image: string;
     price: number;
     effect: ItemEffect;
+    description: string;
 }
 
 interface ItemEffect {
@@ -32,6 +33,7 @@ export const itemList: Item[] = [
         displayId: 'Game Machine',
         image: GameMachine,
         price: 40,
+        description: 'A electronic portable game playing device',
         effect: { type: ItemEffectType.Experience },
     },
     {
@@ -39,6 +41,7 @@ export const itemList: Item[] = [
         displayId: 'Gas Tank',
         image: GasTank,
         price: 120,
+        description: 'What kind of gass is in this? Who knows but it\'s probably flamable',
         effect: { type: ItemEffectType.Experience },
     },
     {
@@ -46,6 +49,7 @@ export const itemList: Item[] = [
         displayId: 'Gun',
         image: Gun,
         price: 80,
+        description: 'Why do you have so many guns?',
         effect: { type: ItemEffectType.Experience },
     },
     {
@@ -53,6 +57,7 @@ export const itemList: Item[] = [
         displayId: 'Antenna',
         image: Antenna,
         price: 80,
+        description: 'You can pick up some odd signals with this',
         effect: { type: ItemEffectType.Experience },
     },
     {
@@ -60,6 +65,7 @@ export const itemList: Item[] = [
         displayId: 'Small Potion',
         image: SmallPotion,
         price: 50,
+        description: 'This will heal a denjuu a little bit.',
         effect: { type: ItemEffectType.HealHp, value: 20 },
     },
     {
@@ -67,6 +73,7 @@ export const itemList: Item[] = [
         displayId: 'Crane',
         price: 400,
         image: Crane,
+        description: 'Very good for lifting heavy things',
         effect: { type: ItemEffectType.Experience },
     },
     {
@@ -74,6 +81,7 @@ export const itemList: Item[] = [
         displayId: 'Sabre',
         price: 35,
         image: Sabre,
+        description: 'A curved sword with a sharp edge. Watch out!',
         effect: { type: ItemEffectType.Experience },
     },
     {
@@ -81,6 +89,7 @@ export const itemList: Item[] = [
         displayId: 'Flamethrower',
         price: 130,
         image: Flamethrower,
+        description: 'For when you need things toasty up close',
         effect: { type: ItemEffectType.Experience },
     },
     {
@@ -88,6 +97,7 @@ export const itemList: Item[] = [
         displayId: 'Pencil',
         price: 5,
         image: Pencil,
+        description: 'Number 2',
         effect: { type: ItemEffectType.Experience },
     },
 ];

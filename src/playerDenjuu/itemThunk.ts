@@ -1,5 +1,5 @@
 import { denjuuList, ItemEffectType, itemList } from '../data';
-import { removeItem } from '../items';
+import { removeItem } from '../inventory';
 import { RootState } from '../store';
 import { addExperience, setTemporalHpTo } from './store';
 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { denjuuList, Sprites } from '../data';
 import { RootState } from '../store';
-import { addMessageToConversation } from './store';
+import { respondThunk } from './respondThunk';
 
 export const Conversation = ({ instanceId }: { instanceId: string }) => {
     const conversation = useSelector(
@@ -38,7 +38,7 @@ export const Conversation = ({ instanceId }: { instanceId: string }) => {
                 {conversation.messages.map((entry, i) => {
                     if (entry.type == 'player') {
                         return (
-                            <PlayerMessageBox>{entry.text}</PlayerMessageBox>
+                            <PlayerMessageBox key={i}>{entry.text}</PlayerMessageBox>
                         );
                     } else {
                         return (
@@ -51,23 +51,23 @@ export const Conversation = ({ instanceId }: { instanceId: string }) => {
             </Thread>
             <ReplySection>
                 {conversation.pendingResponses
-                    ? conversation.pendingResponses.map((entry, index) => (
-                          <ReplyButton
-                              key={index}
-                              onClick={() => {
-                                  dispatch(
-                                      addMessageToConversation({
-                                          type: 'player',
-                                          text: entry,
-                                          instanceId,
-                                      })
-                                  );
-                              }}
-                          >
-                              {entry}
-                          </ReplyButton>
-                      ))
-                    : '...'}
+                    ? conversation.pendingResponses.map((text, index) => (
+                        <ReplyButton
+                            key={index}
+                            onClick={() => {
+                                dispatch(
+                                    respondThunk({
+                                        type: 'player',
+                                        text,
+                                        instanceId,
+                                    })
+                                );
+                            }}
+                        >
+                            {text}
+                        </ReplyButton>
+                    ))
+                    : '---––––––––---'}
             </ReplySection>
         </ConversationBackground>
     );
@@ -151,7 +151,6 @@ const ReplyButton = styled.button({
 
 const ConversationBackground = styled.div({
     backgroundColor: 'white',
-    borderRadius: '15px',
     width: '85vw',
     height: '80vh',
     padding: '20px',

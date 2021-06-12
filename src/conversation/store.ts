@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { getNow } from '../common';
-import { getMarkovDialogue, getSentence } from './markov';
 import { Message } from './types';
 
 const introMessages = [
@@ -20,52 +19,53 @@ interface MessageState {
         lastRead?: number;
     };
 }
-getMarkovDialogue();
-
-const messages: Message[] = [];
-let hasQuestion = false;
-while (!hasQuestion) {
-    messages.push({ type: 'denjuu', text: getSentence(), sent: getNow() });
-    if (messages[messages.length - 1].text.includes('<Q')) {
-        hasQuestion = true;
-    }
-}
-
-const responseSection = messages.pop()!.text;
-messages.push({ type: 'player', text: "How's it going?", sent: getNow() });
-const parsed = /(.+) <Q>(.+)<\|>(.+)<\/Q>/.exec(responseSection)!;
-const question = parsed[1];
-// const answer1 = parsed[2];
-// const answer2 = parsed[3];
-messages.push({ type: 'denjuu', text: question, sent: getNow() });
 
 export const name = 'conversations';
+
 const initialState: MessageState =
     localStorage.getItem('reduxState') &&
-    JSON.parse(localStorage.getItem('reduxState')!)[name]
+        JSON.parse(localStorage.getItem('reduxState')!)[name]
         ? JSON.parse(localStorage.getItem('reduxState')!)[name]
         : {
-              announcements: {
-                  messages: introMessages.map((entry) => ({
-                      type: 'denjuu',
-                      text: entry,
-                  })),
-                  denjuuId: 0,
-                  threadTitle: 'Announcements',
-              },
-          };
-
-// export const incrementThunk = () => (
-//     dispatch: Dispatch,
-//     getState: () => RootState
-// ) => {
-
-// };
+            announcements: {
+                messages: introMessages.map((entry) => ({
+                    type: 'denjuu',
+                    text: entry,
+                })),
+                denjuuId: 0,
+                threadTitle: 'Announcements',
+            },
+        };
 
 export const conversationsSlice = createSlice({
     name,
     initialState,
     reducers: {
+        newConversation: (
+            state,
+            {
+                payload: {
+                    instanceId,
+                    denjuuId,
+                    threadTitle,
+                    messages,
+                    pendingResponses = [],
+                },
+            }: PayloadAction<{
+                instanceId: string;
+                denjuuId?: number;
+                threadTitle: string;
+                messages: Message[];
+                pendingResponses?: string[];
+            }>
+        ) => {
+            state[instanceId] = {
+                denjuuId,
+                threadTitle,
+                messages,
+                pendingResponses,
+            };
+        },
         addMessageToConversation: (
             state,
             {
@@ -90,10 +90,19 @@ export const conversationsSlice = createSlice({
         ) => {
             state[instanceId].lastRead = getNow();
         },
+        deleteConversation: (
+            // kinda sketchy
+            state,
+            { payload: { instanceId } }: PayloadAction<{ instanceId: string }>
+        ) => {
+            delete state[instanceId];
+        },
     },
 });
 
 export const {
     addMessageToConversation,
     readConversation,
+    deleteConversation,
+    newConversation,
 } = conversationsSlice.actions;

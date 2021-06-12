@@ -6,8 +6,8 @@ import { BattleApp, startBattleThunk } from '../battle';
 import { Conversation, readConversation } from '../conversation';
 import { getDenjuuAtLevel } from '../data';
 import { itemList } from '../data/items';
-import { addItem } from '../items';
-import { Popup } from '../popup';
+import { addItem } from '../inventory';
+import { BorderedPopup } from '../popup';
 import { RootState } from '../store';
 import { AlertListItem } from './AlertListItem';
 import { removeEvent } from './store';
@@ -68,14 +68,14 @@ export const AlertView = () => {
                 />
             ))}
             {activeAlert && (
-                <Popup
+                <BorderedPopup
                     closeCallback={() => {
                         dispatch(removeEvent({ eventId: activeAlert.id }));
                         setActiveEventId(undefined);
                     }}
                 >
                     <EventPopupContent activeAlert={activeAlert} />
-                </Popup>
+                </BorderedPopup>
             )}
         </PanelDiv>
     );
@@ -126,7 +126,6 @@ const ImageHolder = styled.img({ imageRendering: 'pixelated' });
 
 const MessageBackground = styled.div({
     backgroundColor: 'white',
-    borderRadius: '15px',
     width: '85vw',
     padding: '20px',
 });

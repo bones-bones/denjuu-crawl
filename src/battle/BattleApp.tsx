@@ -29,7 +29,7 @@ export const BattleApp = () => {
     useWinCon();
 
     return (
-        <Container>
+        <>
             <Battlefield>
                 {p1 && (
                     <P1
@@ -73,8 +73,8 @@ export const BattleApp = () => {
                         </MoveButton>
                     ))}
                 {p1 && p2 && winner && <div></div>}
-            </BottomNav>
-        </Container>
+            </BottomNav></>
+
     );
 };
 
@@ -160,16 +160,6 @@ const FloatSection = styled.div(
     })
 );
 
-const Container = styled.div({
-    backgroundColor: 'rgba(0, 0, 0, 1)',
-    borderRadius: '15px',
-
-    borderTop: '1vh groove',
-    borderLeft: '2vw groove',
-    borderBottom: '0.5vh groove',
-    borderRight: '1vw groove',
-    overflow: 'hidden',
-});
 
 const Battlefield = styled.div({
     backgroundColor: 'green',

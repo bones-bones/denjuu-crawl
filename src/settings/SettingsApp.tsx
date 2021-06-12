@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../store';
-import { setVibration } from './store';
+import { setVibration, setWakeLock } from './store';
 export const SettingsApp = ({
     rootRef,
 }: {
@@ -39,24 +39,43 @@ export const SettingsApp = ({
 const SettingsControls = () => {
     const dispatch = useDispatch();
     const settings = useSelector(({ settings }: RootState) => settings);
+
+
     return (
         <>
             <label
                 htmlFor="vibration"
-                onClick={() =>
-                    dispatch(
-                        setVibration({ vibrationSetting: !settings.vibration })
-                    )
-                }
+
             >
                 Enable Vibration
             </label>
             <input
                 type="checkbox"
+                id="vibration"
                 checked={settings.vibration}
                 onChange={() => {
                     dispatch(
                         setVibration({ vibrationSetting: !settings.vibration })
+                    );
+                }}
+            />
+            <br />
+            <br />
+            <br />
+            <br />
+            <label
+                htmlFor="wakelock"
+
+            >
+                Enable WakeLock when walking
+            </label>
+            <input
+                type="checkbox"
+                id="wakelock"
+                checked={settings.wakeLock}
+                onChange={() => {
+                    dispatch(
+                        setWakeLock({ wakeLockSetting: !settings.wakeLock })
                     );
                 }}
             />
