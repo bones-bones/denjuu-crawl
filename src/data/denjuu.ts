@@ -1,23 +1,29 @@
+import AmaruT1 from '../images/denjuu/amaru_t1.gif'
 import AngiosAttackBack from '../images/denjuu/angios_attack_back.gif';
 import AngiosAttackFront from '../images/denjuu/angios_attack_front.gif';
 import AngiosStandBack from '../images/denjuu/angios_stand_back.gif';
 import AngiosStandFront from '../images/denjuu/angios_stand_front.gif';
-import BarriarmAttackBack from '../images/denjuu/barriarm_attack_back.gif';
-import BarriarmAttackFront from '../images/denjuu/barriarm_attack_front.gif';
-import BarriarmStandBack from '../images/denjuu/barriarm_stand_back.gif';
-import BarriarmStandFront from '../images/denjuu/barriarm_stand_front.gif';
+import AngiosT1 from '../images/denjuu/angios_t1.gif';
 import FungusAttackBack from '../images/denjuu/fungus_attack_back.gif';
 import FungusAttackFront from '../images/denjuu/fungus_attack_front.gif';
 import FungusStandBack from '../images/denjuu/fungus_stand_back.gif';
 import FungusStandFront from '../images/denjuu/fungus_stand_front.gif';
+import FungusT1 from '../images/denjuu/fungus_t1.gif'
 import OsheAttackBack from '../images/denjuu/oshe_attack_back.gif';
 import OsheAttackFront from '../images/denjuu/oshe_attack_front.gif';
 import OsheStandBack from '../images/denjuu/oshe_stand_back.gif';
 import OsheStandFront from '../images/denjuu/oshe_stand_front.gif';
+import OsheT1 from '../images/denjuu/oshe_t1.gif'
+import TsunonasuAttackBack from '../images/denjuu/tsunonasu_attack_back.gif';
+import TsunonasuAttackFront from '../images/denjuu/tsunonasu_attack_front.gif';
+import TsunonasuStandBack from '../images/denjuu/tsunonasu_stand_back.gif';
+import TsunonasuStandFront from '../images/denjuu/tsunonasu_stand_front.gif';
+import TsunonasuT1 from '../images/denjuu/tsunonasu_t1.gif';
 import WaratahAttackBack from '../images/denjuu/waratah_attack_back.gif';
 import WaratahAttackFront from '../images/denjuu/waratah_attack_front.gif';
 import WaratahStandBack from '../images/denjuu/waratah_stand_back.gif';
 import WaratahStandFront from '../images/denjuu/waratah_stand_front.gif';
+import WaratahT1 from '../images/denjuu/waratah_t1.gif'
 import { DenjuuTemplate, EvolutionTypes, MonsterType, Stage } from './types';
 
 export const denjuuList: DenjuuTemplate[] = [
@@ -43,14 +49,17 @@ export const denjuuList: DenjuuTemplate[] = [
             denmaDefense: 1,
         },
         sprites: {
-            normal: {
-                back: OsheStandBack,
-                front: OsheStandFront,
+            t2: {
+                normal: {
+                    back: OsheStandBack,
+                    front: OsheStandFront,
+                },
+                attack: {
+                    back: OsheAttackBack,
+                    front: OsheAttackFront,
+                },
             },
-            attack: {
-                back: OsheAttackBack,
-                front: OsheAttackFront,
-            },
+            t1: OsheT1
         },
         movesAtLevel: {
             0: [0, 7],
@@ -83,14 +92,17 @@ export const denjuuList: DenjuuTemplate[] = [
             denmaDefense: 2,
         },
         sprites: {
-            normal: {
-                back: WaratahStandBack,
-                front: WaratahStandFront,
+            t2: {
+                normal: {
+                    back: WaratahStandBack,
+                    front: WaratahStandFront,
+                },
+                attack: {
+                    back: WaratahAttackBack,
+                    front: WaratahAttackFront,
+                },
             },
-            attack: {
-                back: WaratahAttackBack,
-                front: WaratahAttackFront,
-            },
+            t1: WaratahT1
         },
         movesAtLevel: {
             0: [1, 8],
@@ -122,14 +134,16 @@ export const denjuuList: DenjuuTemplate[] = [
             denmaDefense: 1,
         },
         sprites: {
-            normal: {
-                back: AngiosStandBack,
-                front: AngiosStandFront,
-            },
-            attack: {
-                back: AngiosAttackBack,
-                front: AngiosAttackFront,
-            },
+            t2: {
+                normal: {
+                    back: AngiosStandBack,
+                    front: AngiosStandFront,
+                },
+                attack: {
+                    back: AngiosAttackBack,
+                    front: AngiosAttackFront,
+                },
+            }, t1: AngiosT1
         },
         movesAtLevel: { 0: [0, 10], 8: [9] },
         experienceItems: {
@@ -158,14 +172,17 @@ export const denjuuList: DenjuuTemplate[] = [
             denmaDefense: 1,
         },
         sprites: {
-            normal: {
-                back: FungusStandBack,
-                front: FungusStandFront,
+            t2: {
+                normal: {
+                    back: FungusStandBack,
+                    front: FungusStandFront,
+                },
+                attack: {
+                    back: FungusAttackBack,
+                    front: FungusAttackFront,
+                },
             },
-            attack: {
-                back: FungusAttackBack,
-                front: FungusAttackFront,
-            },
+            t1: FungusT1
         },
         movesAtLevel: { 0: [4, 5], 11: [11] },
         experienceItems: {
@@ -194,19 +211,27 @@ export const denjuuList: DenjuuTemplate[] = [
             denmaDefense: 1,
         },
         sprites: {
-            // I'm just gonna use Barriarm's sprites
-            normal: {
-                back: BarriarmStandBack,
-                front: BarriarmStandFront,
-            },
-            attack: {
-                back: BarriarmAttackBack,
-                front: BarriarmAttackFront,
-            },
+            t1: AmaruT1
         },
         movesAtLevel: { 0: [12, 6, 7], 25: [13] },
         experienceItems: {
             favorite: 8,
         },
     },
+    {
+        id: 5,
+        displayId: 'Tsunonasu', stage: Stage.Natural, type: MonsterType.Mountain,
+        stats: {
+            hp: 30, speed: 8, attack: 8, defense: 12, denmaAttack: 5, denmaDefense: 5
+        },
+        statLevelRates: { hp: 2, speed: 1, attack: 2, defense: 2, denmaAttack: 1, denmaDefense: 1 },
+        sprites: {
+            t1: TsunonasuT1, t2: {
+                attack: { front: TsunonasuAttackFront, back: TsunonasuAttackBack },
+                normal: { front: TsunonasuStandFront, back: TsunonasuStandBack }
+            }
+        },
+        movesAtLevel: { 0: [0, 14], 8: [15], 18: [16] },
+        experienceItems: { favorite: 9 }
+    }
 ];

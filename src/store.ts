@@ -9,14 +9,17 @@ import { name as settingsName, settingsSlice } from './settings';
 import { counterSlice } from './walk';
 
 let activeTurnValue = '1';
+let activeTurnCount = 0;
+// Move to Hook
 function handleChange() {
-    const previousValue = activeTurnValue;
     activeTurnValue = store.getState().battle.activePlayer;
+    const { turnCount } = store.getState().battle
     if (
-        activeTurnValue != previousValue &&
+        turnCount != activeTurnCount &&
         activeTurnValue === '2' &&
         store.getState().battle.p2?.stats.hp! > 0
     ) {
+        activeTurnCount = turnCount
         setTimeout(() => {
             if (store.getState().battle.winner === undefined) {
                 const p2Moves = store.getState().battle.p2!.moves;

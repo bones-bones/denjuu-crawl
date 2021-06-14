@@ -9,12 +9,12 @@ export interface Damage {
 
 export interface StatModification {
     stat:
-        | 'hp'
-        | 'speed'
-        | 'attack'
-        | 'defense'
-        | 'denmaAttack'
-        | 'denmaDefense';
+    | 'hp'
+    | 'speed'
+    | 'attack'
+    | 'defense'
+    | 'denmaAttack'
+    | 'denmaDefense';
     value: number;
 }
 
@@ -42,6 +42,11 @@ export interface BattleMonster {
     activeMoveId?: number;
     instanceId: string;
     level: number;
+    statusEffects: StatusEffect[]
+}
+
+export enum StatusEffect {
+    Poison = 'Poison'
 }
 
 export interface BattleStart {

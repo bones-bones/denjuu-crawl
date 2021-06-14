@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { attackThunk, BattleMonster } from '../battle';
-import { denjuuList, moveList } from '../data';
+import { getDenjuuSprite, moveList } from '../data';
 import { HpBar } from '../hpBar';
 import { RootState } from '../store';
 import { AttackAnimation } from './AttackAnimation';
@@ -59,17 +59,17 @@ export const BattleApp = () => {
             <BottomNav>
                 {p1 &&
                     !winner &&
-                    p1.moves.map((move) => (
+                    p1.moves.map((moveId) => (
                         <MoveButton
-                            disabled={!(activePlayer == '1')}
-                            key={move}
+                            disabled={(activePlayer == '2' || !!activeMove)}
+                            key={moveId}
                             onClick={() => {
                                 dispatch(
-                                    attackThunk({ player: '1', moveId: move })
+                                    attackThunk({ player: '1', moveId })
                                 );
                             }}
                         >
-                            {moveList[move].displayId}
+                            {moveList[moveId].displayId}
                         </MoveButton>
                     ))}
                 {p1 && p2 && winner && <div></div>}
@@ -97,9 +97,7 @@ const P2 = ({
             width="100%"
             height="100%"
             src={
-                denjuuList[denjuuId].sprites[
-                    status == 'attack' ? 'attack' : 'normal'
-                ].front
+                getDenjuuSprite(denjuuId, status == 'attack')
             }
         />
     </FloatSection>
@@ -126,9 +124,7 @@ const P1 = ({
             width="100%"
             height="100%"
             src={
-                denjuuList[denjuuId].sprites[
-                    status == 'attack' ? 'attack' : 'normal'
-                ].back
+                getDenjuuSprite(denjuuId, status == 'attack', false)
             }
         />
         <HpBar dir="ltr" maxHp={maxHp} currentHp={hp} barWidth={100} />

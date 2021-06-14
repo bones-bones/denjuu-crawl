@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { denjuuList, DenjuuTemplate } from '../data';
+import { denjuuList, DenjuuTemplate, getDenjuuSprite } from '../data';
 import { HpBar } from '../hpBar';
 import { PlayerDenjuu, PlayerDenjuuContactList } from '../playerDenjuu';
 import { Popup } from '../popup';
@@ -66,7 +66,7 @@ const DenjuuDiv = ({
                         <span>⭐</span>
                     )}
                 </div>
-                <ImageHolder src={denjuuTemplate.sprites.normal.front} />
+                <ImageHolder src={getDenjuuSprite(denjuuTemplate.id)} />
                 <HpBar
                     dir="ltr"
                     currentHp={entry.temporalStats.hp}

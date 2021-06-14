@@ -7,22 +7,21 @@ import { Counter } from './Counter';
 import { PlayerCanvas } from './PlayerCanvas';
 export const StepApp = () => {
     const { wakeLock } = useSelector(({ settings }: RootState) => settings)
-    const wLock = useRef<any>()
+    const wakeLockRef = useRef<any>()
 
     useEffect(() => {
         if ('wakeLock' in navigator) {
             if (wakeLock) {
                 (navigator as any).wakeLock.request('screen').then((resp: any) => {
-                    wLock.current = resp
+                    wakeLockRef.current = resp
                 })
             }
-
         } else {
             console.log('wakeLock not supported');
         }
         return () => {
             if ('wakeLock' in navigator) {
-                wLock.current?.release().then(() => { wLock.current = null; })
+                wakeLockRef.current?.release().then(() => { wakeLockRef.current = null; })
             }
         }
     }, [])

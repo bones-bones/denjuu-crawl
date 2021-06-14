@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { createRef, useLayoutEffect, useRef } from 'react';
+import React, { createRef, useEffect, useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getNow } from '../common';
@@ -15,6 +15,7 @@ PlayerSheet.src = playerSheet;
 export const PlayerCanvas = () => {
     const canvasRef = createRef<HTMLCanvasElement>();
     const canvasContext = useRef<CanvasRenderingContext2D>();
+    const mapCurrent = useRef<string>('');
     const step = useSelector(({ counter: { step } }: RootState) => step);
     const location = useSelector(
         ({ counter: { location } }: RootState) => location
@@ -26,94 +27,104 @@ export const PlayerCanvas = () => {
         ) as CanvasRenderingContext2D;
         canvasContext.current.imageSmoothingEnabled = false;
     });
+    useEffect(() => { fetch('https://zpjxcq.getshortstack.com/api/map').then(e => { e.text().then(a => { mapCurrent.current = a }) }) }, [])
 
     useLayoutEffect(() => {
-        let stepOffset = 0;
+        // let stepOffset = 0;
 
         const draw = setInterval(() => {
             if (location?.map) {
-                const playerX = (step.value % 65) * 0.25;
-                if (canvasRef.current) {
-                    canvasContext.current?.clearRect(
-                        0,
-                        0,
-                        canvasRef.current.width,
-                        canvasRef.current.height
-                    );
 
-                    const tileSize = 16;
-                    //5x14
-                    //1x1
-                    //6,9
-                    //1,11
-                    //1,13
-                    const drawArray = location.map;
+                //if (true) {
 
-                    for (let y = 0; y < 8; y++) {
-                        for (let x = 0; x < 8; x++) {
-                            canvasContext.current?.drawImage(
-                                TileSheet,
-                                drawArray[y][x].x * tileSize,
-                                drawArray[y][x].y * tileSize,
-                                (drawArray[y][x].width || 1) * tileSize,
-                                (drawArray[y][x].height || 1) * tileSize,
-                                x * tileSize * 2,
-                                y * tileSize * 2,
-                                (drawArray[y][x].width || 1) * tileSize * 2,
-                                (drawArray[y][x].height || 1) * tileSize * 2
-                            );
-                        }
-                    }
+                const im = new Image()
+                im.src = mapCurrent.current
+                canvasContext.current?.drawImage(im, 0, 0)
+                // } else {
 
-                    // const canvasWidth = canvasRef.current?.getBoundingClientRect()
-                    //     .width;
-                    // const canvasOffset = step.value % canvasWidth;
+                //     const playerX = (step.value % 65) * 0.25;
+                //     if (canvasRef.current) {
+                //         canvasContext.current?.clearRect(
+                //             0,
+                //             0,
+                //             canvasRef.current.width,
+                //             canvasRef.current.height
+                //         );
 
-                    // const SPEED = 1;
+                //         const tileSize = 16;
+                //         //5x14
+                //         //1x1
+                //         //6,9
+                //         //1,11
+                //         //1,13
+                //         const drawArray = location.map;
 
-                    const currentMoment = getNow();
-                    const drawPlayerX = 15 - playerX;
-                    canvasContext.current?.save();
-                    canvasContext.current?.translate(
-                        canvasRef.current.width,
-                        0
-                    );
-                    canvasContext.current?.scale(-1, 1);
+                //         for (let y = 0; y < 8; y++) {
+                //             for (let x = 0; x < 8; x++) {
+                //                 canvasContext.current?.drawImage(
+                //                     TileSheet,
+                //                     drawArray[y][x].x * tileSize,
+                //                     drawArray[y][x].y * tileSize,
+                //                     (drawArray[y][x].width || 1) * tileSize,
+                //                     (drawArray[y][x].height || 1) * tileSize,
+                //                     x * tileSize * 2,
+                //                     y * tileSize * 2,
+                //                     (drawArray[y][x].width || 1) * tileSize * 2,
+                //                     (drawArray[y][x].height || 1) * tileSize * 2
+                //                 );
+                //             }
+                //         }
 
-                    if (currentMoment - step.lastUpdatedTime < 1300) {
-                        let step = 6;
-                        if (stepOffset == 0) {
-                            step += 1;
-                        } else if (stepOffset == 2) {
-                            step += 2;
-                        }
-                        canvasContext.current?.drawImage(
-                            PlayerSheet,
-                            step * tileSize,
-                            0 * tileSize,
-                            tileSize,
-                            tileSize,
-                            drawPlayerX * tileSize,
-                            6 * tileSize,
-                            tileSize * 2,
-                            tileSize * 2
-                        );
-                        stepOffset = (stepOffset + 1) % 4;
-                    } else {
-                        canvasContext.current?.drawImage(
-                            PlayerSheet,
-                            6 * tileSize,
-                            0 * tileSize,
-                            tileSize,
-                            tileSize,
-                            drawPlayerX * tileSize,
-                            6 * tileSize,
-                            tileSize * 2,
-                            tileSize * 2
-                        );
-                    }
-                    canvasContext.current?.restore();
-                }
+                //         // const canvasWidth = canvasRef.current?.getBoundingClientRect()
+                //         //     .width;
+                //         // const canvasOffset = step.value % canvasWidth;
+
+                //         // const SPEED = 1;
+
+                //         const currentMoment = getNow();
+                //         const drawPlayerX = 15 - playerX;
+                //         canvasContext.current?.save();
+                //         canvasContext.current?.translate(
+                //             canvasRef.current.width,
+                //             0
+                //         );
+                //         canvasContext.current?.scale(-1, 1);
+
+                //         if (currentMoment - step.lastUpdatedTime < 1300) {
+                //             let step = 6;
+                //             if (stepOffset == 0) {
+                //                 step += 1;
+                //             } else if (stepOffset == 2) {
+                //                 step += 2;
+                //             }
+                //             canvasContext.current?.drawImage(
+                //                 PlayerSheet,
+                //                 step * tileSize,
+                //                 0 * tileSize,
+                //                 tileSize,
+                //                 tileSize,
+                //                 drawPlayerX * tileSize,
+                //                 6 * tileSize,
+                //                 tileSize * 2,
+                //                 tileSize * 2
+                //             );
+                //             stepOffset = (stepOffset + 1) % 4;
+                //         } else {
+                //             canvasContext.current?.drawImage(
+                //                 PlayerSheet,
+                //                 6 * tileSize,
+                //                 0 * tileSize,
+                //                 tileSize,
+                //                 tileSize,
+                //                 drawPlayerX * tileSize,
+                //                 6 * tileSize,
+                //                 tileSize * 2,
+                //                 tileSize * 2
+                //             );
+                //         }
+                //         canvasContext.current?.restore();
+                //     }
+                // }
             }
         }, 200);
         return () => clearInterval(draw);

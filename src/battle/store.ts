@@ -56,40 +56,17 @@ export const battleSlice = createSlice({
         startBattle: (state, { payload }: PayloadAction<BattleStart>) => {
             state.battleLog = ['time to fight!'];
             state.activePlayer = '1';
-            state.p1 = { status: 'static', ...payload.player };
-            state.p2 = { status: 'static', ...payload.enemy };
+            state.p1 = { ...payload.player, statusEffects: [], status: 'static', };
+            state.p2 = { ...payload.enemy, status: 'static', statusEffects: [] };
             state.winner = undefined; //overkill
             state.turnCount = 1;
         },
         showMove: (state, { payload }: PayloadAction<ActiveMove>) => {
             state.activeMoveInfo = payload;
         },
-        nextTurn: (state) => {
-            const p1SpeedFactor = 201 - state.p1?.temporalStats.speed!;
-            const p2SpeedFactor = 201 - state.p2?.temporalStats.speed!;
-            let knowAnswer = false;
-            let counter = state.turnCount;
-
-            if (
-                counter % p2SpeedFactor === 0 &&
-                counter % p1SpeedFactor === 0
-            ) {
-                knowAnswer = true;
-                state.activePlayer = state.activePlayer === '1' ? '2' : '1';
-                counter++;
-            }
-
-            while (!knowAnswer) {
-                counter++;
-                if (counter % p1SpeedFactor === 0) {
-                    knowAnswer = true;
-                    state.activePlayer = '1';
-                } else if (counter % p2SpeedFactor === 0) {
-                    knowAnswer = true;
-                    state.activePlayer = '2';
-                }
-            }
-            state.turnCount = counter;
+        nextTurn: (state, { payload: { turnCount, activePlayer } }: PayloadAction<{ activePlayer: '1' | '2', turnCount: number }>) => {
+            state.activePlayer = activePlayer;
+            state.turnCount = turnCount;
         },
         clearMove: (state) => {
             state.activeMoveInfo = undefined;
@@ -108,12 +85,10 @@ export const battleSlice = createSlice({
             state.winner = payload;
             state.battleLog.unshift(
                 payload == 'player'
-                    ? `You've defeated ${
-                          denjuuList[state.p2?.denjuuId!].displayId
-                      }!`
-                    : `You have been defeated by ${
-                          denjuuList[state.p2?.denjuuId!].displayId
-                      }...`
+                    ? `You've defeated ${denjuuList[state.p2?.denjuuId!].displayId
+                    }!`
+                    : `You have been defeated by ${denjuuList[state.p2?.denjuuId!].displayId
+                    }...`
             );
             //winner: undefined
         },

@@ -26,6 +26,7 @@ Battle
 -   [x] existing code is gross and needs a huge refactor
 -   [ ] existing code is kinda gross and needs a refactor
 -   [x] decouple experince + leveling from battle
+-   [ ] make denjuu required in battlestate
 
 Meeting Denju
 
@@ -36,8 +37,9 @@ Meeting Denju
 Setting Menu
 
 -   [x] Add settings menu
--   [ ] Actually have settings
+-   [x] Actually have settings
 -   [x] vibration settings
+-   [ ] make settings menu nicer
 
 Denjuu Menu
 

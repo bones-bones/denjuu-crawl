@@ -1,4 +1,5 @@
 import Antenna from '../images/items/antenna.gif';
+import Battery from '../images/items/battery.gif';
 import Crane from '../images/items/crane.gif';
 import Flamethrower from '../images/items/flame_thrower.gif';
 import GameMachine from '../images/items/game_machine.gif';
@@ -100,4 +101,5 @@ export const itemList: Item[] = [
         description: 'Number 2',
         effect: { type: ItemEffectType.Experience },
     },
+    { id: 9, displayId: 'Battery', price: 15, image: Battery, description: "Not AA nor C", effect: { type: ItemEffectType.Experience } }
 ];

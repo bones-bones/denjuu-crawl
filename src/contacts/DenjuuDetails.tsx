@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import {
     denjuuList,
     DenjuuTypeIcon,
+    getDenjuuSprite,
     getExperienceNeededToLevel,
     moveList,
     MoveTypeIcon,
@@ -24,7 +25,7 @@ export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
                 {denjuuTemplate.displayId}
                 <DenjuuTypeIcon type={denjuuTemplate.type} />
             </h3>
-            <ImageHolder src={denjuuTemplate.sprites.normal.front} />
+            <ImageHolder src={getDenjuuSprite(denjuu.denjuuId)} />
             <table>
                 <StatTable>
                     <tr>

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { denjuuList, Sprites } from '../data';
+import { getDenjuuSprite, } from '../data';
 import { RootState } from '../store';
 import { respondThunk } from './respondThunk';
 
@@ -12,10 +12,6 @@ export const Conversation = ({ instanceId }: { instanceId: string }) => {
     );
 
     const dispatch = useDispatch();
-    let sprites: Sprites | undefined = undefined;
-    if (conversation.denjuuId) {
-        sprites = denjuuList[conversation.denjuuId].sprites!;
-    }
 
     const threadRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -30,7 +26,7 @@ export const Conversation = ({ instanceId }: { instanceId: string }) => {
         <ConversationBackground>
             <Header>
                 <Profile>
-                    {sprites && <img src={sprites.normal.front} />}
+                    {conversation.denjuuId && <img src={getDenjuuSprite(conversation.denjuuId)} />}
                     <span>{conversation.threadTitle}</span>
                 </Profile>
             </Header>

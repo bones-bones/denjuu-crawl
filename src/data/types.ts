@@ -14,9 +14,13 @@ export interface DenjuuTemplate {
     };
     evolutions?: (NaturalEvolution | ModificationEvolution)[];
 }
-export interface Sprites {
+interface T2Sprites {
     normal: { back: string; front: string };
     attack: { back: string; front: string };
+}
+interface Sprites {
+    t1: string
+    t2?: T2Sprites
 }
 
 export enum EvolutionTypes {
