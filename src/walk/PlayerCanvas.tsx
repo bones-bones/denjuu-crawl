@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import React, { createRef, useEffect, useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getNow } from '../common';
 import { DenjuuTypeIcon } from '../data';
 import playerSheet from '../images/playerSheet.png';
 import tileSheet from '../images/tileSheet.png';
 import { RootState } from '../store';
+import { Tile } from './types';
 
 const TileSheet = new Image();
 TileSheet.src = tileSheet;
@@ -14,9 +14,10 @@ const PlayerSheet = new Image();
 PlayerSheet.src = playerSheet;
 export const PlayerCanvas = () => {
     const canvasRef = createRef<HTMLCanvasElement>();
+    const secondCanvasRef = createRef<HTMLCanvasElement>();
     const canvasContext = useRef<CanvasRenderingContext2D>();
     const mapCurrent = useRef<string>('');
-    const step = useSelector(({ counter: { step } }: RootState) => step);
+   // const step = useSelector(({ counter: { step } }: RootState) => step);
     const location = useSelector(
         ({ counter: { location } }: RootState) => location
     );
@@ -27,7 +28,8 @@ export const PlayerCanvas = () => {
         ) as CanvasRenderingContext2D;
         canvasContext.current.imageSmoothingEnabled = false;
     });
-    useEffect(() => { fetch('https://zpjxcq.getshortstack.com/api/map').then(e => { e.text().then(a => { mapCurrent.current = a }) }) }, [])
+    useEffect(() => { fetch('https://zpjxcq.getshortstack.com/api/map').then(e => { e.arrayBuffer().then(a => { 
+        mapCurrent.current = URL.createObjectURL(new Blob([a],{type:'image/jpeg'})) }) }) }, [])
 
     useLayoutEffect(() => {
         // let stepOffset = 0;
@@ -39,7 +41,38 @@ export const PlayerCanvas = () => {
 
                 const im = new Image()
                 im.src = mapCurrent.current
-                canvasContext.current?.drawImage(im, 0, 0)
+              
+                canvasContext.current?.drawImage(im, 0, 0,256,256)
+                const imageData=canvasContext.current?.getImageData(0,0,256,256)
+
+                const gatheredMap:Array<number[][]>=[
+                    [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
+[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
+[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
+[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
+[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
+[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
+[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
+[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
+                ]
+                for(let i=0;i<256*256;i++){
+                    if(imageData){
+                    const xpos=Math.floor((i%256)/32)
+                    const ypos=Math.floor(i/256/32)
+                  //  console.log(xpos,ypos)
+                    gatheredMap[xpos][ypos][0]=(gatheredMap[xpos][ypos][0]+imageData!.data[i*4])/2
+                    gatheredMap[xpos][ypos][1]=(gatheredMap[xpos][ypos][1]+imageData!.data[i*4+1])/2
+                    gatheredMap[xpos][ypos][2]=(gatheredMap[xpos][ypos][2]+imageData!.data[i*4+2])/2
+                    }
+                }
+               // console.log(gatheredMap)
+
+                // for (let x=0;x<gatheredMap.length;x++){
+                //     for (let y=0;y<gatheredMap[x].length;y++){
+                //         canvasContext.current!.fillStyle=`rgb(${gatheredMap[x][y].join(',')})`
+                //         canvasContext.current?.fillRect(x*32,y*32,32,32)
+                //     }
+                // }
                 // } else {
 
                 //     const playerX = (step.value % 65) * 0.25;
@@ -126,17 +159,21 @@ export const PlayerCanvas = () => {
                 //     }
                 // }
             }
-        }, 200);
+        }, 500);
         return () => clearInterval(draw);
     });
     return (
         <>
             {location?.type && <DenjuuTypeIcon type={location.type} />}
             <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />
+            <InvisibleCanvas ref={secondCanvasRef}/>
         </>
     );
 };
 
+const InvisibleCanvas=styled.canvas({
+    display:'none'
+})
 const PCanvas = styled.canvas({
     border: '1px solid white',
     width: '60vw',
