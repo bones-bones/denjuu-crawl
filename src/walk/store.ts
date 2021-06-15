@@ -19,16 +19,16 @@ const baseType = randomMonsterType();
 const initialState: AppWalkState = localStorage.getItem('reduxState')
     ? JSON.parse(localStorage.getItem('reduxState')!).counter
     : {
-        step: {
-            value: 0,
-            lastUpdatedTime: getNow(),
-            triggerCount: getTriggerCount(),
-        },
-        location: {
-            type: baseType,
-            map: getMapForType(baseType),
-        },
-    };
+          step: {
+              value: 0,
+              lastUpdatedTime: getNow(),
+              triggerCount: getTriggerCount(),
+          },
+          location: {
+              type: baseType,
+              map: getMapForType(baseType),
+          },
+      };
 
 export const incrementThunk = () => (
     dispatch: Dispatch,

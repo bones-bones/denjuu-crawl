@@ -24,9 +24,10 @@ export const attackThunk = ({
     dispatch(showMove({ moveId, direction: player == '1' ? 'back' : 'front' }));
     dispatch(
         delayedBattleMessageThunk(
-            `${denjuuList[
-                getState().battle[player == '1' ? 'p1' : 'p2']!.denjuuId
-            ].displayId
+            `${
+                denjuuList[
+                    getState().battle[player == '1' ? 'p1' : 'p2']!.denjuuId
+                ].displayId
             } used ${moveList[moveId].displayId}`,
             0
         )
@@ -53,7 +54,7 @@ export const attackThunk = ({
                     (((2 * level) / 5 + 2) * power * adRatio) / 5 + 2;
                 const damage = Math.ceil(
                     moveDamage *
-                    getTypeDamageRatio(move.type, templateTarget.type)
+                        getTypeDamageRatio(move.type, templateTarget.type)
                 );
 
                 // Maybe the first part of the computation should be done here then the reducer should hadle the rest? Probably a future refactor
@@ -68,10 +69,10 @@ export const attackThunk = ({
                     value: effectEntry.effect.value,
                 };
 
-
-                ((effectEntry.target == 'self' && player == '1') ||
-                    (effectEntry.target == 'opponent' && player == '2')) ? dispatch(p1StatModification(statMod)) : dispatch(p2StatModification(statMod))
-
+                (effectEntry.target == 'self' && player == '1') ||
+                (effectEntry.target == 'opponent' && player == '2')
+                    ? dispatch(p1StatModification(statMod))
+                    : dispatch(p2StatModification(statMod));
             }
         });
 

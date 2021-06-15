@@ -4,13 +4,11 @@ import React from 'react';
 import { Popup } from './Popup';
 import { Props } from './types';
 
-export const BorderedPopup = ({ closeCallback, children }: Props) =>
+export const BorderedPopup = ({ closeCallback, children }: Props) => (
     <Popup closeCallback={closeCallback}>
-        <Container>
-            {children}
-        </Container>
+        <Container>{children}</Container>
     </Popup>
-
+);
 
 const Container = styled.div({
     backgroundColor: 'rgba(0, 0, 0, 1)',

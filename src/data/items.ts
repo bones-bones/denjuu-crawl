@@ -42,7 +42,8 @@ export const itemList: Item[] = [
         displayId: 'Gas Tank',
         image: GasTank,
         price: 120,
-        description: 'What kind of gass is in this? Who knows but it\'s probably flamable',
+        description:
+            "What kind of gass is in this? Who knows but it's probably flamable",
         effect: { type: ItemEffectType.Experience },
     },
     {
@@ -101,5 +102,12 @@ export const itemList: Item[] = [
         description: 'Number 2',
         effect: { type: ItemEffectType.Experience },
     },
-    { id: 9, displayId: 'Battery', price: 15, image: Battery, description: "Not AA nor C", effect: { type: ItemEffectType.Experience } }
+    {
+        id: 9,
+        displayId: 'Battery',
+        price: 15,
+        image: Battery,
+        description: 'Not AA nor C',
+        effect: { type: ItemEffectType.Experience },
+    },
 ];

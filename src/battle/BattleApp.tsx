@@ -61,20 +61,18 @@ export const BattleApp = () => {
                     !winner &&
                     p1.moves.map((moveId) => (
                         <MoveButton
-                            disabled={(activePlayer == '2' || !!activeMove)}
+                            disabled={activePlayer == '2' || !!activeMove}
                             key={moveId}
                             onClick={() => {
-                                dispatch(
-                                    attackThunk({ player: '1', moveId })
-                                );
+                                dispatch(attackThunk({ player: '1', moveId }));
                             }}
                         >
                             {moveList[moveId].displayId}
                         </MoveButton>
                     ))}
                 {p1 && p2 && winner && <div></div>}
-            </BottomNav></>
-
+            </BottomNav>
+        </>
     );
 };
 
@@ -96,9 +94,7 @@ const P2 = ({
         <ImageHolder
             width="100%"
             height="100%"
-            src={
-                getDenjuuSprite(denjuuId, status == 'attack')
-            }
+            src={getDenjuuSprite(denjuuId, status == 'attack')}
         />
     </FloatSection>
 );
@@ -123,9 +119,7 @@ const P1 = ({
         <ImageHolder
             width="100%"
             height="100%"
-            src={
-                getDenjuuSprite(denjuuId, status == 'attack', false)
-            }
+            src={getDenjuuSprite(denjuuId, status == 'attack', false)}
         />
         <HpBar dir="ltr" maxHp={maxHp} currentHp={hp} barWidth={100} />
     </FloatSection>
@@ -155,7 +149,6 @@ const FloatSection = styled.div(
         right,
     })
 );
-
 
 const Battlefield = styled.div({
     backgroundColor: 'green',

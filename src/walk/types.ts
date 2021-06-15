@@ -15,6 +15,6 @@ export type AppWalkState = {
     };
     location?: {
         type: MonsterType;
-    map: Array<Tile[]>;
+        map: Array<Tile[]>;
     };
 };

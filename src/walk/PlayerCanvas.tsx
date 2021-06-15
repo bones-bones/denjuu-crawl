@@ -6,7 +6,6 @@ import { DenjuuTypeIcon } from '../data';
 import playerSheet from '../images/playerSheet.png';
 import tileSheet from '../images/tileSheet.png';
 import { RootState } from '../store';
-import { Tile } from './types';
 
 const TileSheet = new Image();
 TileSheet.src = tileSheet;
@@ -17,7 +16,7 @@ export const PlayerCanvas = () => {
     const secondCanvasRef = createRef<HTMLCanvasElement>();
     const canvasContext = useRef<CanvasRenderingContext2D>();
     const mapCurrent = useRef<string>('');
-   // const step = useSelector(({ counter: { step } }: RootState) => step);
+    // const step = useSelector(({ counter: { step } }: RootState) => step);
     const location = useSelector(
         ({ counter: { location } }: RootState) => location
     );
@@ -28,44 +27,136 @@ export const PlayerCanvas = () => {
         ) as CanvasRenderingContext2D;
         canvasContext.current.imageSmoothingEnabled = false;
     });
-    useEffect(() => { fetch('https://zpjxcq.getshortstack.com/api/map').then(e => { e.arrayBuffer().then(a => { 
-        mapCurrent.current = URL.createObjectURL(new Blob([a],{type:'image/jpeg'})) }) }) }, [])
+    useEffect(() => {
+        fetch('https://zpjxcq.getshortstack.com/api/map').then((e) => {
+            e.arrayBuffer().then((a) => {
+                mapCurrent.current = URL.createObjectURL(
+                    new Blob([a], { type: 'image/jpeg' })
+                );
+            });
+        });
+    }, []);
 
     useLayoutEffect(() => {
         // let stepOffset = 0;
 
         const draw = setInterval(() => {
             if (location?.map) {
-
                 //if (true) {
 
-                const im = new Image()
-                im.src = mapCurrent.current
-              
-                canvasContext.current?.drawImage(im, 0, 0,256,256)
-                const imageData=canvasContext.current?.getImageData(0,0,256,256)
+                const im = new Image();
+                im.src = mapCurrent.current;
 
-                const gatheredMap:Array<number[][]>=[
-                    [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
-[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
-[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
-[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
-[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
-[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
-[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
-[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
-                ]
-                for(let i=0;i<256*256;i++){
-                    if(imageData){
-                    const xpos=Math.floor((i%256)/32)
-                    const ypos=Math.floor(i/256/32)
-                  //  console.log(xpos,ypos)
-                    gatheredMap[xpos][ypos][0]=(gatheredMap[xpos][ypos][0]+imageData!.data[i*4])/2
-                    gatheredMap[xpos][ypos][1]=(gatheredMap[xpos][ypos][1]+imageData!.data[i*4+1])/2
-                    gatheredMap[xpos][ypos][2]=(gatheredMap[xpos][ypos][2]+imageData!.data[i*4+2])/2
+                canvasContext.current?.drawImage(im, 0, 0, 256, 256);
+                const imageData = canvasContext.current?.getImageData(
+                    0,
+                    0,
+                    256,
+                    256
+                );
+
+                const gatheredMap: Array<number[][]> = [
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                    ],
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                    ],
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                    ],
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                    ],
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                    ],
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                    ],
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                    ],
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                    ],
+                ];
+                for (let i = 0; i < 256 * 256; i++) {
+                    if (imageData) {
+                        const xpos = Math.floor((i % 256) / 32);
+                        const ypos = Math.floor(i / 256 / 32);
+                        //  console.log(xpos,ypos)
+                        gatheredMap[xpos][ypos][0] =
+                            (gatheredMap[xpos][ypos][0] +
+                                imageData!.data[i * 4]) /
+                            2;
+                        gatheredMap[xpos][ypos][1] =
+                            (gatheredMap[xpos][ypos][1] +
+                                imageData!.data[i * 4 + 1]) /
+                            2;
+                        gatheredMap[xpos][ypos][2] =
+                            (gatheredMap[xpos][ypos][2] +
+                                imageData!.data[i * 4 + 2]) /
+                            2;
                     }
                 }
-               // console.log(gatheredMap)
+                // console.log(gatheredMap)
 
                 // for (let x=0;x<gatheredMap.length;x++){
                 //     for (let y=0;y<gatheredMap[x].length;y++){
@@ -166,14 +257,14 @@ export const PlayerCanvas = () => {
         <>
             {location?.type && <DenjuuTypeIcon type={location.type} />}
             <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />
-            <InvisibleCanvas ref={secondCanvasRef}/>
+            <InvisibleCanvas ref={secondCanvasRef} />
         </>
     );
 };
 
-const InvisibleCanvas=styled.canvas({
-    display:'none'
-})
+const InvisibleCanvas = styled.canvas({
+    display: 'none',
+});
 const PCanvas = styled.canvas({
     border: '1px solid white',
     width: '60vw',

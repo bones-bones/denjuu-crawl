@@ -20,7 +20,13 @@ export const ItemDenjuuSelector = ({
     itemId,
     selectionCallback,
 }: Props) => {
-    const { inventory: { items }, contactList } = useSelector(({ inventory, contactList }: RootState) => ({ inventory, contactList }));
+    const {
+        inventory: { items },
+        contactList,
+    } = useSelector(({ inventory, contactList }: RootState) => ({
+        inventory,
+        contactList,
+    }));
     const dispatch = useDispatch();
     const [selections, setSelection] = useState<SelectionOptions>({
         denjuuInstanceId,
@@ -29,29 +35,35 @@ export const ItemDenjuuSelector = ({
     console.log(selections);
     return (
         <ItemSelectorMenu>
-            {!denjuuInstanceId && <ItemSelectorMenu>
-                Select a denjuu to use this item on
-                <select
-                    defaultValue={selections.denjuuInstanceId}
-                    onChange={(changeEvent) => {
-                        setSelection({
-                            ...selections,
-                            denjuuInstanceId: (changeEvent.target.value),
-                        });
-                    }}
-                >
-                    <option value={undefined} hidden>
-                        select one
+            {!denjuuInstanceId && (
+                <ItemSelectorMenu>
+                    Select a denjuu to use this item on
+                    <select
+                        defaultValue={selections.denjuuInstanceId}
+                        onChange={(changeEvent) => {
+                            setSelection({
+                                ...selections,
+                                denjuuInstanceId: changeEvent.target.value,
+                            });
+                        }}
+                    >
+                        <option value={undefined} hidden>
+                            select one
                         </option>
-                    {contactList.denjuu.map((entry) => {
-                        const template = denjuuList[entry.denjuuId]
-                        return <option value={entry.instanceId} key={entry.instanceId}>
-                            {`${template.displayId} (${entry.level})`}
-                        </option>
-                    }
-                    )}
-                </select>
-            </ItemSelectorMenu>}
+                        {contactList.denjuu.map((entry) => {
+                            const template = denjuuList[entry.denjuuId];
+                            return (
+                                <option
+                                    value={entry.instanceId}
+                                    key={entry.instanceId}
+                                >
+                                    {`${template.displayId} (${entry.level})`}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </ItemSelectorMenu>
+            )}
             {!itemId && (
                 <ItemSelectorMenu>
                     Select Item
@@ -70,12 +82,12 @@ export const ItemDenjuuSelector = ({
                         </option>
                         {items.map((entry) => (
                             <option value={entry.itemId} key={entry.itemId}>
-                                {`${itemList[entry.itemId].displayId} lv: ${entry.count
-                                    }`}
+                                {`${itemList[entry.itemId].displayId} lv: ${
+                                    entry.count
+                                }`}
                             </option>
                         ))}
                     </select>
-
                 </ItemSelectorMenu>
             )}
             <button
@@ -94,7 +106,7 @@ export const ItemDenjuuSelector = ({
                 }}
             >
                 Use
-                    </button>
+            </button>
         </ItemSelectorMenu>
     );
 };

@@ -40,15 +40,9 @@ const SettingsControls = () => {
     const dispatch = useDispatch();
     const settings = useSelector(({ settings }: RootState) => settings);
 
-
     return (
         <>
-            <label
-                htmlFor="vibration"
-
-            >
-                Enable Vibration
-            </label>
+            <label htmlFor="vibration">Enable Vibration</label>
             <input
                 type="checkbox"
                 id="vibration"
@@ -63,12 +57,7 @@ const SettingsControls = () => {
             <br />
             <br />
             <br />
-            <label
-                htmlFor="wakelock"
-
-            >
-                Enable WakeLock when walking
-            </label>
+            <label htmlFor="wakelock">Enable WakeLock when walking</label>
             <input
                 type="checkbox"
                 id="wakelock"

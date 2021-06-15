@@ -19,8 +19,8 @@ interface T2Sprites {
     attack: { back: string; front: string };
 }
 interface Sprites {
-    t1: string
-    t2?: T2Sprites
+    t1: string;
+    t2?: T2Sprites;
 }
 
 export enum EvolutionTypes {
