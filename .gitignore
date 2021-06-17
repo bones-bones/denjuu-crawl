@@ -25,4 +25,5 @@ yarn-error.log*
 notes.txt
 
 # secrets
-src/secrets/locationAPIKey.ts
+secrets/locationAPIKey.js
+.env
