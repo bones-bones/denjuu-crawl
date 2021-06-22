@@ -26,7 +26,6 @@ function App() {
     const alerts = useSelector(
         ({ [alertsName]: { events } }: RootState) => events
     );
-    const brevPath = '/absproxy/3000';
     return (
         <div
             ref={rootRef}
@@ -76,25 +75,25 @@ function App() {
                     `}
                 />
                 <Switch>
-                    <Route path={brevPath + '/denjuu-crawl/battle'}>
+                    <Route path={ '/denjuu-crawl/battle'}>
                         <BattleApp />
                     </Route>
-                    <Route path={brevPath + '/denjuu-crawl/alerts'}>
+                    <Route path={ '/denjuu-crawl/alerts'}>
                         <AlertView />
                     </Route>
-                    <Route path={brevPath + '/denjuu-crawl/contacts'}>
+                    <Route path={ '/denjuu-crawl/contacts'}>
                         <ContactList />
                     </Route>
-                    <Route path={brevPath + '/denjuu-crawl/items'}>
+                    <Route path={ '/denjuu-crawl/items'}>
                         <InventoryView />
                     </Route>
-                    <Route path={brevPath + '/denjuu-crawl/settings'}>
+                    <Route path={ '/denjuu-crawl/settings'}>
                         <SettingsApp rootRef={rootRef} />
                     </Route>
-                    <Route path={brevPath + '/denjuu-crawl/walk'}>
+                    <Route path={ '/denjuu-crawl/walk'}>
                         <StepApp />
                     </Route>
-                    <Route path={brevPath + '/denjuu-crawl/'}>
+                    <Route path={ '/denjuu-crawl/'}>
                         <StepApp />
                     </Route>
                 </Switch>

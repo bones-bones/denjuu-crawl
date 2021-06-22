@@ -7,18 +7,44 @@ const app = express();
 const  Stream = require('stream').Transform;
 
 
-const brevUrl='/absproxy/3001/map'
+
 
 const PORT = process.env.PORT || 3001;
 // https://nodejs.dev/learn/making-http-requests-with-nodejs
-const mapOptions={
-  hostname:'dev.virtualearth.net',
-  path:'/REST/v1/Imagery/Map/Road/47.66177,-117.40996/16?key='+process.env.LOCATIONS_API_KEY+'&mapLayer=Basemap,Buildings',
-  method:'GET'
-}
 
-app.get(brevUrl, (request, res) => {
-  console.log('we in');
+// app.use(function (req, res, next) {
+// console.log('middleware');
+//   // Website you wish to allow to connect
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+
+//   // Request methods you wish to allow
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+//   // Request headers you wish to allow
+//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+//   // Set to true if you need the website to include cookies in the requests sent
+//   // to the API (e.g. in case you use sessions)
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+
+//   // Pass to next layer of middleware
+//   next(req, res);
+// });
+
+app.get('/map', (request, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+
+  console.log('we in',request.query);
+  const mapOptions={
+    hostname:'dev.virtualearth.net',
+    path:`/REST/v1/Imagery/Map/BirdsEye/${request.query.lat||'47.66177'},${request.query.long||'-117.40996'}/20?key=${process.env.LOCATIONS_API_KEY}&mapLayer=Basemap,Buildings`,
+    method:'GET'
+  }
+  
+  // Ariel 17
+  // BirdsEye 20
   var data = new Stream();                                                    
 
 
@@ -45,23 +71,9 @@ app.get(brevUrl, (request, res) => {
   mapRequset.end()
 
 
-  
- 
-
-
-
   // res.send('Hello World!')
 })
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
-
-
-/**
- *   response = requests.get(turl)
-  response_body = response.content
-  headers_t = {"content-type": "image/jpeg"}
-  return Response(response_body, status_code=200, headers=headers_t, media_type="image/jpeg")
-
- */

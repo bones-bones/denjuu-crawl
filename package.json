@@ -2,7 +2,7 @@
     "name": "denjuu-crawl",
     "version": "0.1.0",
     "private": true,
-    "homepage": "/absproxy/3000",
+    "homepage": "./",
     "dependencies": {
         "@emotion/react": "^11.1.5",
         "@emotion/styled": "^11.1.5",
