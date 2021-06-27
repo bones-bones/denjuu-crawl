@@ -1,6 +1,14 @@
 
 
 export const getTileTypeFromColor=(r:number,g:number,b:number)=>{
+    const roadDistance=Math.abs(getColorDistance(r,g,b,99,103,114))
+    const houseDistance=Math.abs(getColorDistance(r,g,b,243,252,255))
+    const forrestDistance=Math.abs(getColorDistance(r,g,b,70,87,82))
+    const roofDistance=Math.abs(getColorDistance(r,g,b,144,109,112))
+
+    if(roadDistance<houseDistance&&roadDistance<forrestDistance&&roadDistance<roofDistance){
+
+    }
 
 }
 
