@@ -1,11 +1,18 @@
 import styled from '@emotion/styled';
-import React, { createRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, {
+    createRef,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 
 import { DenjuuTypeIcon } from '../data';
 import playerSheet from '../images/playerSheet.png';
 import tileSheet from '../images/tileSheet.png';
 import { RootState } from '../store';
+import { getTileTypeFromColor } from './getTileTypeFromColor';
 import { Tile } from './types';
 
 const TileSheet = new Image();
@@ -20,7 +27,7 @@ export const PlayerCanvas = () => {
     const location = useSelector(
         ({ counter: { location } }: RootState) => location
     );
-    const [mapImage,setMapImage]=useState<string>('');
+    const [mapImage, setMapImage] = useState<string>('');
 
     useLayoutEffect(() => {
         canvasContext.current = canvasRef.current!.getContext(
@@ -29,29 +36,42 @@ export const PlayerCanvas = () => {
         canvasContext.current.imageSmoothingEnabled = false;
     });
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(({coords:{latitude,longitude}})=>{
-            fetch('https://3001.bonesbonesdenjuucrawl3.boostedstack.io/map?lat='+latitude+'&long='+longitude, {mode: 'cors'}).then((e) => {
-                e.arrayBuffer().then((a) => {
-                    setMapImage (URL.createObjectURL(
-                        new Blob([a], { type: 'image/jpeg' })
-                    ));
+        navigator.geolocation.getCurrentPosition(
+            ({ coords: { latitude, longitude } }) => {
+                fetch(
+                    'https://3001.bonesbonesdenjuucrawl3.boostedstack.io/map?lat=' +
+                        latitude.toFixed(4) +
+                        '&long=' +
+                        longitude.toFixed(4),
+                    {
+                        credentials: 'include',
+                    }
+                ).then((e) => {
+                    e.arrayBuffer().then((a) => {
+                        setMapImage(
+                            URL.createObjectURL(
+                                new Blob([a], { type: 'image/jpeg' })
+                            )
+                        );
+                    });
                 });
-            });
-        })
+
+            }
+        );
     }, []);
-    useEffect(()=>{
+    useEffect(() => {
         const im = new Image();
 
-        im.onload=()=>{
+        im.onload = () => {
             canvasContext.current?.drawImage(im, 0, 0, 256, 256);
-            canvasContext.current!.filter = "brightness(150%)";
+          
             const imageData = canvasContext.current?.getImageData(
                 0,
                 0,
                 256,
                 256
             );
-    
+            //canvasContext.current!.filter = 'brightness(150%)';
             const gatheredMap: Array<number[][]> = [
                 [
                     [0, 0, 0],
@@ -196,7 +216,8 @@ export const PlayerCanvas = () => {
                     [0, 0, 0],
                     [0, 0, 0],
                     [0, 0, 0],
-                ],[
+                ],
+                [
                     [0, 0, 0],
                     [0, 0, 0],
                     [0, 0, 0],
@@ -347,8 +368,7 @@ export const PlayerCanvas = () => {
                     const ypos = Math.floor(i / 256 / 16);
                     //  console.log(xpos,ypos)
                     gatheredMap[xpos][ypos][0] =
-                        (gatheredMap[xpos][ypos][0] +
-                            imageData!.data[i * 4]) /
+                        (gatheredMap[xpos][ypos][0] + imageData!.data[i * 4]) /
                         2;
                     gatheredMap[xpos][ypos][1] =
                         (gatheredMap[xpos][ypos][1] +
@@ -360,30 +380,52 @@ export const PlayerCanvas = () => {
                         2;
                 }
             }
+            const tLogicalMap: Array<Tile[]> = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 
-            const tLogicalMap:Array<Tile[]>=[]
-
-                //16 because i'm lazy
-            // for (let x=0;x<16;x++){
-            //     for (let y=0;y<16;y++){
-            //         tLogicalMap[x][y]=getTileType
-            //     }
-            // }
-
-           
+            for(let y=0;y<16;y++){
+                for(let x=0;x<16;x++){
+                    tLogicalMap[x][y]=getTileTypeFromColor(
+                        gatheredMap[x][y][0],
+                        gatheredMap[x][y][1],
+                        gatheredMap[x][y][2]
+                    );
+                }
+            }
+            
     
-            for (let x=0;x<gatheredMap.length;x++){
+            canvasContext.current!.globalAlpha=1
+            const tileSize = 16;
+             for (let x=0;x<gatheredMap.length;x++){
                 for (let y=0;y<gatheredMap[x].length;y++){
                     canvasContext.current!.fillStyle=`rgb(${gatheredMap[x][y].join(',')})`
                     canvasContext.current?.fillRect(x*16,y*16,16,16)
                 }
             }
-    
-        }
-        im.src = mapImage;
+            canvasContext.current!.globalAlpha=1
+            canvasContext.current!.globalAlpha=1
+            for (let x = 0; x < 16; x++) {
+            for (let y = 0; y < 16; y++) {
+            
+                
+                    canvasContext.current?.drawImage(
+                        TileSheet,
+                        tLogicalMap[x][y].x * tileSize,
+                        tLogicalMap[x][y].y * tileSize,
+                        (tLogicalMap[x][y].width || 1) * tileSize,
+                        (tLogicalMap[x][y].height || 1) * tileSize,
+                        x * tileSize ,
+                        y * tileSize ,
+                        (tLogicalMap[x][y].width || 1) * tileSize,
+                        (tLogicalMap[x][y].height || 1) * tileSize 
+                    );
+                }
+            }
+            canvasContext.current!.globalAlpha=1
 
-       
-    },[mapImage]);
+     
+        };
+        im.src = mapImage;
+    }, [mapImage]);
 
     // useLayoutEffect(() => {
     //     // let stepOffset = 0;

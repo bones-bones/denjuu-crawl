@@ -1,14 +1,22 @@
+import { tilemap } from "./spawnMap"
 
 
 export const getTileTypeFromColor=(r:number,g:number,b:number)=>{
-    const roadDistance=Math.abs(getColorDistance(r,g,b,99,103,114))
-    const houseDistance=Math.abs(getColorDistance(r,g,b,243,252,255))
-    const forrestDistance=Math.abs(getColorDistance(r,g,b,70,87,82))
-    const roofDistance=Math.abs(getColorDistance(r,g,b,144,109,112))
+    const roadDistance=(getColorDistance(r,g,b,99,103,114))
+    const houseDistance=(getColorDistance(r,g,b,243,252,255))
+    const forrestDistance=(getColorDistance(r,g,b,30,47,20))
+    const roofDistance=(getColorDistance(r,g,b,144,109,112))
 
     if(roadDistance<houseDistance&&roadDistance<forrestDistance&&roadDistance<roofDistance){
-
+        return tilemap.redEarth
+    }else if(houseDistance<roofDistance&&houseDistance<forrestDistance&&houseDistance<roadDistance){
+        return tilemap.desk
+    }else if(roofDistance<houseDistance&&roofDistance<forrestDistance&&roofDistance<roadDistance){
+        return tilemap.roofTile
+    }else if(forrestDistance<houseDistance&&forrestDistance<roofDistance&&forrestDistance<roadDistance){
+        return tilemap.mediumGrass
     }
+   return tilemap.barrel
 
 }
 
