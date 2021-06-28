@@ -326,4 +326,75 @@ export const moveList: Move[] = [
             },
         ],
     },
+    {
+        //17
+        displayId: 'Evade',
+        type: MoveType.Normal,
+        effects: [
+            {
+                effect: { type: EffectType.StatChange, value: 7, stat: 'defense' },
+                target: 'self',
+            },
+            {
+                effect: { type: EffectType.StatChange, value: 2, stat: 'speed' },
+                target: 'self',
+            },
+        ],
+    },
+    {
+        //18
+        displayId: 'Stab',
+        type: MoveType.Normal,
+        effects: [
+            {
+                effect: { type: EffectType.DenmaDamage, value: 10 },
+                target: 'opponent',
+            },
+        ],
+    },
+    {
+        //19
+        displayId: 'Smokescreen',
+        type: MoveType.Machine,
+        effects: [
+            {
+                effect: { type: EffectType.StatChange, value: 3, stat: 'defense' },
+                target: 'self',
+            },
+            {
+                effect: { type: EffectType.StatChange, value: 2, stat: 'speed' },
+                target: 'self',
+            },
+        ],
+    },
+    {
+        //20
+        displayId: 'Camoflage',
+        type: MoveType.Machine,
+        effects: [
+            {
+                effect: { type: EffectType.StatChange, value: 6, stat: 'defense' },
+                target: 'self',
+            },
+            {
+                effect: { type: EffectType.StatChange, value: 6, stat: 'speed' },
+                target: 'self',
+            },
+        ],
+    },
+    {
+        //21
+        displayId: 'Invigorate',
+        type: MoveType.Normal,
+        effects: [
+            {
+                effect: {
+                    type: EffectType.StatChange,
+                    stat: 'attack',
+                    value: 6,
+                },
+                target: 'self',
+            },
+        ],
+    },
 ];
