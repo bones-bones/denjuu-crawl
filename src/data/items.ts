@@ -5,6 +5,7 @@ import Flamethrower from '../images/items/flame_thrower.gif';
 import GameMachine from '../images/items/game_machine.gif';
 import GasTank from '../images/items/gas_tank.gif';
 import Gun from '../images/items/gun.gif';
+import Microwave from '../images/items/microwave.gif';
 import Pencil from '../images/items/pencil.gif';
 import SmallPotion from '../images/items/S_ItemLightOutline_PotionRed_00.png';
 import Sabre from '../images/items/sabre.gif';
@@ -108,6 +109,14 @@ export const itemList: Item[] = [
         price: 15,
         image: Battery,
         description: 'Not AA nor C',
+        effect: { type: ItemEffectType.Experience },
+    },
+    {
+        id: 10,
+        displayId: 'Microwave',
+        price: 90,
+        image: Microwave,
+        description: 'Popcorn in for 90 seconds',
         effect: { type: ItemEffectType.Experience },
     },
 ];
