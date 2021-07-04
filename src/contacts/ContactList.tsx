@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { BorderedContainer } from '../components';
 import { denjuuList, DenjuuTemplate, getDenjuuSprite } from '../data';
 import { HpBar } from '../hpBar';
 import { PlayerDenjuu, PlayerDenjuuContactList } from '../playerDenjuu';
@@ -20,12 +21,13 @@ export const ContactList = () => {
                     ({ id }) => id === entry.denjuuId
                 )!;
                 return (
-                    <DenjuuDiv
-                        denjuuTemplate={denjuuTemplate}
-                        playerDenjuu={playerDenjuu}
-                        entry={entry}
-                        key={entry.instanceId}
-                    />
+                    <BorderedContainer key={entry.instanceId}>
+                        <DenjuuDiv
+                            denjuuTemplate={denjuuTemplate}
+                            playerDenjuu={playerDenjuu}
+                            entry={entry}
+                        />
+                    </BorderedContainer>
                 );
             })}
         </BackgroundPanel>
@@ -60,11 +62,11 @@ const DenjuuDiv = ({
                 }}
             >
                 <div>
+                    {playerDenjuu.activeDenju == entry.instanceId && (
+                        <ActiveStar>⭐</ActiveStar>
+                    )}{' '}
                     <span>{denjuuTemplate.displayId}</span>{' '}
                     <Level>Lv{entry.level}</Level>
-                    {playerDenjuu.activeDenju == entry.instanceId && (
-                        <span>⭐</span>
-                    )}
                 </div>
                 <ImageHolder src={getDenjuuSprite(denjuuTemplate.id)} />
                 <HpBar
@@ -86,6 +88,12 @@ const DenjuuDiv = ({
     );
 };
 
+const ActiveStar = styled.span({
+    height: '10px',
+    fontSize: '8px',
+    display: 'inline-flex',
+    //TODO: fix
+});
 const ImageHolder = styled.img({ imageRendering: 'pixelated' });
 
 const BigDiv = styled.div({
@@ -101,7 +109,6 @@ const BigDiv = styled.div({
 const DenjuuSummary = styled.div({
     height: '90%',
     width: '90%',
-    margin: '2px',
     justifyContent: 'center',
     alignItems: 'center',
     display: 'flex',

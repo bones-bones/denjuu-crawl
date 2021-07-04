@@ -17,7 +17,8 @@ export const BattleApp = () => {
         ({ battle }: RootState) => battle
     );
     const playerDenjuu = useSelector(
-        ({ contactList: { denjuu } }: RootState) => denjuu.find(({ instanceId }) => instanceId === p1?.instanceId)!
+        ({ contactList: { denjuu } }: RootState) =>
+            denjuu.find(({ instanceId }) => instanceId === p1?.instanceId)!
     );
 
     const { hp: p2hp } = useSelector(
@@ -63,23 +64,20 @@ export const BattleApp = () => {
                     !winner &&
                     playerDenjuu.moves.map((moveId) => (
                         <MoveButton
-                            disabled={(activePlayer == '2' || !!activeMove)}
+                            disabled={activePlayer == '2' || !!activeMove}
                             key={moveId}
                             onClick={() => {
-                                dispatch(
-                                    attackThunk({ player: '1', moveId })
-                                );
+                                dispatch(attackThunk({ player: '1', moveId }));
                             }}
                         >
                             {moveList[moveId].displayId}
                         </MoveButton>
                     ))}
                 {p1 && p2 && winner && <div></div>}
-            </BottomNav></>
-
+            </BottomNav>
+        </>
     );
 };
-
 
 const P2 = ({
     hp,
@@ -99,9 +97,7 @@ const P2 = ({
         <ImageHolder
             width="100%"
             height="100%"
-            src={
-                getDenjuuSprite(denjuuId, status == 'attack')
-            }
+            src={getDenjuuSprite(denjuuId, status == 'attack')}
         />
     </FloatSection>
 );
@@ -110,20 +106,26 @@ const ImageHolder = styled.img({
     imageRendering: 'pixelated',
 });
 
-
-
-const P1 = ({ maxHp, hp, status, denjuuId }: { maxHp: number, hp: number, status: 'attack' | 'static', denjuuId: number }) =>
-(<FloatSection bottom="5vh" left="4vw" status={status} key={'' + hp}>
-    <ImageHolder
-        width="100%"
-        height="100%"
-        src={
-            getDenjuuSprite(denjuuId, status == 'attack', false)
-        }
-    />
-    <HpBar dir="ltr" maxHp={maxHp} currentHp={hp} barWidth={100} />
-</FloatSection>)
-
+const P1 = ({
+    maxHp,
+    hp,
+    status,
+    denjuuId,
+}: {
+    maxHp: number;
+    hp: number;
+    status: 'attack' | 'static';
+    denjuuId: number;
+}) => (
+    <FloatSection bottom="5vh" left="4vw" status={status} key={'' + hp}>
+        <ImageHolder
+            width="100%"
+            height="100%"
+            src={getDenjuuSprite(denjuuId, status == 'attack', false)}
+        />
+        <HpBar dir="ltr" maxHp={maxHp} currentHp={hp} barWidth={100} />
+    </FloatSection>
+);
 
 const FloatSection = styled.div(
     ({
@@ -149,7 +151,6 @@ const FloatSection = styled.div(
         right,
     })
 );
-
 
 const Battlefield = styled.div({
     backgroundColor: 'green',

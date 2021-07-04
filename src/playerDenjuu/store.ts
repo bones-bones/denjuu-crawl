@@ -12,58 +12,57 @@ import {
 import { getDenjuuByInstanceId } from './getDenjuuByInstanceId';
 import { PlayerDenjuuContactList } from './types';
 
-
 const initPlayerDenjuuLevel = 1;
 const initPlayerDenjuuId = 0;
 const secondPlayerDenjuuLevel = 2;
 const secondPlayerDenjuuId = 2;
 const initialState: PlayerDenjuuContactList =
     localStorage.getItem('reduxState') &&
-        JSON.parse(localStorage.getItem('reduxState')!).contactList
+    JSON.parse(localStorage.getItem('reduxState')!).contactList
         ? JSON.parse(localStorage.getItem('reduxState')!).contactList
         : {
-            denjuu: [
-                {
-                    stats: {
-                        ...getDenjuuAtLevel(
-                            initPlayerDenjuuId,
-                            initPlayerDenjuuLevel
-                        ).stats,
-                    },
-                    denjuuId: initPlayerDenjuuId,
-                    instanceId: '1oshe',
-                    level: initPlayerDenjuuLevel,
-                    exp: 0,
-                    moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
-                    temporalStats: {
-                        ...getDenjuuAtLevel(
-                            initPlayerDenjuuId,
-                            initPlayerDenjuuLevel
-                        ).stats,
-                    },
-                },
-                {
-                    stats: {
-                        ...getDenjuuAtLevel(
-                            secondPlayerDenjuuId,
-                            secondPlayerDenjuuLevel
-                        ).stats,
-                    },
-                    denjuuId: secondPlayerDenjuuId,
-                    instanceId: 'angios',
-                    level: secondPlayerDenjuuLevel,
-                    exp: 0,
-                    moves: getDenjuuAtLevel(secondPlayerDenjuuId, 5).moves,
-                    temporalStats: {
-                        ...getDenjuuAtLevel(
-                            secondPlayerDenjuuId,
-                            secondPlayerDenjuuLevel
-                        ).stats,
-                    },
-                },
-            ],
-            activeDenju: '1oshe',
-        };
+              denjuu: [
+                  {
+                      stats: {
+                          ...getDenjuuAtLevel(
+                              initPlayerDenjuuId,
+                              initPlayerDenjuuLevel
+                          ).stats,
+                      },
+                      denjuuId: initPlayerDenjuuId,
+                      instanceId: '1oshe',
+                      level: initPlayerDenjuuLevel,
+                      exp: 0,
+                      moves: getDenjuuAtLevel(initPlayerDenjuuId, 5).moves,
+                      temporalStats: {
+                          ...getDenjuuAtLevel(
+                              initPlayerDenjuuId,
+                              initPlayerDenjuuLevel
+                          ).stats,
+                      },
+                  },
+                  {
+                      stats: {
+                          ...getDenjuuAtLevel(
+                              secondPlayerDenjuuId,
+                              secondPlayerDenjuuLevel
+                          ).stats,
+                      },
+                      denjuuId: secondPlayerDenjuuId,
+                      instanceId: 'angios',
+                      level: secondPlayerDenjuuLevel,
+                      exp: 0,
+                      moves: getDenjuuAtLevel(secondPlayerDenjuuId, 5).moves,
+                      temporalStats: {
+                          ...getDenjuuAtLevel(
+                              secondPlayerDenjuuId,
+                              secondPlayerDenjuuLevel
+                          ).stats,
+                      },
+                  },
+              ],
+              activeDenju: '1oshe',
+          };
 
 export const contactListSlice = createSlice({
     name: 'contactList',
@@ -91,9 +90,17 @@ export const contactListSlice = createSlice({
         },
         statModification: (
             state,
-            { payload: { mod: { value, stat }, instanceId } }: PayloadAction<{ instanceId: string, mod: StatModification }>
+            {
+                payload: {
+                    mod: { value, stat },
+                    instanceId,
+                },
+            }: PayloadAction<{ instanceId: string; mod: StatModification }>
         ) => {
-            const playerDenjuu = state.denjuu.find(({ instanceId: denjuuInstanceId }) => instanceId === denjuuInstanceId)!
+            const playerDenjuu = state.denjuu.find(
+                ({ instanceId: denjuuInstanceId }) =>
+                    instanceId === denjuuInstanceId
+            )!;
             // 200 was the abitrary cap
             playerDenjuu.temporalStats[stat] = Math.min(
                 200,
@@ -109,11 +116,15 @@ export const contactListSlice = createSlice({
         ) => {
             state.denjuu.find(
                 (entry) => entry.instanceId === instanceId
-            )!.temporalStats.hp = Math.max(Math.min(
-                hp,
-                state.denjuu.find((entry) => entry.instanceId === instanceId)!
-                    .stats.hp
-            ), 0);
+            )!.temporalStats.hp = Math.max(
+                Math.min(
+                    hp,
+                    state.denjuu.find(
+                        (entry) => entry.instanceId === instanceId
+                    )!.stats.hp
+                ),
+                0
+            );
         },
         healDenjuu: (
             state,
@@ -136,9 +147,19 @@ export const contactListSlice = createSlice({
         ) => {
             state.activeDenju = instanceId;
         },
-        resetTemporalStats: ({ denjuu }, { payload: { instanceId, includeHP = false } }: PayloadAction<{ instanceId: string, includeHP?: boolean }>) => {
-            const denjuuInQuestion = getDenjuuByInstanceId(instanceId, denjuu)
-            denjuuInQuestion.temporalStats = { ...denjuuInQuestion.stats, hp: includeHP ? denjuuInQuestion.stats.hp : denjuuInQuestion.temporalStats.hp }
+        resetTemporalStats: (
+            { denjuu },
+            {
+                payload: { instanceId, includeHP = false },
+            }: PayloadAction<{ instanceId: string; includeHP?: boolean }>
+        ) => {
+            const denjuuInQuestion = getDenjuuByInstanceId(instanceId, denjuu);
+            denjuuInQuestion.temporalStats = {
+                ...denjuuInQuestion.stats,
+                hp: includeHP
+                    ? denjuuInQuestion.stats.hp
+                    : denjuuInQuestion.temporalStats.hp,
+            };
         },
         newDenjuu: (
             state,
@@ -161,7 +182,10 @@ export const contactListSlice = createSlice({
                 payload: { value, instanceId },
             }: PayloadAction<{ instanceId: string; value: number }>
         ) => {
-            const denjuuInQuestion = getDenjuuByInstanceId(instanceId, state.denjuu)
+            const denjuuInQuestion = getDenjuuByInstanceId(
+                instanceId,
+                state.denjuu
+            );
             let newExpTotal =
                 state.denjuu.find((entry) => entry.instanceId === instanceId)!
                     .exp + value;
@@ -191,12 +215,12 @@ export const contactListSlice = createSlice({
 
                 if (
                     denjuuList[denjuuInQuestion.denjuuId].movesAtLevel[
-                    denjuuInQuestion.level
+                        denjuuInQuestion.level
                     ]
                 ) {
                     denjuuInQuestion.moves = denjuuInQuestion.moves.concat(
                         denjuuList[denjuuInQuestion.denjuuId].movesAtLevel[
-                        denjuuInQuestion.level
+                            denjuuInQuestion.level
                         ]
                     );
                 }
@@ -214,5 +238,5 @@ export const {
     setActive,
     statModification,
     newDenjuu,
-    resetTemporalStats
+    resetTemporalStats,
 } = contactListSlice.actions;

@@ -6,11 +6,12 @@ export interface Move {
 }
 
 interface TargetedEffect {
-    effect: DamageEffect
-    | StatChangeEffect
-    | FlyEffect
-    | SleepEffect
-    | DenmaDamageEffect;
+    effect:
+        | DamageEffect
+        | StatChangeEffect
+        | FlyEffect
+        | SleepEffect
+        | DenmaDamageEffect;
     target: 'self' | 'opponent';
 }
 
@@ -21,7 +22,6 @@ export interface Effect {
 export interface DamageEffect extends Effect {
     type: EffectType.Damage;
     value: number;
-
 }
 export interface PoisonEffect extends Effect {
     type: EffectType.Poison;
@@ -35,12 +35,12 @@ export interface StatChangeEffect extends Effect {
     type: EffectType.StatChange;
     value: number;
     stat:
-    | 'hp'
-    | 'speed'
-    | 'attack'
-    | 'defense'
-    | 'denmaAttack'
-    | 'denmaDefense';
+        | 'hp'
+        | 'speed'
+        | 'attack'
+        | 'defense'
+        | 'denmaAttack'
+        | 'denmaDefense';
 }
 export interface FlyEffect extends Effect {
     type: EffectType.Fly;
@@ -65,5 +65,5 @@ export enum EffectType {
     StatChange = 'StatChange',
     Sleep = 'Sleep',
     Fly = 'Fly',
-    Poison = 'Poison'
+    Poison = 'Poison',
 }

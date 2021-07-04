@@ -26,4 +26,4 @@ export const DenjuuTypeIcon = ({ type }: Props) => {
     return <ImageHolder src={typeImageMapping[type]} />;
 };
 
-const ImageHolder = styled.img({ imageRendering: 'pixelated' });
+const ImageHolder = styled.img({ imageRendering: 'pixelated', width: '100%', height: '100%' });

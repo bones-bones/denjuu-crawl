@@ -13,13 +13,13 @@ let activeTurnCount = 0;
 // Move to Hook
 function handleChange() {
     activeTurnValue = store.getState().battle.activePlayer;
-    const { turnCount } = store.getState().battle
+    const { turnCount } = store.getState().battle;
     if (
         turnCount != activeTurnCount &&
         activeTurnValue === '2' &&
         store.getState().battle.p2?.stats.hp! > 0
     ) {
-        activeTurnCount = turnCount
+        activeTurnCount = turnCount;
         setTimeout(() => {
             if (store.getState().battle.winner === undefined) {
                 const p2Moves = store.getState().battle.p2!.moves;

@@ -132,9 +132,7 @@ const ImageHolder = styled.img({ imageRendering: 'pixelated' });
 const MoveEntry = styled.div({ display: 'flex', alignItems: 'center' });
 const MoveContainer = styled.div({ borderTop: '1px solid black' });
 const Container = styled.div({
-    padding: '13px',
     fontSize: '12px',
-    border: '1px solid black',
     backgroundColor: 'whitesmoke',
     display: 'flex',
     flexDirection: 'column',

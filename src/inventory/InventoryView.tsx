@@ -11,7 +11,6 @@ export const InventoryView = () => {
             {inventory.items.map((entry) => (
                 <ItemView key={entry.itemId} itemEntry={entry} />
             ))}
-
         </BackgroundPanel>
     );
 };

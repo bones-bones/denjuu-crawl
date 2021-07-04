@@ -24,18 +24,18 @@ export const name = 'conversations';
 
 const initialState: MessageState =
     localStorage.getItem('reduxState') &&
-        JSON.parse(localStorage.getItem('reduxState')!)[name]
+    JSON.parse(localStorage.getItem('reduxState')!)[name]
         ? JSON.parse(localStorage.getItem('reduxState')!)[name]
         : {
-            announcements: {
-                messages: introMessages.map((entry) => ({
-                    type: 'denjuu',
-                    text: entry,
-                })),
-                denjuuId: 0,
-                threadTitle: 'Announcements',
-            },
-        };
+              announcements: {
+                  messages: introMessages.map((entry) => ({
+                      type: 'denjuu',
+                      text: entry,
+                  })),
+                  denjuuId: 0,
+                  threadTitle: 'Announcements',
+              },
+          };
 
 export const conversationsSlice = createSlice({
     name,

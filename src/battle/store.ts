@@ -22,16 +22,17 @@ export const startBattleThunk = (enemy: EnemyStats) => (
     dispatch: Dispatch,
     getState: () => RootState
 ) => {
-    const { contactList: { activeDenju: instanceId } } = getState() as RootState;
+    const {
+        contactList: { activeDenju: instanceId },
+    } = getState() as RootState;
 
-    dispatch(resetTemporalStats({ instanceId }))
+    dispatch(resetTemporalStats({ instanceId }));
 
     dispatch(
         startBattle({
             enemy,
             player: {
                 instanceId,
-
             },
         })
     );
@@ -44,15 +45,24 @@ export const battleSlice = createSlice({
         startBattle: (state, { payload }: PayloadAction<BattleStart>) => {
             state.battleLog = ['time to fight!'];
             state.activePlayer = '1';
-            state.p1 = { ...payload.player, status: 'static', };
-            state.p2 = { ...payload.enemy, status: 'static', statusEffects: [] };
+            state.p1 = { ...payload.player, status: 'static' };
+            state.p2 = {
+                ...payload.enemy,
+                status: 'static',
+                statusEffects: [],
+            };
             state.winner = undefined; //overkill
             state.turnCount = 1;
         },
         showMove: (state, { payload }: PayloadAction<ActiveMove>) => {
             state.activeMoveInfo = payload;
         },
-        nextTurn: (state, { payload: { turnCount, activePlayer } }: PayloadAction<{ activePlayer: '1' | '2', turnCount: number }>) => {
+        nextTurn: (
+            state,
+            {
+                payload: { turnCount, activePlayer },
+            }: PayloadAction<{ activePlayer: '1' | '2'; turnCount: number }>
+        ) => {
             state.activePlayer = activePlayer;
             state.turnCount = turnCount;
         },
@@ -73,20 +83,19 @@ export const battleSlice = createSlice({
             state.winner = payload;
             state.battleLog.unshift(
                 payload == 'player'
-                    ? `You've defeated ${denjuuList[state.p2?.denjuuId!].displayId
-                    }!`
-                    : `You have been defeated by ${denjuuList[state.p2?.denjuuId!].displayId
-                    }...`
+                    ? `You've defeated ${
+                          denjuuList[state.p2?.denjuuId!].displayId
+                      }!`
+                    : `You have been defeated by ${
+                          denjuuList[state.p2?.denjuuId!].displayId
+                      }...`
             );
             //winner: undefined
         },
         newBattleMessage: (state, { payload }: PayloadAction<string>) => {
             state.battleLog.unshift(payload);
         },
-        p1TakeDamage: (
-            state
-
-        ) => {
+        p1TakeDamage: (state) => {
             if (!state.p1) {
                 return state;
             }

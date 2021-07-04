@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import { BorderedContainer } from '../components';
 import { denjuuList } from '../data';
 import { RootState } from '../store';
 import {
@@ -19,17 +20,20 @@ export const AlertListItem = ({
     eventData: AlertWrapper['eventData'];
     onClick: () => void;
 }) => {
-    return (
-        <EventListItem onClick={onClick}>
-            <EventIcon>{eventData.type[0].toUpperCase()}</EventIcon>
-            <div>
-                <ListItemTitle>{getEventTitle(eventData)}</ListItemTitle>
-                <br />
-                <ListItemSubTitle>
-                    {getEventSubtitle(eventData)}
-                </ListItemSubTitle>
-            </div>
-        </EventListItem>
+    return (<Container>
+        <BorderedContainer>
+            <EventListItem onClick={onClick}>
+                <EventIcon>{eventData.type[0].toUpperCase()}</EventIcon>
+                <div>
+                    <ListItemTitle>{getEventTitle(eventData)}</ListItemTitle>
+                    <br />
+                    <ListItemSubTitle>
+                        {getEventSubtitle(eventData)}
+                    </ListItemSubTitle>
+                </div>
+            </EventListItem>
+        </BorderedContainer>
+    </Container>
     );
 };
 
@@ -39,9 +43,8 @@ const getEventSubtitle = (entry: Alert) => {
             return ``;
         }
         case 'battle': {
-            return `Level: ${(entry as BattleAlert).level} ${
-                denjuuList[(entry as BattleAlert).denjuuId].displayId
-            }`;
+            return `Level: ${(entry as BattleAlert).level} ${denjuuList[(entry as BattleAlert).denjuuId].displayId
+                }`;
         }
         case 'message': {
             return `"${(entry as MessageAlert).message.substr(0, 60)}...`;
@@ -67,7 +70,14 @@ const getEventSubtitle = (entry: Alert) => {
 
 const ListItemTitle = styled.span({ fontWeight: 'bold' });
 const ListItemSubTitle = styled.span({ overflow: 'hidden', lineClamp: 1 });
+const Container = styled.div({
+    width: '90vw',
+    maxWidth: '90vw',
 
+    marginLeft: '5vw',
+    marginRight: '5vw',
+    marginTop: '2vh',
+})
 const EventIcon = styled.div({
     minHeight: '7vh',
     color: 'white',
@@ -82,17 +92,16 @@ const EventIcon = styled.div({
 });
 
 const EventListItem = styled.button({
-    width: '90vw',
-    height: '10vh',
-    minHeight: '10vh',
+    width: '100%',
     // border: '1px solid black',
+    border: '0px',
+    height: '8vh',
+    minHeight: '8vh',
     position: 'relative',
     display: 'flex',
-    marginLeft: '5vw',
-    marginRight: '5vw',
-    marginTop: '2vh',
     justifyContent: 'left',
     alignItems: 'center',
+
 });
 const getEventTitle = (entry: Alert) => {
     switch (entry.type) {

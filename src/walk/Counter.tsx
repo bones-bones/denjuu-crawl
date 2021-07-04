@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { BorderedContainer } from '../components';
 import useEvent from '../stepCounter/stepCounter';
 import { RootState } from '../store';
 import { incrementThunk, resetSteps } from './store';
@@ -26,7 +27,7 @@ export const Counter = () => {
 
     useEvent(incrementStepValue);
     return (
-        <>
+        <div>
             <DebugButtons>
                 Debug commands:
                 <button onClick={incrementStepValue}>Step</button>
@@ -41,8 +42,10 @@ export const Counter = () => {
                 </button>
                 <button onClick={resetStepCount}>Reset Steps</button>
             </DebugButtons>
-            <StepValue stepVal={stepValue}>{stepValue}</StepValue>
-        </>
+            <BorderedContainer>
+                <StepValue stepVal={stepValue}>{stepValue}</StepValue>
+            </BorderedContainer>
+        </div>
     );
 };
 
@@ -52,7 +55,6 @@ const DebugButtons = styled.div({
 
 const StepValue = styled.div<{ stepVal: number }>`
     height: 50px;
-    width: 60vw;
     font-family: Fipps;
     display: flex;
     justify-content: center;

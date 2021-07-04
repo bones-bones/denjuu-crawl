@@ -3,6 +3,7 @@ import React, { createRef, useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getNow } from '../common';
+import { BorderedContainer } from '../components';
 import { DenjuuTypeIcon } from '../data';
 import playerSheet from '../images/playerSheet.png';
 import tileSheet from '../images/tileSheet.png';
@@ -32,9 +33,7 @@ export const PlayerCanvas = () => {
 
         const draw = setInterval(() => {
             if (location?.map) {
-
                 //if (true) {
-
 
                 // } else {
 
@@ -120,21 +119,24 @@ export const PlayerCanvas = () => {
                     }
                     canvasContext.current?.restore();
                 }
-
             }
         }, 200);
         return () => clearInterval(draw);
     });
     return (
         <>
-            {location?.type && <DenjuuTypeIcon type={location.type} />}
-            <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />
+            <BorderedContainer>
+                <LocationTypeBox>{location?.type && <DenjuuTypeIcon type={location.type} />}{location?.type}</LocationTypeBox>
+            </BorderedContainer>{' '}
+            <BorderedContainer>
+                <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />
+            </BorderedContainer>
         </>
     );
 };
-
+const LocationTypeBox = styled.div({ width: '12vw', height: '12w', margin: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white' });
 const PCanvas = styled.canvas({
-    border: '1px solid white',
+
     width: '60vw',
 });
 

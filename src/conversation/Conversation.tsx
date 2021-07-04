@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getDenjuuSprite, } from '../data';
+import { getDenjuuSprite } from '../data';
 import { RootState } from '../store';
 import { respondThunk } from './respondThunk';
 
@@ -26,7 +26,9 @@ export const Conversation = ({ instanceId }: { instanceId: string }) => {
         <ConversationBackground>
             <Header>
                 <Profile>
-                    {conversation.denjuuId && <img src={getDenjuuSprite(conversation.denjuuId)} />}
+                    {conversation.denjuuId && (
+                        <img src={getDenjuuSprite(conversation.denjuuId)} />
+                    )}
                     <span>{conversation.threadTitle}</span>
                 </Profile>
             </Header>
@@ -34,7 +36,9 @@ export const Conversation = ({ instanceId }: { instanceId: string }) => {
                 {conversation.messages.map((entry, i) => {
                     if (entry.type == 'player') {
                         return (
-                            <PlayerMessageBox key={i}>{entry.text}</PlayerMessageBox>
+                            <PlayerMessageBox key={i}>
+                                {entry.text}
+                            </PlayerMessageBox>
                         );
                     } else {
                         return (
@@ -48,21 +52,21 @@ export const Conversation = ({ instanceId }: { instanceId: string }) => {
             <ReplySection>
                 {conversation.pendingResponses
                     ? conversation.pendingResponses.map((text, index) => (
-                        <ReplyButton
-                            key={index}
-                            onClick={() => {
-                                dispatch(
-                                    respondThunk({
-                                        type: 'player',
-                                        text,
-                                        instanceId,
-                                    })
-                                );
-                            }}
-                        >
-                            {text}
-                        </ReplyButton>
-                    ))
+                          <ReplyButton
+                              key={index}
+                              onClick={() => {
+                                  dispatch(
+                                      respondThunk({
+                                          type: 'player',
+                                          text,
+                                          instanceId,
+                                      })
+                                  );
+                              }}
+                          >
+                              {text}
+                          </ReplyButton>
+                      ))
                     : '---––––––––---'}
             </ReplySection>
         </ConversationBackground>

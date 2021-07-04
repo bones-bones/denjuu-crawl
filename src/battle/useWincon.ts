@@ -1,13 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { denjuuList, getExperienceValue } from '../data';
-import { experienceThunk, getDenjuuByInstanceId, setTemporalHpTo } from '../playerDenjuu';
+import {
+    experienceThunk,
+    getDenjuuByInstanceId,
+    setTemporalHpTo,
+} from '../playerDenjuu';
 import { RootState } from '../store';
 import { declareWinner, delayedBattleMessageThunk } from './store';
 
 export const useWinCon = () => {
     const p1 = useSelector(({ battle: { p1 } }: RootState) => p1!);
-    const playerKnownDenjuu = useSelector(({ contactList: { denjuu } }: RootState) => getDenjuuByInstanceId(p1.instanceId, denjuu));
+    const playerKnownDenjuu = useSelector(
+        ({ contactList: { denjuu } }: RootState) =>
+            getDenjuuByInstanceId(p1.instanceId, denjuu)
+    );
     const p2 = useSelector(({ battle: { p2 } }: RootState) => p2!);
     const winner = useSelector(({ battle: { winner } }: RootState) => winner);
     const dispatch = useDispatch();
@@ -51,7 +58,9 @@ export const useWinCon = () => {
 
         dispatch(
             delayedBattleMessageThunk(
-                `${denjuuList[playerKnownDenjuu.denjuuId].displayId} gained ${expValue} exp.`,
+                `${
+                    denjuuList[playerKnownDenjuu.denjuuId].displayId
+                } gained ${expValue} exp.`,
                 1000
             )
         );
