@@ -16,9 +16,10 @@ export const BattleApp = () => {
     const { p1, p2, activePlayer, battleLog, winner } = useSelector(
         ({ battle }: RootState) => battle
     );
-    const { hp: p1hp } = useSelector(
-        ({ battle }: RootState) => battle.p1?.temporalStats || { hp: 0 }
+    const playerDenjuu = useSelector(
+        ({ contactList: { denjuu } }: RootState) => denjuu.find(({ instanceId }) => instanceId === p1?.instanceId)!
     );
+
     const { hp: p2hp } = useSelector(
         ({ battle }: RootState) => battle.p2?.temporalStats || { hp: 0 }
     );
@@ -33,8 +34,9 @@ export const BattleApp = () => {
             <Battlefield>
                 {p1 && (
                     <P1
-                        denjuu={p1}
-                        hp={p1hp}
+                        denjuuId={playerDenjuu.denjuuId}
+                        hp={playerDenjuu.temporalStats.hp}
+                        maxHp={playerDenjuu.stats.hp}
                         status={
                             activeMove?.direction == 'back'
                                 ? 'attack'
@@ -59,7 +61,7 @@ export const BattleApp = () => {
             <BottomNav>
                 {p1 &&
                     !winner &&
-                    p1.moves.map((moveId) => (
+                    playerDenjuu.moves.map((moveId) => (
                         <MoveButton
                             disabled={(activePlayer == '2' || !!activeMove)}
                             key={moveId}
@@ -77,6 +79,7 @@ export const BattleApp = () => {
 
     );
 };
+
 
 const P2 = ({
     hp,
@@ -107,29 +110,20 @@ const ImageHolder = styled.img({
     imageRendering: 'pixelated',
 });
 
-const P1 = ({
-    hp,
-    status,
-    denjuu: {
-        denjuuId,
-        stats: { hp: maxHp },
-    },
-}: {
-    hp: number;
-    status: string;
-    denjuu: BattleMonster;
-}) => (
-    <FloatSection bottom="5vh" left="4vw" status={status} key={'' + hp}>
-        <ImageHolder
-            width="100%"
-            height="100%"
-            src={
-                getDenjuuSprite(denjuuId, status == 'attack', false)
-            }
-        />
-        <HpBar dir="ltr" maxHp={maxHp} currentHp={hp} barWidth={100} />
-    </FloatSection>
-);
+
+
+const P1 = ({ maxHp, hp, status, denjuuId }: { maxHp: number, hp: number, status: 'attack' | 'static', denjuuId: number }) =>
+(<FloatSection bottom="5vh" left="4vw" status={status} key={'' + hp}>
+    <ImageHolder
+        width="100%"
+        height="100%"
+        src={
+            getDenjuuSprite(denjuuId, status == 'attack', false)
+        }
+    />
+    <HpBar dir="ltr" maxHp={maxHp} currentHp={hp} barWidth={100} />
+</FloatSection>)
+
 
 const FloatSection = styled.div(
     ({

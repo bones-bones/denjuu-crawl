@@ -24,7 +24,7 @@ export interface ActiveMove {
 }
 
 export interface BattleState {
-    p1?: BattleMonster;
+    p1?: { instanceId: string, status: 'attack' | 'damage' | 'static', activeMoveId?: number };
     p2?: BattleMonster;
     activePlayer: '1' | '2';
     battleLog: string[];
@@ -46,17 +46,13 @@ export interface BattleMonster {
 }
 
 export enum StatusEffect {
-    Poison = 'Poison'
+    Poison = 'Poison',
+
 }
 
 export interface BattleStart {
     player: {
-        stats: Stats;
-        temporalStats: Stats;
-        moves: number[];
-        denjuuId: number;
         instanceId: string;
-        level: number;
     };
     enemy: {
         stats: Stats;

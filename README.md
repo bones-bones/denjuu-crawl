@@ -9,7 +9,7 @@ General
 -   [x] currently using a mixture of strings and numbers for ids, everything should be numbers
 -   [x] denjuu index is off by one, pull it back
 -   [ ] Load all denjuu
--   [ ] decided which telefang to pull info from. leaning towards 1 for denjuu and items, 2 for icons
+-   [x] decided which telefang to pull info from. leaning towards 1 for denjuu and items, 2 for icons
 -   [ ] load all items
 -   [ ] load all moves
 -   [ ] dispatch alerts telling the user if there are browser issues
@@ -50,7 +50,7 @@ Denjuu Menu
 Items Menu
 
 -   [x] Add items menu
--   [ ] Better item descriptions and menus
+-   [x] Better item descriptions and menus
 -   [ ] A mix of the small and details view of the items is being used. That is less than ideal
 -   [x] Make items usable from items menu
 -   [x] Add healing items

@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { denjuuList, getExperienceValue } from '../data';
-import { experienceThunk, setTemporalHpTo } from '../playerDenjuu';
+import { experienceThunk, getDenjuuByInstanceId, setTemporalHpTo } from '../playerDenjuu';
 import { RootState } from '../store';
 import { declareWinner, delayedBattleMessageThunk } from './store';
 
 export const useWinCon = () => {
     const p1 = useSelector(({ battle: { p1 } }: RootState) => p1!);
+    const playerKnownDenjuu = useSelector(({ contactList: { denjuu } }: RootState) => getDenjuuByInstanceId(p1.instanceId, denjuu));
     const p2 = useSelector(({ battle: { p2 } }: RootState) => p2!);
     const winner = useSelector(({ battle: { winner } }: RootState) => winner);
     const dispatch = useDispatch();
@@ -20,22 +21,22 @@ export const useWinCon = () => {
         p2Defeated = true;
     }
     let p1Defeated = false;
-    if (p1.temporalStats.hp <= 0) {
+    if (playerKnownDenjuu.temporalStats.hp <= 0) {
         p1Defeated = true;
     }
     if (p1Defeated) {
         dispatch(
             setTemporalHpTo({
-                hp: p1.temporalStats.hp,
-                instanceId: p1.instanceId,
+                hp: playerKnownDenjuu.temporalStats.hp,
+                instanceId: playerKnownDenjuu.instanceId,
             })
         );
         dispatch(declareWinner('opponent'));
     } else if (p2Defeated) {
         dispatch(
             setTemporalHpTo({
-                hp: p1.temporalStats.hp,
-                instanceId: p1.instanceId,
+                hp: playerKnownDenjuu.temporalStats.hp,
+                instanceId: playerKnownDenjuu.instanceId,
             })
         );
         dispatch(declareWinner('player'));
@@ -43,14 +44,14 @@ export const useWinCon = () => {
 
         dispatch(
             experienceThunk({
-                instanceId: p1.instanceId,
+                instanceId: playerKnownDenjuu.instanceId,
                 expValue: expValue,
             })
         );
 
         dispatch(
             delayedBattleMessageThunk(
-                `${denjuuList[p1.denjuuId].displayId} gained ${expValue} exp.`,
+                `${denjuuList[playerKnownDenjuu.denjuuId].displayId} gained ${expValue} exp.`,
                 1000
             )
         );

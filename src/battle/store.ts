@@ -1,6 +1,7 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 
 import { denjuuList } from '../data';
+import { resetTemporalStats } from '../playerDenjuu';
 import { RootState } from '../store';
 import {
     ActiveMove,
@@ -21,29 +22,16 @@ export const startBattleThunk = (enemy: EnemyStats) => (
     dispatch: Dispatch,
     getState: () => RootState
 ) => {
-    const { contactList } = getState() as RootState;
+    const { contactList: { activeDenju: instanceId } } = getState() as RootState;
 
-    const {
-        instanceId,
-        stats,
-        temporalStats,
-        moves,
-        denjuuId,
-        level,
-    } = contactList.denjuu.find(
-        ({ instanceId }) => contactList.activeDenju == instanceId
-    )!;
+    dispatch(resetTemporalStats({ instanceId }))
 
     dispatch(
         startBattle({
             enemy,
             player: {
                 instanceId,
-                stats,
-                temporalStats: { ...stats, hp: temporalStats.hp },
-                moves,
-                denjuuId,
-                level,
+
             },
         })
     );
@@ -56,7 +44,7 @@ export const battleSlice = createSlice({
         startBattle: (state, { payload }: PayloadAction<BattleStart>) => {
             state.battleLog = ['time to fight!'];
             state.activePlayer = '1';
-            state.p1 = { ...payload.player, statusEffects: [], status: 'static', };
+            state.p1 = { ...payload.player, status: 'static', };
             state.p2 = { ...payload.enemy, status: 'static', statusEffects: [] };
             state.winner = undefined; //overkill
             state.turnCount = 1;
@@ -96,17 +84,17 @@ export const battleSlice = createSlice({
             state.battleLog.unshift(payload);
         },
         p1TakeDamage: (
-            state,
-            { payload: { damage } }: PayloadAction<Damage>
+            state
+
         ) => {
             if (!state.p1) {
                 return state;
             }
             state.p1.status = 'damage';
-            state.p1.temporalStats.hp = Math.max(
-                0,
-                state.p1.temporalStats.hp - damage
-            );
+            // state.p1.temporalStats.hp = Math.max(
+            //     0,
+            //     state.p1.temporalStats.hp - damage
+            // );
         },
         p2TakeDamage: (
             state,
@@ -121,20 +109,7 @@ export const battleSlice = createSlice({
                 state.p2.temporalStats.hp - damage
             );
         },
-        p1StatModification: (
-            state,
-            { payload: { value, stat } }: PayloadAction<StatModification>
-        ) => {
-            if (!state.p1) {
-                return state;
-            }
-            // 200 was the abitrary cap
-            state.p1.temporalStats[stat] = Math.min(
-                200,
-                Math.max(0, state.p1.temporalStats[stat] + value)
-            );
-            console.log(`p1 ${stat} is ${state.p1.temporalStats[stat]}`);
-        },
+
         p2StatModification: (
             state,
             { payload: { value, stat } }: PayloadAction<StatModification>
@@ -161,7 +136,6 @@ export const {
     p1TakeDamage,
     p2TakeDamage,
     p2StatModification,
-    p1StatModification,
 } = battleSlice.actions;
 
 export const delayedBattleMessageThunk = (
