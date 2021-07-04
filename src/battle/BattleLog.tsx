@@ -13,6 +13,8 @@ const BattleMessage = styled.div({
     height: '9vh',
     backgroundColor: 'white',
     overflowY: 'scroll',
+    paddingLeft: '1vw',
+    paddingRight: '1vw'
 });
 
 const BattleLogMessage = styled.span({ display: 'block', height: '3vh' });

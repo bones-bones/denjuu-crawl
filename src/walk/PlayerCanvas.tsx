@@ -138,7 +138,7 @@ export const PlayerCanvas = () => {
     );
 };
 const LocationTypeBox = styled.div({
-    width: '12vw',
+    width: '16vw',
     height: '12w',
     margin: '4px',
     display: 'flex',

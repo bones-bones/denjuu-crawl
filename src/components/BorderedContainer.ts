@@ -18,6 +18,7 @@ export const BorderedContainer = styled.div({
         left: '0px',
         right: '0px',
         bottom: '0px',
-        zIndex: 100,
+        pointerEvents: 'none',
+        zIndex: 5
     },
 });

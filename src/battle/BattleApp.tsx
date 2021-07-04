@@ -31,7 +31,7 @@ export const BattleApp = () => {
     useWinCon();
 
     return (
-        <>
+        <Container>
             <Battlefield>
                 {p1 && (
                     <P1
@@ -75,10 +75,10 @@ export const BattleApp = () => {
                     ))}
                 {p1 && p2 && winner && <div></div>}
             </BottomNav>
-        </>
+        </Container>
     );
 };
-
+const Container = styled.div({ paddingLeft: '1.5vw' })
 const P2 = ({
     hp,
     status,
