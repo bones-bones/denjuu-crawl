@@ -109,11 +109,11 @@ export const contactListSlice = createSlice({
         ) => {
             state.denjuu.find(
                 (entry) => entry.instanceId === instanceId
-            )!.temporalStats.hp = Math.min(
+            )!.temporalStats.hp = Math.max(Math.min(
                 hp,
                 state.denjuu.find((entry) => entry.instanceId === instanceId)!
                     .stats.hp
-            );
+            ), 0);
         },
         healDenjuu: (
             state,
