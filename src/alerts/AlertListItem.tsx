@@ -20,20 +20,23 @@ export const AlertListItem = ({
     eventData: AlertWrapper['eventData'];
     onClick: () => void;
 }) => {
-    return (<Container>
-        <BorderedContainer>
-            <EventListItem onClick={onClick}>
-                <EventIcon>{eventData.type[0].toUpperCase()}</EventIcon>
-                <div>
-                    <ListItemTitle>{getEventTitle(eventData)}</ListItemTitle>
-                    <br />
-                    <ListItemSubTitle>
-                        {getEventSubtitle(eventData)}
-                    </ListItemSubTitle>
-                </div>
-            </EventListItem>
-        </BorderedContainer>
-    </Container>
+    return (
+        <Container>
+            <BorderedContainer>
+                <EventListItem onClick={onClick}>
+                    <EventIcon>{eventData.type[0].toUpperCase()}</EventIcon>
+                    <div>
+                        <ListItemTitle>
+                            {getEventTitle(eventData)}
+                        </ListItemTitle>
+                        <br />
+                        <ListItemSubTitle>
+                            {getEventSubtitle(eventData)}
+                        </ListItemSubTitle>
+                    </div>
+                </EventListItem>
+            </BorderedContainer>
+        </Container>
     );
 };
 
@@ -43,8 +46,9 @@ const getEventSubtitle = (entry: Alert) => {
             return ``;
         }
         case 'battle': {
-            return `Level: ${(entry as BattleAlert).level} ${denjuuList[(entry as BattleAlert).denjuuId].displayId
-                }`;
+            return `Level: ${(entry as BattleAlert).level} ${
+                denjuuList[(entry as BattleAlert).denjuuId].displayId
+            }`;
         }
         case 'message': {
             return `"${(entry as MessageAlert).message.substr(0, 60)}...`;
@@ -77,7 +81,7 @@ const Container = styled.div({
     marginLeft: '5vw',
     marginRight: '5vw',
     marginTop: '2vh',
-})
+});
 const EventIcon = styled.div({
     minHeight: '7vh',
     color: 'white',
@@ -101,7 +105,6 @@ const EventListItem = styled.button({
     display: 'flex',
     justifyContent: 'left',
     alignItems: 'center',
-
 });
 const getEventTitle = (entry: Alert) => {
     switch (entry.type) {

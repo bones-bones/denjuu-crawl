@@ -265,7 +265,12 @@ export const denjuuList: DenjuuTemplate[] = [
         stage: Stage.Natural,
         type: MonsterType.Sky,
         stats: {
-            hp: 30, speed: 16, attack: 10, defense: 5, denmaAttack: 6, denmaDefense: 5
+            hp: 30,
+            speed: 16,
+            attack: 10,
+            defense: 5,
+            denmaAttack: 6,
+            denmaDefense: 5,
         },
         statLevelRates: {
             hp: 2,
@@ -273,11 +278,11 @@ export const denjuuList: DenjuuTemplate[] = [
             attack: 2,
             defense: 2,
             denmaAttack: 2,
-            denmaDefense: 1
+            denmaDefense: 1,
         },
         sprites: { t1: KochiaT1 },
         movesAtLevel: { 0: [2, 17], 16: [18] },
-        experienceItems: { favorite: 3 }
+        experienceItems: { favorite: 3 },
     },
     {
         id: 7,
@@ -285,7 +290,12 @@ export const denjuuList: DenjuuTemplate[] = [
         stage: Stage.Natural,
         type: MonsterType.Grassland,
         stats: {
-            hp: 30, speed: 14, attack: 8, defense: 8, denmaAttack: 6, denmaDefense: 5
+            hp: 30,
+            speed: 14,
+            attack: 8,
+            defense: 8,
+            denmaAttack: 6,
+            denmaDefense: 5,
         },
         statLevelRates: {
             hp: 2,
@@ -293,11 +303,11 @@ export const denjuuList: DenjuuTemplate[] = [
             attack: 2,
             defense: 2,
             denmaAttack: 2,
-            denmaDefense: 2
+            denmaDefense: 2,
         },
         sprites: { t1: KeshiT1 },
         movesAtLevel: { 0: [1, 19], 13: [20] },
-        experienceItems: { favorite: 10 }
+        experienceItems: { favorite: 10 },
     },
     {
         id: 8,
@@ -305,7 +315,12 @@ export const denjuuList: DenjuuTemplate[] = [
         stage: Stage.Natural,
         type: MonsterType.Forest,
         stats: {
-            hp: 38, speed: 10, attack: 16, defense: 10, denmaAttack: 6, denmaDefense: 6
+            hp: 38,
+            speed: 10,
+            attack: 16,
+            defense: 10,
+            denmaAttack: 6,
+            denmaDefense: 6,
         },
         statLevelRates: {
             hp: 2,
@@ -313,10 +328,10 @@ export const denjuuList: DenjuuTemplate[] = [
             attack: 3,
             defense: 2,
             denmaAttack: 1,
-            denmaDefense: 1
+            denmaDefense: 1,
         },
         sprites: { t1: CryptoT1 },
         movesAtLevel: { 0: [2, 21], 11: [1] },
-        experienceItems: { favorite: 2 }
-    }
+        experienceItems: { favorite: 2 },
+    },
 ];

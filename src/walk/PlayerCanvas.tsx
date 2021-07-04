@@ -126,7 +126,10 @@ export const PlayerCanvas = () => {
     return (
         <>
             <BorderedContainer>
-                <LocationTypeBox>{location?.type && <DenjuuTypeIcon type={location.type} />}{location?.type}</LocationTypeBox>
+                <LocationTypeBox>
+                    {location?.type && <DenjuuTypeIcon type={location.type} />}
+                    {location?.type}
+                </LocationTypeBox>
             </BorderedContainer>{' '}
             <BorderedContainer>
                 <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />
@@ -134,9 +137,16 @@ export const PlayerCanvas = () => {
         </>
     );
 };
-const LocationTypeBox = styled.div({ width: '12vw', height: '12w', margin: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white' });
+const LocationTypeBox = styled.div({
+    width: '12vw',
+    height: '12w',
+    margin: '4px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    color: 'white',
+});
 const PCanvas = styled.canvas({
-
     width: '60vw',
 });
 

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 
-
 export const BorderedContainer = styled.div({
     position: 'relative',
     overflow: 'hidden',
@@ -19,7 +18,6 @@ export const BorderedContainer = styled.div({
         left: '0px',
         right: '0px',
         bottom: '0px',
-        zIndex: 100
-
-    }
+        zIndex: 100,
+    },
 });

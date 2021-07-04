@@ -332,11 +332,19 @@ export const moveList: Move[] = [
         type: MoveType.Normal,
         effects: [
             {
-                effect: { type: EffectType.StatChange, value: 7, stat: 'defense' },
+                effect: {
+                    type: EffectType.StatChange,
+                    value: 7,
+                    stat: 'defense',
+                },
                 target: 'self',
             },
             {
-                effect: { type: EffectType.StatChange, value: 2, stat: 'speed' },
+                effect: {
+                    type: EffectType.StatChange,
+                    value: 2,
+                    stat: 'speed',
+                },
                 target: 'self',
             },
         ],
@@ -358,11 +366,19 @@ export const moveList: Move[] = [
         type: MoveType.Machine,
         effects: [
             {
-                effect: { type: EffectType.StatChange, value: 3, stat: 'defense' },
+                effect: {
+                    type: EffectType.StatChange,
+                    value: 3,
+                    stat: 'defense',
+                },
                 target: 'self',
             },
             {
-                effect: { type: EffectType.StatChange, value: 2, stat: 'speed' },
+                effect: {
+                    type: EffectType.StatChange,
+                    value: 2,
+                    stat: 'speed',
+                },
                 target: 'self',
             },
         ],
@@ -373,11 +389,19 @@ export const moveList: Move[] = [
         type: MoveType.Machine,
         effects: [
             {
-                effect: { type: EffectType.StatChange, value: 6, stat: 'defense' },
+                effect: {
+                    type: EffectType.StatChange,
+                    value: 6,
+                    stat: 'defense',
+                },
                 target: 'self',
             },
             {
-                effect: { type: EffectType.StatChange, value: 6, stat: 'speed' },
+                effect: {
+                    type: EffectType.StatChange,
+                    value: 6,
+                    stat: 'speed',
+                },
                 target: 'self',
             },
         ],
