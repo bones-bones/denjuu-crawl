@@ -7,6 +7,7 @@ export const movesList2: Move[] = [
     {
         displayId: 'Dummy',
         type: MoveType.Normal,
+        pattern: [0, 1, 2, 3, 4, 5, 6, 7, 8],
         effects: [
             {
                 target: 'opponent',
@@ -17,6 +18,7 @@ export const movesList2: Move[] = [
     {
         displayId: 'Claw',
         type: MoveType.Normal,
+        pattern: [7, 4, 5],
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 8 },
@@ -27,6 +29,7 @@ export const movesList2: Move[] = [
     {
         displayId: 'Rush',
         type: MoveType.Normal,
+        pattern: [7, 4, 1],
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 4 },
@@ -37,6 +40,7 @@ export const movesList2: Move[] = [
     {
         displayId: 'Strike',
         type: MoveType.Normal,
+        pattern: [6, 3, 0],
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 4 },
@@ -47,6 +51,7 @@ export const movesList2: Move[] = [
     {
         displayId: 'Cat Punch',
         type: MoveType.Normal,
+        pattern: [7, 4, 2],
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 4 },
@@ -57,6 +62,7 @@ export const movesList2: Move[] = [
     {
         displayId: 'Bison Hammer',
         type: MoveType.Normal,
+        pattern: [7, 0, 1],
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 4 },
@@ -67,6 +73,7 @@ export const movesList2: Move[] = [
     {
         displayId: 'Kick',
         type: MoveType.Normal,
+        pattern: [4, 7, 8],
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 4 },
@@ -120,6 +127,7 @@ export const moveList: Move[] = [
     {
         displayId: 'Rush',
         type: MoveType.Normal,
+        pattern: [7, 4, 1],
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 6 },
@@ -130,6 +138,8 @@ export const moveList: Move[] = [
     {
         displayId: 'Bite',
         type: MoveType.Normal,
+        pattern: [6, 3, 7],
+
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 6 },
@@ -140,6 +150,8 @@ export const moveList: Move[] = [
     {
         displayId: 'Headbutt',
         type: MoveType.Normal,
+        pattern: [4, 1, 7],
+
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 7 },
@@ -150,6 +162,8 @@ export const moveList: Move[] = [
     {
         displayId: 'Gust',
         type: MoveType.Wind,
+        pattern: [6, 3, 0],
+
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 6 },
@@ -160,6 +174,7 @@ export const moveList: Move[] = [
     {
         //4
         displayId: 'Strike',
+        pattern: [7, 4, 2],
         type: MoveType.Normal,
         effects: [
             {
@@ -171,6 +186,8 @@ export const moveList: Move[] = [
     {
         displayId: 'Speed',
         type: MoveType.Wind,
+        pattern: [3, 1, 5],
+
         effects: [
             {
                 effect: {
@@ -184,6 +201,8 @@ export const moveList: Move[] = [
     },
     {
         displayId: 'Protect',
+        pattern: [0, 1, 2],
+
         type: MoveType.Normal,
         effects: [
             {
@@ -199,6 +218,8 @@ export const moveList: Move[] = [
     {
         //7
         displayId: 'Glare',
+        pattern: [3, 1, 4, 2],
+
         type: MoveType.Normal,
         effects: [
             {
@@ -215,12 +236,15 @@ export const moveList: Move[] = [
         //8
         displayId: 'Lullaby',
         type: MoveType.Normal,
+        pattern: [0, 3, 6, 7, 8],
         effects: [{ effect: { type: EffectType.Sleep }, target: 'opponent' }],
     },
     {
         //9
         displayId: 'Claw',
         type: MoveType.Normal,
+        pattern: [7, 4, 5],
+
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 10 },
@@ -232,6 +256,8 @@ export const moveList: Move[] = [
         //10
         displayId: 'Flap',
         type: MoveType.Wind,
+        pattern: [3, 0, 4, 2, 5],
+
         effects: [
             { effect: { type: EffectType.Fly }, target: 'self' },
             {
@@ -244,6 +270,7 @@ export const moveList: Move[] = [
         //11
         displayId: 'Horn',
         type: MoveType.Machine,
+        pattern: [7, 4, 1, 5],
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 10 },
@@ -255,6 +282,7 @@ export const moveList: Move[] = [
         //12
         displayId: 'Assault',
         type: MoveType.Normal,
+        pattern: [7, 4, 0, 2],
         effects: [
             {
                 effect: { type: EffectType.Damage, value: 15 },
@@ -266,6 +294,7 @@ export const moveList: Move[] = [
         //13
         displayId: 'Rock',
         type: MoveType.Rock,
+        pattern: [3, 0, 1, 4],
         effects: [
             {
                 effect: { type: EffectType.DenmaDamage, value: 15 },
@@ -296,6 +325,8 @@ export const moveList: Move[] = [
         //15
         displayId: 'Defend',
         type: MoveType.Rock,
+        pattern: [6, 7, 8],
+
         effects: [
             {
                 effect: {

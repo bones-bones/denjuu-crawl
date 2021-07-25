@@ -32,19 +32,21 @@ const HPBox = styled.div(
         backgroundColor: 'darkgrey',
         ...(dir == 'rtl'
             ? {
-                  borderTopRightRadius: '5px',
-                  borderBottomRightRadius: '5px',
-              }
+                borderTopRightRadius: '5px',
+                borderBottomRightRadius: '5px',
+            }
             : {
-                  borderTopLeftRadius: '5px',
-                  borderBottomLeftRadius: '5px',
-              }),
+                borderTopLeftRadius: '5px',
+                borderBottomLeftRadius: '5px',
+            }),
         fontSize: '12px',
+
         fontWeight: 'bold',
         display: 'flex',
         alignItems: 'center',
         overflow: 'hidden',
         height: '9px',
+        minHeight: '9px'
     })
 );
 const HPBar = styled.div(

@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { attackThunk, BattleMonster } from '../battle';
+import { BattleMonster } from '../battle';
 import { getDenjuuSprite, moveList } from '../data';
+import { DrawPad } from '../draw-pad';
 import { HpBar } from '../hpBar';
 import { RootState } from '../store';
 import { AttackAnimation } from './AttackAnimation';
@@ -11,9 +12,11 @@ import { BattleLog } from './BattleLog';
 import { statusToAnimation } from './statusToAnimation';
 import { useWinCon } from './useWincon';
 
+const battleFieldHeight = 30;
+const battlefieldWidth = 90;
 export const BattleApp = () => {
-    const dispatch = useDispatch();
-    const { p1, p2, activePlayer, battleLog, winner } = useSelector(
+    // const dispatch = useDispatch();
+    const { p1, p2, battleLog, winner } = useSelector(
         ({ battle }: RootState) => battle
     );
     const playerDenjuu = useSelector(
@@ -32,35 +35,47 @@ export const BattleApp = () => {
 
     return (
         <Container>
+            <AttackAnimation activeMove={activeMove} />
             <Battlefield>
-                {p1 && (
-                    <P1
-                        denjuuId={playerDenjuu.denjuuId}
-                        hp={playerDenjuu.temporalStats.hp}
-                        maxHp={playerDenjuu.stats.hp}
-                        status={
-                            activeMove?.direction == 'back'
-                                ? 'attack'
-                                : 'static'
-                        }
-                    />
-                )}
-                <AttackAnimation activeMove={activeMove} />
-                {p2 && (
-                    <P2
-                        hp={p2hp}
-                        denjuu={p2}
-                        status={
-                            activeMove?.direction == 'front'
-                                ? 'attack'
-                                : 'static'
-                        }
-                    />
-                )}
+                <DenjuuContainer >
+                    {p1 && (
+                        <P1
+                            denjuuId={playerDenjuu.denjuuId}
+                            hp={playerDenjuu.temporalStats.hp}
+                            maxHp={playerDenjuu.stats.hp}
+                            status={
+                                activeMove?.direction == 'back'
+                                    ? 'attack'
+                                    : 'static'
+                            }
+                        />
+                    )}
+
+                    {p2 && (
+                        <P2
+                            hp={p2hp}
+                            denjuu={p2}
+                            status={
+                                activeMove?.direction == 'front'
+                                    ? 'attack'
+                                    : 'static'
+                            }
+                        />
+                    )}
+                </DenjuuContainer>
             </Battlefield>
             <BattleLog battleLog={battleLog} />
             <BottomNav>
-                {p1 &&
+                <MoveList>{p1 &&
+                    !winner &&
+                    playerDenjuu.moves.map((moveId) => (
+                        <> <div>{moveList[moveId].displayId}</div>
+                            <div>{moveList[moveId].pattern?.toString()}</div>
+
+                        </>
+                    ))}</MoveList>
+                <DrawPad />
+                {/* {p1 &&
                     !winner &&
                     playerDenjuu.moves.map((moveId) => (
                         <MoveButton
@@ -73,12 +88,14 @@ export const BattleApp = () => {
                             {moveList[moveId].displayId}
                         </MoveButton>
                     ))}
-                {p1 && p2 && winner && <div></div>}
+                {p1 && p2 && winner && <div></div>} */}
+
             </BottomNav>
-        </Container>
+        </Container >
     );
 };
 const Container = styled.div({ paddingLeft: '1.5vw' })
+const MoveList = styled.div({ backgroundColor: 'white', flexDirection: 'row', display: 'flex' })
 const P2 = ({
     hp,
     status,
@@ -91,12 +108,13 @@ const P2 = ({
     status: 'attack' | 'static';
     denjuu: BattleMonster;
 }) => (
-    <FloatSection top="5vh" right="4vw" status={status} key={'' + hp}>
+    <FloatSection status={status} key={'' + hp}><div style={{ position: 'absolute' }}>
         <HpBar dir="rtl" maxHp={maxHp} currentHp={hp} barWidth={100} />
+    </div>
 
         <ImageHolder
-            width="100%"
-            height="100%"
+            width="150vw"
+            height="150vw"
             src={getDenjuuSprite(denjuuId, status == 'attack')}
         />
     </FloatSection>
@@ -105,6 +123,15 @@ const P2 = ({
 const ImageHolder = styled.img({
     imageRendering: 'pixelated',
 });
+
+const DenjuuContainer = styled.div({
+    position: 'absolute', display: 'flex', top: '2vh', left: '5vw',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    height: `${battleFieldHeight - 5}vh`,
+
+    width: '80vw',
+})
 
 const P1 = ({
     maxHp,
@@ -117,10 +144,10 @@ const P1 = ({
     status: 'attack' | 'static';
     denjuuId: number;
 }) => (
-    <FloatSection bottom="5vh" left="4vw" status={status} key={'' + hp}>
+    <FloatSection status={status} key={'' + hp}>
         <ImageHolder
-            width="100%"
-            height="100%"
+            width="150vw"
+            height="150vw"
             src={getDenjuuSprite(denjuuId, status == 'attack', false)}
         />
         <HpBar dir="ltr" maxHp={maxHp} currentHp={hp} barWidth={100} />
@@ -129,46 +156,41 @@ const P1 = ({
 
 const FloatSection = styled.div(
     ({
-        top,
-        left,
-        bottom,
-        right,
         status,
     }: {
-        top?: string;
-        left?: string;
-        bottom?: string;
-        right?: string;
         status: string;
     }) => ({
-        position: 'absolute',
-        top,
         ...{ animation: `${statusToAnimation(status)} 1s` },
-        left,
-        height: '30vw',
+        height: '45vw',
         width: '30vw',
-        bottom,
-        right,
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignContent: 'center',
+
     })
 );
+
 
 const Battlefield = styled.div({
     backgroundColor: 'green',
     position: 'relative',
-    height: '60vh',
-    width: '90vw',
+
+    height: `${battleFieldHeight}vh`,
+    width: `${battlefieldWidth}vw`,
+    display: 'flex',
+
     overflow: 'hidden',
 });
 
 const BottomNav = styled.div({
-    height: '19.5vh',
+    height: '50vh',
     backgroundColor: '#333333',
     display: 'flex',
     justifyContent: 'center',
-});
-const MoveButton = styled.button({
-    width: '33vw',
-    border: '2px solid black',
+    alignItems: 'center',
+    flexDirection: 'column',
+    width: '90vw'
 });
 
 /*

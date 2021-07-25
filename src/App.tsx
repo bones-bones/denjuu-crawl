@@ -9,6 +9,7 @@ import { AlertView } from './alerts';
 import { name as alertsName } from './alerts';
 import { BattleApp } from './battle/BattleApp';
 import { ContactList } from './contacts';
+import { DrawPad } from './draw-pad';
 import Fipps from './font/Fipps-Regular.otf';
 import DMode from './images/menuIcons/d_mode.gif';
 import Items from './images/menuIcons/items.gif';
@@ -96,6 +97,9 @@ function App() {
                     </Route>
                     <Route path="/denjuu-crawl/">
                         <StepApp />
+                    </Route>
+                    <Route path="/draw">
+                        <DrawPad />
                     </Route>
                 </Switch>
             </Router>

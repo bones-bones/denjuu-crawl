@@ -3,15 +3,16 @@ export interface Move {
     animation?: string;
     effects: TargetedEffect[];
     type: MoveType;
+    pattern?: number[]
 }
 
 interface TargetedEffect {
     effect:
-        | DamageEffect
-        | StatChangeEffect
-        | FlyEffect
-        | SleepEffect
-        | DenmaDamageEffect;
+    | DamageEffect
+    | StatChangeEffect
+    | FlyEffect
+    | SleepEffect
+    | DenmaDamageEffect;
     target: 'self' | 'opponent';
 }
 
@@ -35,12 +36,12 @@ export interface StatChangeEffect extends Effect {
     type: EffectType.StatChange;
     value: number;
     stat:
-        | 'hp'
-        | 'speed'
-        | 'attack'
-        | 'defense'
-        | 'denmaAttack'
-        | 'denmaDefense';
+    | 'hp'
+    | 'speed'
+    | 'attack'
+    | 'defense'
+    | 'denmaAttack'
+    | 'denmaDefense';
 }
 export interface FlyEffect extends Effect {
     type: EffectType.Fly;
