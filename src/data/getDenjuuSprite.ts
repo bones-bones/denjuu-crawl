@@ -13,3 +13,11 @@ export const getDenjuuSprite = (
     }
     return sprites.t1;
 };
+
+export const getIsT1Sprite = (denjuuId: number) => {
+    const { sprites } = denjuuList[denjuuId];
+    if (sprites.t2) {
+        return false;
+    }
+    return true;
+};

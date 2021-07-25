@@ -23,7 +23,7 @@ export const AlertListItem = ({
     return (
         <Container onClick={onClick}>
             <BorderedContainer>
-                <EventListItem >
+                <EventListItem>
                     <EventIcon>{eventData.type[0].toUpperCase()}</EventIcon>
                     <div>
                         <ListItemTitle>
@@ -46,8 +46,9 @@ const getEventSubtitle = (entry: Alert) => {
             return ``;
         }
         case 'battle': {
-            return `Level: ${(entry as BattleAlert).level} ${denjuuList[(entry as BattleAlert).denjuuId].displayId
-                }`;
+            return `Level: ${(entry as BattleAlert).level} ${
+                denjuuList[(entry as BattleAlert).denjuuId].displayId
+            }`;
         }
         case 'message': {
             return `"${(entry as MessageAlert).message.substr(0, 60)}...`;
