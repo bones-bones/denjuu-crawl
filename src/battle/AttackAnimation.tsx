@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { getMoveAnimation } from '../data';
+import { battlefieldWidth } from './constants';
 import { ActiveMove } from './types';
 
 export const AttackAnimation = ({
@@ -12,8 +13,7 @@ export const AttackAnimation = ({
     <AttackField>
         {activeMove &&
             getMoveAnimation(activeMove.moveId).animation[
-                activeMove.direction
-            ]()}
+                activeMove.direction]()}
         {
             'ee' /*this is a hack cause SVG filter is not
     applied unless there is styling on the div i guess*/
@@ -24,19 +24,20 @@ export const AttackAnimation = ({
 // https://codepen.io/tigt/pen/akYqAg
 // This is garbage but it is good enough for now
 const AttackField = styled.div({
-    height: '30vh',
+    height: '20vh',
     //color
+    top: '5vh',
     //  border: '0.001px hidden green',
     // backgroundColor: 'transparent',
     //backgroundColor: 'red',
 
     // Okay so, this sucks
-    width: '50vw',
+    width: `${battlefieldWidth}vw`,
     color: 'green',
     position: 'absolute',
-    top: '20vh',
-    left: '20vw',
+
     overflow: 'hidden',
+    zIndex: 5,
 
     filter: `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg'>
     <filter id='b' x='0' y='0'>

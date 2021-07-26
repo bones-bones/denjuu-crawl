@@ -11,7 +11,7 @@ import { counterSlice } from './walk';
 let activeTurnValue = '1';
 let activeTurnCount = 0;
 // Move to Hook
-function handleChange() {
+const handleChange = () => {
     activeTurnValue = store.getState().battle.activePlayer;
     const { turnCount } = store.getState().battle;
     if (
@@ -27,7 +27,7 @@ function handleChange() {
                     p2Moves[Math.floor(Math.random() * p2Moves.length)];
                 store.dispatch(attackThunk({ player: '2', moveId: moveToUse }));
             }
-        }, 1000);
+        }, 600);
     }
 }
 

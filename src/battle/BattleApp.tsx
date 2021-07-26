@@ -1,21 +1,21 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { BattleMonster } from '../battle';
+import { attackThunk, BattleMonster } from '../battle';
 import { getDenjuuSprite, getIsT1Sprite, moveList } from '../data';
 import { DrawPad } from '../draw-pad';
 import { HpBar } from '../hpBar';
 import { RootState } from '../store';
 import { AttackAnimation } from './AttackAnimation';
 import { BattleLog } from './BattleLog';
+import { battleFieldHeight, battlefieldWidth } from './constants';
 import { statusToAnimation } from './statusToAnimation';
 import { useWinCon } from './useWincon';
 
-const battleFieldHeight = 30;
-const battlefieldWidth = 90;
+
 export const BattleApp = () => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const { p1, p2, battleLog, winner } = useSelector(
         ({ battle }: RootState) => battle
     );
@@ -71,29 +71,18 @@ export const BattleApp = () => {
                         !winner &&
                         playerDenjuu.moves.map((moveId) => (
                             <>
-                                {' '}
+
                                 <div>{moveList[moveId].displayId}</div>
                                 <div>
-                                    {moveList[moveId].pattern?.toString()}
+                                    {moveList[moveId].pattern?.map(entry => entry + 1).toString()}
                                 </div>
                             </>
                         ))}
                 </MoveList>
-                <DrawPad />
-                {/* {p1 &&
-                    !winner &&
-                    playerDenjuu.moves.map((moveId) => (
-                        <MoveButton
-                            disabled={activePlayer == '2' || !!activeMove}
-                            key={moveId}
-                            onClick={() => {
-                                dispatch(attackThunk({ player: '1', moveId }));
-                            }}
-                        >
-                            {moveList[moveId].displayId}
-                        </MoveButton>
-                    ))}
-                {p1 && p2 && winner && <div></div>} */}
+                <DrawPad patterns={playerDenjuu.moves.map(entry => ({ value: entry, pattern: moveList[entry].pattern || [0, 1, 2] }))} onMatch={(moveId: number) => {
+                    dispatch(attackThunk({ player: '1', moveId }));
+                }} />
+
             </BottomNav>
         </Container>
     );
@@ -142,7 +131,6 @@ const DenjuuContainer = styled.div({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     height: `${battleFieldHeight - 5}vh`,
-
     width: '80vw',
 });
 

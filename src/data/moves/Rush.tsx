@@ -53,7 +53,7 @@ const Effect = styled.div(
 
         ...(front ? { bottom } : { top: bottom }),
         right: right * 1.5,
-        rotate: '135deg',
+        rotate: '-5deg',
         backgroundColor: 'white',
         //top: '50%',
         // left: offset,
