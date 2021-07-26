@@ -128,9 +128,9 @@ export const PlayerCanvas = () => {
             <BorderedContainer>
                 <LocationTypeBox>
                     {location?.type && <DenjuuTypeIcon type={location.type} />}
-                    {location?.type}
+                    <span>{location?.type}</span>
                 </LocationTypeBox>
-            </BorderedContainer>{' '}
+            </BorderedContainer>
             <BorderedContainer>
                 <PCanvas ref={canvasRef} width={'256px'} height={'256px'} />
             </BorderedContainer>
@@ -138,7 +138,8 @@ export const PlayerCanvas = () => {
     );
 };
 const LocationTypeBox = styled.div({
-    width: '16vw',
+    paddingLeft: '5px',
+    paddingRight: '5px',
     height: '12w',
     margin: '4px',
     display: 'flex',

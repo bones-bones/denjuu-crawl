@@ -23,7 +23,7 @@ export const DenjuuDetails = ({ denjuu }: { denjuu: PlayerDenjuu }) => {
         <Container>
             <h3>
                 {denjuuTemplate.displayId}
-                <DenjuuTypeIcon type={denjuuTemplate.type} />
+                <div style={{ width: '10vw' }}><DenjuuTypeIcon type={denjuuTemplate.type} /></div>
             </h3>
             <ImageHolder src={getDenjuuSprite(denjuu.denjuuId)} />
             <table>

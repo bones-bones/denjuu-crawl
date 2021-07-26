@@ -97,10 +97,10 @@ const ActiveStar = styled.span({
 const ImageHolder = styled.img({ imageRendering: 'pixelated' });
 
 const BigDiv = styled.div({
-    width: '33vw',
-    height: '33vw',
-    minWidth: '33vw',
-    minHeight: '33vw',
+    width: '30vw',
+    height: '30vw',
+    minWidth: '30vw',
+    minHeight: '30vw',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

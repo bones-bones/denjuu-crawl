@@ -4,6 +4,9 @@ export const BorderedContainer = styled.div({
     position: 'relative',
     overflow: 'hidden',
     borderRadius: '15px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
 
     ':before': {
         outlineColor: 'rgba(0, 0, 0, 1)',

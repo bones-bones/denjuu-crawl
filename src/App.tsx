@@ -10,6 +10,7 @@ import { name as alertsName } from './alerts';
 import { BattleApp } from './battle/BattleApp';
 import { ContactList } from './contacts';
 import Fipps from './font/Fipps-Regular.otf';
+import M5x7 from './font/m5x7.ttf';
 import DMode from './images/menuIcons/d_mode.gif';
 import Items from './images/menuIcons/items.gif';
 import Mail from './images/menuIcons/mail.gif';
@@ -72,6 +73,11 @@ function App() {
                             font-family: 'Fipps';
                             font-style: normal;
                             src: url('${Fipps}');
+                        }
+                        @font-face {
+                            font-family: 'M5x7';
+                            font-style: normal;
+                            src: url('${M5x7}');
                         }
                     `}
                 />
