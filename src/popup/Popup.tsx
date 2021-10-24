@@ -28,7 +28,7 @@ export const Popup = ({ closeCallback, children }: Props) => {
 const DismissButton = styled.button({
     position: 'absolute',
     zIndex: popupcounthack + 5 + 2,
-    borderRadius: '15px 0px 0px 0px'
+    borderRadius: '15px 0px 0px 0px',
 });
 const MessageBackground = styled.div({
     margin: '5px',

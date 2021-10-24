@@ -13,7 +13,8 @@ export const AttackAnimation = ({
     <AttackField>
         {activeMove &&
             getMoveAnimation(activeMove.moveId).animation[
-                activeMove.direction]()}
+                activeMove.direction
+            ]()}
         {
             'ee' /*this is a hack cause SVG filter is not
     applied unless there is styling on the div i guess*/

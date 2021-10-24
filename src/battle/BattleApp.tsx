@@ -13,7 +13,6 @@ import { battleFieldHeight, battlefieldWidth } from './constants';
 import { statusToAnimation } from './statusToAnimation';
 import { useWinCon } from './useWincon';
 
-
 export const BattleApp = () => {
     const dispatch = useDispatch();
     const { p1, p2, battleLog, winner } = useSelector(
@@ -71,18 +70,24 @@ export const BattleApp = () => {
                         !winner &&
                         playerDenjuu.moves.map((moveId) => (
                             <>
-
                                 <div>{moveList[moveId].displayId}</div>
                                 <div>
-                                    {moveList[moveId].pattern?.map(entry => entry + 1).toString()}
+                                    {moveList[moveId].pattern
+                                        ?.map((entry) => entry + 1)
+                                        .toString()}
                                 </div>
                             </>
                         ))}
                 </MoveList>
-                <DrawPad patterns={playerDenjuu.moves.map(entry => ({ value: entry, pattern: moveList[entry].pattern || [0, 1, 2] }))} onMatch={(moveId: number) => {
-                    dispatch(attackThunk({ player: '1', moveId }));
-                }} />
-
+                <DrawPad
+                    patterns={playerDenjuu.moves.map((entry) => ({
+                        value: entry,
+                        pattern: moveList[entry].pattern || [0, 1, 2],
+                    }))}
+                    onMatch={(moveId: number) => {
+                        dispatch(attackThunk({ player: '1', moveId }));
+                    }}
+                />
             </BottomNav>
         </Container>
     );

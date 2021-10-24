@@ -6,29 +6,37 @@ import { useRequestInterval } from '../useRequentInterval';
 import { ActionBar } from './ActionBar';
 
 interface MatchPattern {
-    pattern: number[],
-    value: number
+    pattern: number[];
+    value: number;
 }
 
-
-
-export const DrawPad = ({ patterns, onMatch }: { patterns: MatchPattern[], onMatch: (value: MatchPattern["value"]) => void }) => {
+export const DrawPad = ({
+    patterns,
+    onMatch,
+}: {
+    patterns: MatchPattern[];
+    onMatch: (value: MatchPattern['value']) => void;
+}) => {
     const [draggon, setDraggon] = useState<boolean>(false);
-    const [knownDots, setKnownDots] = useState<number[]>([]);
+    const [selectedDots, setSelectedDots] = useState<number[]>([]);
     const [availableDots, setAvailableDots] = useState<number>(0);
+    const [playerPosition, setPlayerPosition] = useState<number>(0);
 
-
-    useRequestInterval(() => { setAvailableDots(Math.min(availableDots + 1, 9)) }, 1500)
+    useRequestInterval(() => {
+        //if (!draggon) {
+        setAvailableDots(Math.min(availableDots + 1, 9));
+        //}
+    }, 1500);
 
     const availableCircles = availableDots;
-    const fullCr = availableCircles - knownDots.length;
+    const fullCr = availableCircles - selectedDots.length;
     const [mousePos, setMousePos] = useState<{ x: number; y: number }>({
         x: 0,
         y: 0,
     });
-    const setKnownDotsWidID = (id: number) => {
-        if (!knownDots.includes(id)) {
-            setKnownDots([...knownDots].concat(id));
+    const setSelectedDotsWidID = (id: number) => {
+        if (!selectedDots.includes(id)) {
+            setSelectedDots([...selectedDots].concat(id));
         }
     };
     const points = [
@@ -46,19 +54,19 @@ export const DrawPad = ({ patterns, onMatch }: { patterns: MatchPattern[], onMat
     const matchPatterns = patterns;
     return (
         <BackgroundPanel>
-            {/* !{knownDots.toString()}! */}
+            {/* !{selectedDots.toString()}! */}
             {/* {matchPatterns.find(
-                ({ pattern }) => pattern.toString() == knownDots.toString()
+                ({ pattern }) => pattern.toString() == selectedDots.toString()
             )?.value} */}
             <br />
-            <ActionBar available={fullCr} used={knownDots.length} />
+            <ActionBar available={fullCr} used={selectedDots.length} />
             <MySVG>
-                {knownDots.slice(1).map((entry, index) => {
+                {selectedDots.slice(1).map((entry, index) => {
                     const { offsetLeft: x1, offsetTop: y1 } = points[
-                        knownDots[index]
+                        selectedDots[index]
                     ].current!;
                     const { offsetLeft: x2, offsetTop: y2 } = points[
-                        knownDots[index + 1]
+                        selectedDots[index + 1]
                     ].current!;
 
                     return (
@@ -71,17 +79,17 @@ export const DrawPad = ({ patterns, onMatch }: { patterns: MatchPattern[], onMat
                         />
                     );
                 })}
-                {knownDots.length > 0 && draggon && (
+                {selectedDots.length > 0 && draggon && (
                     <DrawLine
                         key={'mouse'}
                         x1={
-                            points[knownDots[knownDots.length - 1]].current!
-                                .offsetLeft +
+                            points[selectedDots[selectedDots.length - 1]]
+                                .current!.offsetLeft +
                             pointSize / 2
                         }
                         y1={
-                            points[knownDots[knownDots.length - 1]].current!
-                                .offsetTop +
+                            points[selectedDots[selectedDots.length - 1]]
+                                .current!.offsetTop +
                             pointSize / 2
                         }
                         x2={mousePos.x}
@@ -101,17 +109,23 @@ export const DrawPad = ({ patterns, onMatch }: { patterns: MatchPattern[], onMat
                     setDraggon(true);
                 }}
                 onPointerUp={() => {
-                    const pattern = matchPatterns.find(
-                        ({ pattern }) => pattern.toString() == knownDots.toString()
-                    )
-                    if (pattern) {
-                        setAvailableDots(availableDots - pattern.pattern.length)
-                        onMatch(pattern.value);
+                    const pattern = matchPatterns.find(({ pattern }) =>
+                        selectedDots.toString().includes(pattern.toString())
+                    );
 
+                    if (pattern) {
+                        setAvailableDots(
+                            availableDots - pattern.pattern.length
+                        );
+                        onMatch(pattern.value);
+                    }
+                    const lastPos = selectedDots.pop();
+                    if (lastPos) {
+                        setPlayerPosition(lastPos);
                     }
 
                     setDraggon(false);
-                    setKnownDots([]);
+                    setSelectedDots([]);
                 }}
                 onPointerMove={({ clientX, clientY }) => {
                     const {
@@ -127,11 +141,16 @@ export const DrawPad = ({ patterns, onMatch }: { patterns: MatchPattern[], onMat
                             clientX,
                             clientY
                         );
-                        const pointerIndex = points.findIndex((entry) => {
-                            return entry.current == elementOver;
-                        });
-                        if (pointerIndex > -1 && knownDots.length < availableCircles) {
-                            setKnownDotsWidID(pointerIndex);
+                        const pointerIndex = points.findIndex(
+                            (entry) => entry.current == elementOver
+                        );
+                        if (
+                            pointerIndex > -1 &&
+                            (pointerIndex == playerPosition ||
+                                selectedDots.includes(playerPosition)) &&
+                            selectedDots.length < availableCircles
+                        ) {
+                            setSelectedDotsWidID(pointerIndex);
                         }
                     }
                 }}
@@ -140,13 +159,14 @@ export const DrawPad = ({ patterns, onMatch }: { patterns: MatchPattern[], onMat
                     <PointBox key={index}>
                         <DrawPoint
                             ref={entry}
-                            isSelected={knownDots.includes(index)}
-                            selectable={knownDots.length < availableCircles}
+                            isSelected={selectedDots.includes(index)}
+                            selectable={selectedDots.length < availableCircles}
+                            playerThere={index === playerPosition}
                         />
                     </PointBox>
                 ))}
             </DrawPanel>
-        </BackgroundPanel >
+        </BackgroundPanel>
     );
 };
 
@@ -159,15 +179,28 @@ const MySVG = styled.svg({
     touchAction: 'none',
 });
 
-const DrawPoint = styled.div(({ isSelected, selectable }: { isSelected: boolean, selectable: boolean }) => ({
-    height: pointSize + 'px',
-    width: pointSize + 'px',
-    minHeight: pointSize + 'px',
-    minWidth: pointSize + 'px',
-    margin: '40px',
-    touchAction: 'none',
-    backgroundColor: isSelected ? 'red' : (selectable ? 'gray' : '#B7B7B7'),
-}));
+const DrawPoint = styled.div(
+    ({
+        isSelected,
+        selectable,
+        playerThere,
+    }: {
+        isSelected: boolean;
+        selectable: boolean;
+        playerThere: boolean;
+    }) => ({
+        height: pointSize + 'px',
+        width: pointSize + 'px',
+        minHeight: pointSize + 'px',
+        minWidth: pointSize + 'px',
+        margin: '40px',
+        touchAction: 'none',
+        backgroundColor: isSelected ? 'red' : selectable ? 'gray' : '#B7B7B7',
+        '::before': {
+            ...(playerThere && { content: '"🔵"' }),
+        },
+    })
+);
 const PointBox = styled.div({
     height: panelSize / 3 + 'vw',
     width: panelSize / 3 + 'vw',

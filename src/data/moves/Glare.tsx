@@ -9,7 +9,11 @@ export const Glare = () => (
     </Container>
 );
 
-const Container = styled.div({ display: 'flex', justifyContent: 'center', width: '100%' })
+const Container = styled.div({
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+});
 
 const styledAnimation = keyframes({
     '0%': { backgroundColor: 'red' },

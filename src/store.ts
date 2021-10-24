@@ -29,7 +29,7 @@ const handleChange = () => {
             }
         }, 600);
     }
-}
+};
 
 export const store = configureStore({
     reducer: combineReducers({
