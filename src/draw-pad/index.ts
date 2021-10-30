@@ -1,1 +1,1 @@
-export * from './DrawPad';
+export { DrawPad } from './DrawPad';

@@ -1,13 +1,20 @@
-import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 
 import { useRequestInterval } from '../useRequentInterval';
 import { ActionBar } from './ActionBar';
+import { panelSize, timeInterval } from './constants';
+import { DrawnLines } from './DrawnLines';
+import { GridSection } from './GridSection';
 
 interface MatchPattern {
     pattern: number[];
     value: number;
+}
+
+interface IncomingAttack {
+    pattern: number[];
+    time: number
 }
 
 export const DrawPad = ({
@@ -21,12 +28,28 @@ export const DrawPad = ({
     const [selectedDots, setSelectedDots] = useState<number[]>([]);
     const [availableDots, setAvailableDots] = useState<number>(0);
     const [playerPosition, setPlayerPosition] = useState<number>(0);
+    const [incommingAttacks, setIncommingAttacks] = useState<IncomingAttack[]>([{ pattern: [0, 1], time: 3000 }])
+
 
     useRequestInterval(() => {
         //if (!draggon) {
         setAvailableDots(Math.min(availableDots + 1, 9));
         //}
-    }, 1500);
+        incommingAttacks.forEach(entry => {
+            entry.time -= timeInterval;
+        });
+
+        const filteredAttacks = incommingAttacks.filter(({ time }) => time >= 0);
+
+        if (Math.floor(Math.random() * 6) > 4) {
+            filteredAttacks.push({ time: 3000, pattern: [Math.floor(Math.random() * 9), Math.floor(Math.random() * 9), Math.floor(Math.random() * 9)] })
+        }
+
+        setIncommingAttacks(filteredAttacks);
+
+
+
+    }, timeInterval);
 
     const availableCircles = availableDots;
     const fullCr = availableCircles - selectedDots.length;
@@ -60,43 +83,7 @@ export const DrawPad = ({
             )?.value} */}
             <br />
             <ActionBar available={fullCr} used={selectedDots.length} />
-            <MySVG>
-                {selectedDots.slice(1).map((entry, index) => {
-                    const { offsetLeft: x1, offsetTop: y1 } = points[
-                        selectedDots[index]
-                    ].current!;
-                    const { offsetLeft: x2, offsetTop: y2 } = points[
-                        selectedDots[index + 1]
-                    ].current!;
-
-                    return (
-                        <DrawLine
-                            key={entry}
-                            x1={x1 + pointSize / 2}
-                            y1={y1 + pointSize / 2}
-                            x2={x2 + pointSize / 2}
-                            y2={y2 + pointSize / 2}
-                        />
-                    );
-                })}
-                {selectedDots.length > 0 && draggon && (
-                    <DrawLine
-                        key={'mouse'}
-                        x1={
-                            points[selectedDots[selectedDots.length - 1]]
-                                .current!.offsetLeft +
-                            pointSize / 2
-                        }
-                        y1={
-                            points[selectedDots[selectedDots.length - 1]]
-                                .current!.offsetTop +
-                            pointSize / 2
-                        }
-                        x2={mousePos.x}
-                        y2={mousePos.y}
-                    />
-                )}
-            </MySVG>
+            <DrawnLines points={points} mousePos={mousePos} draggon={draggon} selectedDots={selectedDots} />
             <DrawPanel
                 draggable={false}
                 ref={draPanelRef}
@@ -156,60 +143,25 @@ export const DrawPad = ({
                 }}
             >
                 {points.map((entry, index) => (
-                    <PointBox key={index}>
-                        <DrawPoint
-                            ref={entry}
-                            isSelected={selectedDots.includes(index)}
-                            selectable={selectedDots.length < availableCircles}
-                            playerThere={index === playerPosition}
-                        />
-                    </PointBox>
+
+                    <GridSection
+                        key={index}
+                        index={index}
+                        ref={entry}
+                        isSelected={selectedDots.includes(index)}
+                        selectable={selectedDots.length < availableCircles}
+                        playerThere={index === playerPosition}
+                        attackThere={incommingAttacks.some(entry => entry.pattern.includes(index))}
+                    />
+
                 ))}
             </DrawPanel>
         </BackgroundPanel>
     );
 };
 
-const pointSize = 30;
-const panelSize = 80;
-const MySVG = styled.svg({
-    position: 'absolute',
-    width: panelSize + 'vw',
-    height: panelSize + 'vw',
-    touchAction: 'none',
-});
 
-const DrawPoint = styled.div(
-    ({
-        isSelected,
-        selectable,
-        playerThere,
-    }: {
-        isSelected: boolean;
-        selectable: boolean;
-        playerThere: boolean;
-    }) => ({
-        height: pointSize + 'px',
-        width: pointSize + 'px',
-        minHeight: pointSize + 'px',
-        minWidth: pointSize + 'px',
-        margin: '40px',
-        touchAction: 'none',
-        backgroundColor: isSelected ? 'red' : selectable ? 'gray' : '#B7B7B7',
-        '::before': {
-            ...(playerThere && { content: '"🔵"' }),
-        },
-    })
-);
-const PointBox = styled.div({
-    height: panelSize / 3 + 'vw',
-    width: panelSize / 3 + 'vw',
-    boxSizing: 'border-box',
-    touchAction: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-});
+
 
 const DrawPanel = styled.div({
     touchAction: 'none',
@@ -232,15 +184,4 @@ const BackgroundPanel = styled.div({
     touchAction: 'none',
 
     justifyContent: 'center',
-});
-const dash = keyframes({
-    to: {
-        strokeDashoffset: -1000,
-    },
-});
-const DrawLine = styled.line({
-    stroke: 'black',
-    strokeWidth: '6px',
-    strokeDasharray: 100,
-    animation: dash + ' 3s linear infinite',
 });
