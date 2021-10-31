@@ -18,7 +18,7 @@ export const attackThunk = ({
 }: {
     player: '1' | '2';
     moveId: number;
-    connects: boolean
+    connects: 'hit' | 'miss' | 'direct'
 }) => (dispatch: any, getState: () => RootState) => {
     // Animation block
     const {
@@ -45,29 +45,35 @@ export const attackThunk = ({
     setTimeout(() => {
         const sourceDenjuu = player == '1' ? playerDenjuu : battle.p2!;
         const targetDenjuu = player == '1' ? battle.p2! : playerDenjuu;
-
+        let moveMultiplier = 0;
         dispatch(clearMove());
         //Dispatch effects
         const move = moveList[moveId];
-        if (!connects) {
-
-
+        if (connects == 'miss') {
             dispatch(delayedBattleMessageThunk(
                 `${denjuuList[denjuuId].displayId} missed!`,
                 0
             ))
             return;
+        } else if (connects == 'direct') {
+            dispatch(delayedBattleMessageThunk(
+                `${moveList[moveId].displayId} had a direct hit!`,
+                0
+            ));
+            moveMultiplier = 1;
+        } else if (connects == 'hit') {
+            dispatch(delayedBattleMessageThunk(
+                `${moveList[moveId].displayId} hit!`,
+                0
+            ));
+            moveMultiplier = 0.5;
         }
-        dispatch(delayedBattleMessageThunk(
-            `${moveList[moveId].displayId} hit!`,
-            0
-        ))
 
-        move.effects.forEach((effectEntry) => {
-            if (effectEntry.effect.type == EffectType.Damage) {
+        move.effects.forEach(({ effect, target }) => {
+            if (effect.type == EffectType.Damage) {
                 const { level } = sourceDenjuu;
 
-                const power = effectEntry.effect.value || 5;
+                const power = (effect.value || 5) * moveMultiplier;
                 const templateTarget = denjuuList[targetDenjuu.denjuuId];
 
                 //https://bulbapedia.bulbagarden.net/wiki/Damage#Damage_calculation
@@ -94,14 +100,14 @@ export const attackThunk = ({
                         })
                     );
                 }
-            } else if (effectEntry.effect.type == EffectType.StatChange) {
+            } else if (effect.type == EffectType.StatChange) {
                 const statMod = {
-                    stat: effectEntry.effect.stat,
-                    value: effectEntry.effect.value,
+                    stat: effect.stat,
+                    value: effect.value * moveMultiplier,
                 };
 
-                (effectEntry.target == 'self' && player == '1') ||
-                    (effectEntry.target == 'opponent' && player == '2')
+                (target == 'self' && player == '1') ||
+                    (target == 'opponent' && player == '2')
                     ? dispatch(
                         statModification({
                             instanceId: playerDenjuu.instanceId,

@@ -15,7 +15,6 @@ import {
 const initBattleState: BattleState = {
 
     battleLog: [],
-    turnCount: 1,
 };
 
 export const startBattleThunk = (enemy: EnemyStats) => (
@@ -51,7 +50,7 @@ export const battleSlice = createSlice({
                 statusEffects: [],
             };
             state.winner = undefined; //overkill
-            state.turnCount = 1;
+
         },
         showMove: (state, { payload }: PayloadAction<ActiveMove>) => {
             state.activeMoveInfo = payload;

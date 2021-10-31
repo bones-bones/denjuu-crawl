@@ -32,7 +32,7 @@ Battle
 Meeting Denju
 
 -   [x] design conversations
--   [ ] implement conversations
+-   [x] implement conversations
 -   [ ] timestamp read messages
 
 Setting Menu

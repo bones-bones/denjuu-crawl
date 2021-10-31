@@ -85,7 +85,7 @@ export const BattleApp = () => {
                         pattern: moveList[entry].pattern || [0, 1, 2],
                     }))}
                     onMatch={(moveId: number) => {
-                        dispatch(attackThunk({ player: '1', moveId, connects: true }));
+                        dispatch(attackThunk({ player: '1', moveId, connects: 'direct' }));
                     }}
                 />
             </BottomNav>

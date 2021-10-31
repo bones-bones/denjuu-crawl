@@ -45,7 +45,14 @@ export const DrawPad = ({
 
 
             if (entry.time <= 0) {
-                const connects = entry.pattern.includes(playerPosition)
+                let connects: 'direct' | 'miss' | 'hit' = 'miss'
+                if (entry.pattern.includes(playerPosition)) {
+                    connects = 'direct'
+                } else if (selectedDots.some(dot => entry.pattern.includes(dot))) {
+                    connects = 'hit'
+                }
+
+
                 dispatch(attackThunk({ player: '2', moveId: entry.moveId, connects }));
             }
         });
@@ -126,7 +133,7 @@ export const DrawPad = ({
                             onMatch(pattern.value);
                         }
                         const lastPos = selectedDots.pop();
-                        if (lastPos) {
+                        if (lastPos !== undefined) {
                             setPlayerPosition(lastPos);
                         }
 
