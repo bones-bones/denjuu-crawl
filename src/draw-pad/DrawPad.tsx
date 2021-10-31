@@ -14,7 +14,7 @@ interface MatchPattern {
 
 interface IncomingAttack {
     pattern: number[];
-    time: number
+    time: number;
 }
 
 export const DrawPad = ({
@@ -28,27 +28,34 @@ export const DrawPad = ({
     const [selectedDots, setSelectedDots] = useState<number[]>([]);
     const [availableDots, setAvailableDots] = useState<number>(0);
     const [playerPosition, setPlayerPosition] = useState<number>(0);
-    const [incommingAttacks, setIncommingAttacks] = useState<IncomingAttack[]>([{ pattern: [0, 1], time: 3000 }])
-
+    const [incommingAttacks, setIncommingAttacks] = useState<IncomingAttack[]>([
+        { pattern: [0, 1], time: 3000 },
+    ]);
 
     useRequestInterval(() => {
         //if (!draggon) {
         setAvailableDots(Math.min(availableDots + 1, 9));
         //}
-        incommingAttacks.forEach(entry => {
+        incommingAttacks.forEach((entry) => {
             entry.time -= timeInterval;
         });
 
-        const filteredAttacks = incommingAttacks.filter(({ time }) => time >= 0);
+        const filteredAttacks = incommingAttacks.filter(
+            ({ time }) => time >= 0
+        );
 
         if (Math.floor(Math.random() * 6) > 4) {
-            filteredAttacks.push({ time: 3000, pattern: [Math.floor(Math.random() * 9), Math.floor(Math.random() * 9), Math.floor(Math.random() * 9)] })
+            filteredAttacks.push({
+                time: 3000,
+                pattern: [
+                    Math.floor(Math.random() * 9),
+                    Math.floor(Math.random() * 9),
+                    Math.floor(Math.random() * 9),
+                ],
+            });
         }
 
         setIncommingAttacks(filteredAttacks);
-
-
-
     }, timeInterval);
 
     const availableCircles = availableDots;
@@ -75,90 +82,92 @@ export const DrawPad = ({
     ];
     const draPanelRef = useRef<HTMLDivElement>(null);
     const matchPatterns = patterns;
-    return (<div>
-        <ActionBar available={fullCr} used={selectedDots.length} /><br />
-        <BackgroundPanel>
-
+    return (
+        <div>
+            <ActionBar available={fullCr} used={selectedDots.length} />
             <br />
+            <BackgroundPanel>
+                <br />
 
-            <DrawnLines points={points} mousePos={mousePos} draggon={draggon} selectedDots={selectedDots} />
-            <DrawPanel
-                draggable={false}
-                ref={draPanelRef}
-                onContextMenu={(event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    return false;
-                }}
-                onPointerDown={() => {
-                    setDraggon(true);
-                }}
-                onPointerUp={() => {
-                    const pattern = matchPatterns.find(({ pattern }) =>
-                        selectedDots.toString().includes(pattern.toString())
-                    );
-
-                    setAvailableDots(
-                        availableDots - selectedDots.length
-                    );
-                    if (pattern) {
-
-                        onMatch(pattern.value);
-                    }
-                    const lastPos = selectedDots.pop();
-                    if (lastPos) {
-                        setPlayerPosition(lastPos);
-                    }
-
-                    setDraggon(false);
-                    setSelectedDots([]);
-                }}
-                onPointerMove={({ clientX, clientY }) => {
-                    const {
-                        left,
-                        top,
-                    } = draPanelRef.current!.getBoundingClientRect();
-                    if (draggon) {
-                        setMousePos({
-                            x: clientX - left,
-                            y: clientY - top,
-                        });
-                        const elementOver = document.elementFromPoint(
-                            clientX,
-                            clientY
+                <DrawnLines
+                    points={points}
+                    mousePos={mousePos}
+                    draggon={draggon}
+                    selectedDots={selectedDots}
+                />
+                <DrawPanel
+                    draggable={false}
+                    ref={draPanelRef}
+                    onContextMenu={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return false;
+                    }}
+                    onPointerDown={() => {
+                        setDraggon(true);
+                    }}
+                    onPointerUp={() => {
+                        const pattern = matchPatterns.find(({ pattern }) =>
+                            selectedDots.toString().includes(pattern.toString())
                         );
-                        const pointerIndex = points.findIndex(
-                            (entry) => entry.current == elementOver
-                        );
-                        if (
-                            pointerIndex > -1 &&
-                            (pointerIndex == playerPosition ||
-                                selectedDots.includes(playerPosition)) &&
-                            selectedDots.length < availableCircles
-                        ) {
-                            setSelectedDotsWidID(pointerIndex);
+
+                        setAvailableDots(availableDots - selectedDots.length);
+                        if (pattern) {
+                            onMatch(pattern.value);
                         }
-                    }
-                }}
-            >
-                {points.map((entry, index) => (
-                    <GridSection
-                        key={index}
-                        ref={entry}
-                        isSelected={selectedDots.includes(index)}
-                        selectable={selectedDots.length < availableCircles}
-                        playerThere={index === playerPosition}
-                        attackThere={incommingAttacks.some(entry => entry.pattern.includes(index))}
-                    />
-                ))}
-            </DrawPanel>
-        </BackgroundPanel>
-    </div>
+                        const lastPos = selectedDots.pop();
+                        if (lastPos) {
+                            setPlayerPosition(lastPos);
+                        }
+
+                        setDraggon(false);
+                        setSelectedDots([]);
+                    }}
+                    onPointerMove={({ clientX, clientY }) => {
+                        const {
+                            left,
+                            top,
+                        } = draPanelRef.current!.getBoundingClientRect();
+                        if (draggon) {
+                            setMousePos({
+                                x: clientX - left,
+                                y: clientY - top,
+                            });
+                            const elementOver = document.elementFromPoint(
+                                clientX,
+                                clientY
+                            );
+                            const pointerIndex = points.findIndex(
+                                (entry) => entry.current == elementOver
+                            );
+                            if (
+                                pointerIndex > -1 &&
+                                (pointerIndex == playerPosition ||
+                                    selectedDots.includes(playerPosition)) &&
+                                selectedDots.length < availableCircles
+                            ) {
+                                setSelectedDotsWidID(pointerIndex);
+                            }
+                        }
+                    }}
+                >
+                    {points.map((entry, index) => (
+                        <GridSection
+                            key={index}
+                            ref={entry}
+                            isSelected={selectedDots.includes(index)}
+                            selectable={selectedDots.length < availableCircles}
+                            playerThere={index === playerPosition}
+                            attackThere={incommingAttacks.some((entry) =>
+                                entry.pattern.includes(index)
+                            )}
+                        />
+                    ))}
+                </DrawPanel>
+            </BackgroundPanel>
+        </div>
     );
 };
-
-
-
 
 const DrawPanel = styled.div({
     touchAction: 'none',

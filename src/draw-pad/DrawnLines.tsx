@@ -1,55 +1,65 @@
-import { keyframes } from "@emotion/react";
-import styled from "@emotion/styled";
+import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 import React from 'react';
 
-import { panelSize, pointSize } from "./constants";
+import { panelSize, pointSize } from './constants';
 
-export const DrawnLines = ({ selectedDots, draggon, points, mousePos }: { selectedDots: number[], draggon: boolean, points: React.RefObject<HTMLDivElement>[], mousePos: { x: number, y: number } }) => {
+export const DrawnLines = ({
+    selectedDots,
+    draggon,
+    points,
+    mousePos,
+}: {
+    selectedDots: number[];
+    draggon: boolean;
+    points: React.RefObject<HTMLDivElement>[];
+    mousePos: { x: number; y: number };
+}) => {
+    return (
+        <MySVG>
+            {selectedDots.slice(1).map((entry, index) => {
+                const { offsetLeft: x1, offsetTop: y1 } = points[
+                    selectedDots[index]
+                ].current!;
+                const { offsetLeft: x2, offsetTop: y2 } = points[
+                    selectedDots[index + 1]
+                ].current!;
 
-    return <MySVG>
-        {selectedDots.slice(1).map((entry, index) => {
-            const { offsetLeft: x1, offsetTop: y1 } = points[
-                selectedDots[index]
-            ].current!;
-            const { offsetLeft: x2, offsetTop: y2 } = points[
-                selectedDots[index + 1]
-            ].current!;
-
-            return (
+                return (
+                    <DrawLine
+                        key={entry}
+                        x1={x1 + pointSize / 2}
+                        y1={y1 + pointSize / 2}
+                        x2={x2 + pointSize / 2}
+                        y2={y2 + pointSize / 2}
+                    />
+                );
+            })}
+            {selectedDots.length > 0 && draggon && (
                 <DrawLine
-                    key={entry}
-                    x1={x1 + pointSize / 2}
-                    y1={y1 + pointSize / 2}
-                    x2={x2 + pointSize / 2}
-                    y2={y2 + pointSize / 2}
+                    key={'mouse'}
+                    x1={
+                        points[selectedDots[selectedDots.length - 1]].current!
+                            .offsetLeft +
+                        pointSize / 2
+                    }
+                    y1={
+                        points[selectedDots[selectedDots.length - 1]].current!
+                            .offsetTop +
+                        pointSize / 2
+                    }
+                    x2={mousePos.x}
+                    y2={mousePos.y}
                 />
-            );
-        })}
-        {selectedDots.length > 0 && draggon && (
-            <DrawLine
-                key={'mouse'}
-                x1={
-                    points[selectedDots[selectedDots.length - 1]]
-                        .current!.offsetLeft +
-                    pointSize / 2
-                }
-                y1={
-                    points[selectedDots[selectedDots.length - 1]]
-                        .current!.offsetTop +
-                    pointSize / 2
-                }
-                x2={mousePos.x}
-                y2={mousePos.y}
-            />
-        )}
-    </MySVG>
-}
+            )}
+        </MySVG>
+    );
+};
 const dash = keyframes({
     to: {
         strokeDashoffset: -1000,
     },
 });
-
 
 const MySVG = styled.svg({
     position: 'absolute',
@@ -57,7 +67,7 @@ const MySVG = styled.svg({
     height: panelSize + 'vw',
     touchAction: 'none',
     pointerEvents: 'none',
-    zIndex: 3
+    zIndex: 3,
 });
 const DrawLine = styled.line({
     stroke: 'black',
@@ -67,4 +77,3 @@ const DrawLine = styled.line({
     pointerEvents: 'none',
     animation: dash + ' 3s linear infinite',
 });
-
