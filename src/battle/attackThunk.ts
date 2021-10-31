@@ -2,7 +2,6 @@ import { denjuuList, EffectType, getMoveAnimation, moveList } from '../data';
 import { setTemporalHpTo, statModification } from '../playerDenjuu';
 import { RootState } from '../store';
 import { getTypeDamageRatio } from './getTypeDamageRatio';
-import { nextTurnThunk } from './nextTurnThunk';
 import {
     clearMove,
     delayedBattleMessageThunk,
@@ -15,9 +14,11 @@ import {
 export const attackThunk = ({
     player,
     moveId,
+    connects
 }: {
     player: '1' | '2';
     moveId: number;
+    connects: boolean
 }) => (dispatch: any, getState: () => RootState) => {
     // Animation block
     const {
@@ -48,6 +49,20 @@ export const attackThunk = ({
         dispatch(clearMove());
         //Dispatch effects
         const move = moveList[moveId];
+        if (!connects) {
+
+
+            dispatch(delayedBattleMessageThunk(
+                `${denjuuList[denjuuId].displayId} missed!`,
+                0
+            ))
+            return;
+        }
+        dispatch(delayedBattleMessageThunk(
+            `${moveList[moveId].displayId} hit!`,
+            0
+        ))
+
         move.effects.forEach((effectEntry) => {
             if (effectEntry.effect.type == EffectType.Damage) {
                 const { level } = sourceDenjuu;
@@ -63,7 +78,7 @@ export const attackThunk = ({
                     (((2 * level) / 5 + 2) * power * adRatio) / 5 + 2;
                 const damage = Math.ceil(
                     moveDamage *
-                        getTypeDamageRatio(move.type, templateTarget.type)
+                    getTypeDamageRatio(move.type, templateTarget.type)
                 );
 
                 // Maybe the first part of the computation should be done here then the reducer should hadle the rest? Probably a future refactor
@@ -86,17 +101,16 @@ export const attackThunk = ({
                 };
 
                 (effectEntry.target == 'self' && player == '1') ||
-                (effectEntry.target == 'opponent' && player == '2')
+                    (effectEntry.target == 'opponent' && player == '2')
                     ? dispatch(
-                          statModification({
-                              instanceId: playerDenjuu.instanceId,
-                              mod: statMod,
-                          })
-                      )
+                        statModification({
+                            instanceId: playerDenjuu.instanceId,
+                            mod: statMod,
+                        })
+                    )
                     : dispatch(p2StatModification(statMod));
             }
         });
 
-        dispatch(nextTurnThunk());
     }, moveAnimation.duration);
 };

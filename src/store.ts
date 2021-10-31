@@ -8,28 +8,6 @@ import { contactListSlice } from './playerDenjuu';
 import { name as settingsName, settingsSlice } from './settings';
 import { counterSlice } from './walk';
 
-let activeTurnValue = '1';
-let activeTurnCount = 0;
-// Move to Hook
-const handleChange = () => {
-    activeTurnValue = store.getState().battle.activePlayer;
-    const { turnCount } = store.getState().battle;
-    if (
-        turnCount != activeTurnCount &&
-        activeTurnValue === '2' &&
-        store.getState().battle.p2?.stats.hp! > 0
-    ) {
-        activeTurnCount = turnCount;
-        // setTimeout(() => {
-        //     if (store.getState().battle.winner === undefined) {
-        //         const p2Moves = store.getState().battle.p2!.moves;
-        //         const moveToUse =
-        //             p2Moves[Math.floor(Math.random() * p2Moves.length)];
-        //         store.dispatch(attackThunk({ player: '2', moveId: moveToUse }));
-        //     }
-        // }, 600);
-    }
-};
 
 export const store = configureStore({
     reducer: combineReducers({
@@ -43,7 +21,7 @@ export const store = configureStore({
     }),
 });
 
-store.subscribe(handleChange);
+//store.subscribe(handleChange);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 

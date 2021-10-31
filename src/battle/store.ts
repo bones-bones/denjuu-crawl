@@ -13,7 +13,7 @@ import {
 } from './types';
 
 const initBattleState: BattleState = {
-    activePlayer: '1',
+
     battleLog: [],
     turnCount: 1,
 };
@@ -44,7 +44,6 @@ export const battleSlice = createSlice({
     reducers: {
         startBattle: (state, { payload }: PayloadAction<BattleStart>) => {
             state.battleLog = ['time to fight!'];
-            state.activePlayer = '1';
             state.p1 = { ...payload.player, status: 'static' };
             state.p2 = {
                 ...payload.enemy,
@@ -56,15 +55,6 @@ export const battleSlice = createSlice({
         },
         showMove: (state, { payload }: PayloadAction<ActiveMove>) => {
             state.activeMoveInfo = payload;
-        },
-        nextTurn: (
-            state,
-            {
-                payload: { turnCount, activePlayer },
-            }: PayloadAction<{ activePlayer: '1' | '2'; turnCount: number }>
-        ) => {
-            state.activePlayer = activePlayer;
-            state.turnCount = turnCount;
         },
         clearMove: (state) => {
             state.activeMoveInfo = undefined;
@@ -83,12 +73,10 @@ export const battleSlice = createSlice({
             state.winner = payload;
             state.battleLog.unshift(
                 payload == 'player'
-                    ? `You've defeated ${
-                          denjuuList[state.p2?.denjuuId!].displayId
-                      }!`
-                    : `You have been defeated by ${
-                          denjuuList[state.p2?.denjuuId!].displayId
-                      }...`
+                    ? `You've defeated ${denjuuList[state.p2?.denjuuId!].displayId
+                    }!`
+                    : `You have been defeated by ${denjuuList[state.p2?.denjuuId!].displayId
+                    }...`
             );
             //winner: undefined
         },
@@ -141,7 +129,6 @@ export const {
     newBattleMessage,
     showMove,
     clearMove,
-    nextTurn,
     p1TakeDamage,
     p2TakeDamage,
     p2StatModification,

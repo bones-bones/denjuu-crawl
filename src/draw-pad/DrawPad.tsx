@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { attackThunk } from '../battle';
-import { store } from '../store';
 import { useRequestInterval } from '../useRequentInterval';
 import { ActionBar } from './ActionBar';
 import { panelSize, timeInterval } from './constants';
@@ -27,6 +27,7 @@ export const DrawPad = ({
     patterns: MatchPattern[];
     onMatch: (value: MatchPattern['value']) => void;
 }) => {
+    const dispatch = useDispatch()
     const [draggon, setDraggon] = useState<boolean>(false);
     const [selectedDots, setSelectedDots] = useState<number[]>([]);
     const [availableDots, setAvailableDots] = useState<number>(0);
@@ -42,8 +43,10 @@ export const DrawPad = ({
         incommingAttacks.forEach((entry) => {
             entry.time -= timeInterval;
 
+
             if (entry.time <= 0) {
-                store.dispatch(attackThunk({ player: '2', moveId: entry.moveId }));
+                const connects = entry.pattern.includes(playerPosition)
+                dispatch(attackThunk({ player: '2', moveId: entry.moveId, connects }));
             }
         });
 
@@ -66,8 +69,8 @@ export const DrawPad = ({
         setIncommingAttacks(filteredAttacks);
     }, timeInterval);
 
-    const availableCircles = availableDots;
-    const fullCr = availableCircles - selectedDots.length;
+
+    const fullCr = availableDots - selectedDots.length;
     const [mousePos, setMousePos] = useState<{ x: number; y: number }>({
         x: 0,
         y: 0,
@@ -151,7 +154,7 @@ export const DrawPad = ({
                                 pointerIndex > -1 &&
                                 (pointerIndex == playerPosition ||
                                     selectedDots.includes(playerPosition)) &&
-                                selectedDots.length < availableCircles
+                                selectedDots.length < availableDots
                             ) {
                                 setSelectedDotsWidID(pointerIndex);
                             }
@@ -163,7 +166,7 @@ export const DrawPad = ({
                             key={index}
                             ref={entry}
                             isSelected={selectedDots.includes(index)}
-                            selectable={selectedDots.length < availableCircles}
+                            selectable={selectedDots.length < availableDots}
                             playerThere={index === playerPosition}
                             incomingAttacks={incommingAttacks.filter((entry) =>
                                 entry.pattern.includes(index)

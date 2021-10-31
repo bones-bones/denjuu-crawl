@@ -21,7 +21,7 @@ import { SettingsApp } from './settings';
 import { RootState } from './store';
 import { StepApp } from './walk/StepApp';
 
-function App() {
+export const App = () => {
     //const activeFunction = useSelector(({ application: { activeFunction } }: RootState) => activeFunction);
     const rootRef = useRef<HTMLDivElement>(null);
     const alerts = useSelector(
@@ -126,4 +126,3 @@ const NavItem = styled.button({
 });
 
 const Header = styled.header({ height: '10vh' });
-export default App;

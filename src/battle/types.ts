@@ -9,12 +9,12 @@ export interface Damage {
 
 export interface StatModification {
     stat:
-        | 'hp'
-        | 'speed'
-        | 'attack'
-        | 'defense'
-        | 'denmaAttack'
-        | 'denmaDefense';
+    | 'hp'
+    | 'speed'
+    | 'attack'
+    | 'defense'
+    | 'denmaAttack'
+    | 'denmaDefense';
     value: number;
 }
 
@@ -30,7 +30,6 @@ export interface BattleState {
         activeMoveId?: number;
     };
     p2?: BattleMonster;
-    activePlayer: '1' | '2';
     battleLog: string[];
     activeMoveInfo?: ActiveMove;
     winner?: 'player' | 'opponent';
