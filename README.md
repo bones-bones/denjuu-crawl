@@ -27,6 +27,7 @@ Battle
 -   [ ] existing code is kinda gross and needs a refactor
 -   [x] decouple experince + leveling from battle
 -   [ ] make denjuu required in battlestate
+-   [ ] level the bg -> attack -> lines -> dots correctly 
 
 Meeting Denju
 

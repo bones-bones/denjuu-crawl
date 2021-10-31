@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import { alertSlice, name as alertsName } from './alerts';
-import { attackThunk, battleSlice } from './battle';
+import { battleSlice } from './battle';
 import { conversationsSlice, name as conversationsName } from './conversation';
 import { inventorySlice, name as inventoryName } from './inventory';
 import { contactListSlice } from './playerDenjuu';
@@ -20,14 +20,14 @@ const handleChange = () => {
         store.getState().battle.p2?.stats.hp! > 0
     ) {
         activeTurnCount = turnCount;
-        setTimeout(() => {
-            if (store.getState().battle.winner === undefined) {
-                const p2Moves = store.getState().battle.p2!.moves;
-                const moveToUse =
-                    p2Moves[Math.floor(Math.random() * p2Moves.length)];
-                store.dispatch(attackThunk({ player: '2', moveId: moveToUse }));
-            }
-        }, 600);
+        // setTimeout(() => {
+        //     if (store.getState().battle.winner === undefined) {
+        //         const p2Moves = store.getState().battle.p2!.moves;
+        //         const moveToUse =
+        //             p2Moves[Math.floor(Math.random() * p2Moves.length)];
+        //         store.dispatch(attackThunk({ player: '2', moveId: moveToUse }));
+        //     }
+        // }, 600);
     }
 };
 

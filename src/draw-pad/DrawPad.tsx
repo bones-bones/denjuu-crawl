@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 
+import { attackThunk } from '../battle';
+import { store } from '../store';
 import { useRequestInterval } from '../useRequentInterval';
 import { ActionBar } from './ActionBar';
 import { panelSize, timeInterval } from './constants';
@@ -15,6 +17,7 @@ interface MatchPattern {
 interface IncomingAttack {
     pattern: number[];
     time: number;
+    moveId: number;
 }
 
 export const DrawPad = ({
@@ -29,7 +32,7 @@ export const DrawPad = ({
     const [availableDots, setAvailableDots] = useState<number>(0);
     const [playerPosition, setPlayerPosition] = useState<number>(0);
     const [incommingAttacks, setIncommingAttacks] = useState<IncomingAttack[]>([
-        { pattern: [0, 1], time: 3000 },
+        { pattern: [0, 1], time: 3000, moveId: 1 },
     ]);
 
     useRequestInterval(() => {
@@ -38,6 +41,10 @@ export const DrawPad = ({
         //}
         incommingAttacks.forEach((entry) => {
             entry.time -= timeInterval;
+
+            if (entry.time <= 0) {
+                store.dispatch(attackThunk({ player: '2', moveId: entry.moveId }));
+            }
         });
 
         const filteredAttacks = incommingAttacks.filter(
@@ -47,6 +54,7 @@ export const DrawPad = ({
         if (Math.floor(Math.random() * 6) > 4) {
             filteredAttacks.push({
                 time: 3000,
+                moveId: Math.floor(Math.random() * 9),
                 pattern: [
                     Math.floor(Math.random() * 9),
                     Math.floor(Math.random() * 9),
@@ -110,7 +118,6 @@ export const DrawPad = ({
                         const pattern = matchPatterns.find(({ pattern }) =>
                             selectedDots.toString().includes(pattern.toString())
                         );
-
                         setAvailableDots(availableDots - selectedDots.length);
                         if (pattern) {
                             onMatch(pattern.value);
@@ -158,9 +165,9 @@ export const DrawPad = ({
                             isSelected={selectedDots.includes(index)}
                             selectable={selectedDots.length < availableCircles}
                             playerThere={index === playerPosition}
-                            attackThere={incommingAttacks.some((entry) =>
+                            incomingAttacks={incommingAttacks.filter((entry) =>
                                 entry.pattern.includes(index)
-                            )}
+                            ).map(({ time }) => ({ time }))}
                         />
                     ))}
                 </DrawPanel>

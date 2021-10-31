@@ -1,3 +1,4 @@
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { forwardRef, Ref } from 'react';
 
@@ -25,7 +26,7 @@ const DrawPoint = styled.div(({ isSelected }: { isSelected: boolean }) => ({
     margin: '40px',
     touchAction: 'none',
     backgroundColor: isSelected ? 'orange' : 'gray',
-    zIndex: 2,
+    zIndex: 5,
 }));
 
 export const GridSection = forwardRef(
@@ -33,18 +34,18 @@ export const GridSection = forwardRef(
         {
             isSelected,
             playerThere,
-            attackThere,
+            incomingAttacks,
         }: {
             isSelected: boolean;
             selectable: boolean;
             playerThere: boolean;
-            attackThere: boolean;
+            incomingAttacks: { time: number }[];
         },
         ref: Ref<HTMLDivElement>
     ) => {
         return (
             <PointBox>
-                {attackThere && <Attack />}
+                {incomingAttacks.sort(({ time: timeA }, { time: timeB }) => timeA - timeB).map((entry, index) => (<Attack key={index} time={entry.time} />))}
                 {playerThere && <Player />}
                 <DrawPoint ref={ref} isSelected={isSelected}></DrawPoint>
             </PointBox>
@@ -53,6 +54,7 @@ export const GridSection = forwardRef(
 );
 
 GridSection.displayName = 'GridSection';
+
 const Player = styled.div({
     backgroundColor: 'blue',
     height: pointSize + 'px',
@@ -60,9 +62,10 @@ const Player = styled.div({
     borderRadius: '20px',
     position: 'absolute',
     pointerEvents: 'none',
-    zIndex: 3,
+    zIndex: 6,
 });
-const Attack = styled.div({
+
+const Attack = styled.div(({ time }: { time: number }) => ({
     position: 'absolute',
     pointerEvents: 'none',
     height: panelSize / 3 - 2 + 'vw',
@@ -70,4 +73,22 @@ const Attack = styled.div({
     boxSizing: 'border-box',
     backgroundColor: 'red',
     zIndex: 1,
+    animation: `${fadeIn} ${time / 1000}s linear`,
+    opacity: 0
+
+}));
+
+const fadeIn = keyframes({
+    '95%': {
+        opacity: 1,
+    },
+    '98%': {
+        height: panelSize / 3 - 2 + 'vw',
+        width: panelSize / 3 - 2 + 'vw',
+    },
+    '100%': {
+        opacity: 1,
+        height: panelSize / 3 + 'vw',
+        width: panelSize / 3 + 'vw',
+    },
 });
