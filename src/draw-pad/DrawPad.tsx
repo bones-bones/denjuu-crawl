@@ -75,14 +75,12 @@ export const DrawPad = ({
     ];
     const draPanelRef = useRef<HTMLDivElement>(null);
     const matchPatterns = patterns;
-    return (
+    return (<div>
+        <ActionBar available={fullCr} used={selectedDots.length} /><br />
         <BackgroundPanel>
-            {/* !{selectedDots.toString()}! */}
-            {/* {matchPatterns.find(
-                ({ pattern }) => pattern.toString() == selectedDots.toString()
-            )?.value} */}
+
             <br />
-            <ActionBar available={fullCr} used={selectedDots.length} />
+
             <DrawnLines points={points} mousePos={mousePos} draggon={draggon} selectedDots={selectedDots} />
             <DrawPanel
                 draggable={false}
@@ -100,10 +98,11 @@ export const DrawPad = ({
                         selectedDots.toString().includes(pattern.toString())
                     );
 
+                    setAvailableDots(
+                        availableDots - selectedDots.length
+                    );
                     if (pattern) {
-                        setAvailableDots(
-                            availableDots - pattern.pattern.length
-                        );
+
                         onMatch(pattern.value);
                     }
                     const lastPos = selectedDots.pop();
@@ -143,20 +142,18 @@ export const DrawPad = ({
                 }}
             >
                 {points.map((entry, index) => (
-
                     <GridSection
                         key={index}
-                        index={index}
                         ref={entry}
                         isSelected={selectedDots.includes(index)}
                         selectable={selectedDots.length < availableCircles}
                         playerThere={index === playerPosition}
                         attackThere={incommingAttacks.some(entry => entry.pattern.includes(index))}
                     />
-
                 ))}
             </DrawPanel>
         </BackgroundPanel>
+    </div>
     );
 };
 
@@ -176,12 +173,11 @@ const DrawPanel = styled.div({
 //const DrawRow = styled.div({ display: 'flex', justifyContent: 'space-around', })
 const BackgroundPanel = styled.div({
     backgroundColor: 'lightgrey',
-    height: panelSize + 'vw',
+    height: panelSize + 5 + 'vw',
     maxHeight: panelSize + 'vw',
     width: panelSize + 'vw',
     overflow: 'hidden',
     display: 'flex',
     touchAction: 'none',
-
     justifyContent: 'center',
 });

@@ -56,11 +56,15 @@ const MySVG = styled.svg({
     width: panelSize + 'vw',
     height: panelSize + 'vw',
     touchAction: 'none',
+    pointerEvents: 'none',
+    zIndex: 3
 });
 const DrawLine = styled.line({
     stroke: 'black',
     strokeWidth: '6px',
     strokeDasharray: 100,
+    zIndex: 3,
+    pointerEvents: 'none',
     animation: dash + ' 3s linear infinite',
 });
 
