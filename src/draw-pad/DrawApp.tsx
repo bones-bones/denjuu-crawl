@@ -21,7 +21,7 @@ export const DrawApp = () => {
                     });
                 }}
             >
-                aoeu
+                Test Add
             </button>
             <DrawPad
                 patterns={[]}

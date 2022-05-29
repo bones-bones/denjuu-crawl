@@ -20,8 +20,6 @@ export const DrawnLines = ({
     return (
         <MySVG>
             {selectedDots.slice(1).map((entry, index) => {
-                console.log(points, selectedDots, selectedDots[index]);
-
                 const { offsetLeft: x1, offsetTop: y1 } = points[
                     selectedDots[index]
                 ].current!;

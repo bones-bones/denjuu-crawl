@@ -5,7 +5,7 @@ import { useRequestInterval } from '../useRequestInterval';
 import { ActionBar } from './ActionBar';
 import { panelSize, timeInterval } from './constants';
 import { DrawnLines } from './DrawnLines';
-import { GridSection } from './grid-section/GridSection';
+import { GridSection } from './grid-section';
 import { IncomingAttack, MatchPattern } from './types';
 
 export const DrawPad = ({
@@ -35,12 +35,9 @@ export const DrawPad = ({
 
     useRequestInterval(() => {
         setAvailableDots(Math.min(availableDots + 1, 9));
-    }, timeInterval);
 
-    useRequestInterval(() => {
-        trackedAttacks.forEach((entry) => {
+        const filteredAttacks = trackedAttacks.filter((entry) => {
             entry.time -= timeInterval;
-
             if (entry.time <= 0) {
                 let connects: 'direct' | 'miss' | 'hit' = 'miss';
                 if (entry.pattern.includes(playerPosition)) {
@@ -51,10 +48,10 @@ export const DrawPad = ({
                     connects = 'hit';
                 }
                 onIncomingComplete?.({ id: entry.id, status: connects });
+                return false;
             }
+            return true;
         });
-
-        const filteredAttacks = trackedAttacks.filter(({ time }) => time >= 0);
 
         setTrackedAttacks(filteredAttacks);
     }, timeInterval);
@@ -78,16 +75,22 @@ export const DrawPad = ({
     const draPanelRef = useRef<HTMLDivElement>(null);
 
     const setSelectedDotsWidID = (id: number) => {
-        console.log(id);
         if (selectedDots[selectedDots.length - 1] != id) {
             setSelectedDots([...selectedDots].concat(id));
         }
     };
-    const fullCr = availableDots - selectedDots.length;
 
+    const isValidAdd = (possibleIndex: number) => {
+        return (
+            possibleIndex >= 0 &&
+            (possibleIndex == playerPosition ||
+                selectedDots.includes(playerPosition)) &&
+            selectedDots.length < availableDots
+        );
+    };
     return (
         <div>
-            <ActionBar available={fullCr} used={selectedDots.length} />
+            <ActionBar available={availableDots} used={selectedDots.length} />
             <BackgroundPanel>
                 <br />
                 <DrawnLines
@@ -111,11 +114,14 @@ export const DrawPad = ({
                         const pattern = patterns.find(({ pattern }) =>
                             selectedDots.toString().includes(pattern.toString())
                         );
+
                         setAvailableDots(availableDots - selectedDots.length);
+
                         if (pattern) {
                             onMatch(pattern.value);
                         }
                         const lastPos = selectedDots.pop();
+
                         if (lastPos !== undefined) {
                             setPlayerPosition(lastPos);
                         }
@@ -138,16 +144,9 @@ export const DrawPad = ({
                                 clientY
                             );
                             const pointerIndex = points.current.findIndex(
-                                ({ current }) => {
-                                    return current == elementOver;
-                                }
+                                ({ current }) => current == elementOver
                             );
-                            if (
-                                pointerIndex >= 0 &&
-                                (pointerIndex == playerPosition ||
-                                    !selectedDots.includes(pointerIndex)) &&
-                                selectedDots.length < availableDots
-                            ) {
+                            if (isValidAdd(pointerIndex)) {
                                 setSelectedDotsWidID(pointerIndex);
                             }
                         }
