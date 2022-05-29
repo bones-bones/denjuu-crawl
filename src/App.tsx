@@ -9,6 +9,7 @@ import { AlertView } from './alerts';
 import { name as alertsName } from './alerts';
 import { BattleApp } from './battle/BattleApp';
 import { ContactList } from './contacts';
+import { DrawApp } from './draw-pad/DrawApp';
 import Fipps from './font/Fipps-Regular.otf';
 import M5x7 from './font/m5x7.ttf';
 import DMode from './images/menuIcons/d_mode.gif';
@@ -37,7 +38,7 @@ export const App = () => {
             }}
         >
             <Router>
-                <Header>
+                {/* <Header>
                     <Link to={'walk'} key={'Walk'}>
                         <NavItem key={'Walk'}>
                             <img src={DMode} />
@@ -66,7 +67,7 @@ export const App = () => {
                             <img src={OptionsIcon} />
                         </NavItem>
                     </Link>
-                </Header>
+                </Header> */}
                 <Global
                     styles={css`
                         @font-face {
@@ -100,6 +101,9 @@ export const App = () => {
                     <Route path="/denjuu-crawl/walk">
                         <StepApp />
                     </Route>
+                    <Route path="/denjuu-crawl/draw">
+                        <DrawApp />
+                    </Route>
                     <Route path="/denjuu-crawl/">
                         <StepApp />
                     </Route>
@@ -107,7 +111,7 @@ export const App = () => {
             </Router>
         </div>
     );
-}
+};
 
 const AlertNumber = styled.span({
     position: 'absolute',

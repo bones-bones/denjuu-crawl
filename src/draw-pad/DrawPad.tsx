@@ -1,116 +1,99 @@
 import styled from '@emotion/styled';
-import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { attackThunk } from '../battle';
-import { useRequestInterval } from '../useRequentInterval';
+import { useRequestInterval } from '../useRequestInterval';
 import { ActionBar } from './ActionBar';
 import { panelSize, timeInterval } from './constants';
 import { DrawnLines } from './DrawnLines';
-import { GridSection } from './GridSection';
-
-interface MatchPattern {
-    pattern: number[];
-    value: number;
-}
-
-interface IncomingAttack {
-    pattern: number[];
-    time: number;
-    moveId: number;
-}
+import { GridSection } from './grid-section/GridSection';
+import { IncomingAttack, MatchPattern } from './types';
 
 export const DrawPad = ({
     patterns,
     onMatch,
+    onIncomingComplete,
+    controlRef,
 }: {
     patterns: MatchPattern[];
     onMatch: (value: MatchPattern['value']) => void;
+    controlRef: any;
+    onIncomingComplete?: (entry: {
+        id: number;
+        status: 'direct' | 'miss' | 'hit';
+    }) => void;
 }) => {
-    const dispatch = useDispatch()
-    const [draggon, setDraggon] = useState<boolean>(false);
+    const [dragging, setDragging] = useState<boolean>(false);
     const [selectedDots, setSelectedDots] = useState<number[]>([]);
     const [availableDots, setAvailableDots] = useState<number>(0);
     const [playerPosition, setPlayerPosition] = useState<number>(0);
-    const [incommingAttacks, setIncommingAttacks] = useState<IncomingAttack[]>([
-        { pattern: [0, 1], time: 3000, moveId: 1 },
-    ]);
+    const [trackedAttacks, setTrackedAttacks] = useState<IncomingAttack[]>([]);
+    useEffect(() => {
+        controlRef.current = (value: IncomingAttack) => {
+            setTrackedAttacks(trackedAttacks.concat(value));
+        };
+    }, []);
 
     useRequestInterval(() => {
-        //if (!draggon) {
         setAvailableDots(Math.min(availableDots + 1, 9));
-        //}
-        incommingAttacks.forEach((entry) => {
+    }, timeInterval);
+
+    useRequestInterval(() => {
+        trackedAttacks.forEach((entry) => {
             entry.time -= timeInterval;
 
-
             if (entry.time <= 0) {
-                let connects: 'direct' | 'miss' | 'hit' = 'miss'
+                let connects: 'direct' | 'miss' | 'hit' = 'miss';
                 if (entry.pattern.includes(playerPosition)) {
-                    connects = 'direct'
-                } else if (selectedDots.some(dot => entry.pattern.includes(dot))) {
-                    connects = 'hit'
+                    connects = 'direct';
+                } else if (
+                    selectedDots.some((dot) => entry.pattern.includes(dot))
+                ) {
+                    connects = 'hit';
                 }
-
-
-                dispatch(attackThunk({ player: '2', moveId: entry.moveId, connects }));
+                onIncomingComplete?.({ id: entry.id, status: connects });
             }
         });
 
-        const filteredAttacks = incommingAttacks.filter(
-            ({ time }) => time >= 0
-        );
+        const filteredAttacks = trackedAttacks.filter(({ time }) => time >= 0);
 
-        if (Math.floor(Math.random() * 6) > 4) {
-            filteredAttacks.push({
-                time: 3000,
-                moveId: Math.floor(Math.random() * 9),
-                pattern: [
-                    Math.floor(Math.random() * 9),
-                    Math.floor(Math.random() * 9),
-                    Math.floor(Math.random() * 9),
-                ],
-            });
-        }
-
-        setIncommingAttacks(filteredAttacks);
+        setTrackedAttacks(filteredAttacks);
     }, timeInterval);
 
-
-    const fullCr = availableDots - selectedDots.length;
     const [mousePos, setMousePos] = useState<{ x: number; y: number }>({
         x: 0,
         y: 0,
     });
+
+    const points = useRef([
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+    ]);
+    const draPanelRef = useRef<HTMLDivElement>(null);
+
     const setSelectedDotsWidID = (id: number) => {
-        if (!selectedDots.includes(id)) {
+        console.log(id);
+        if (selectedDots[selectedDots.length - 1] != id) {
             setSelectedDots([...selectedDots].concat(id));
         }
     };
-    const points = [
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-    ];
-    const draPanelRef = useRef<HTMLDivElement>(null);
-    const matchPatterns = patterns;
+    const fullCr = availableDots - selectedDots.length;
+
     return (
         <div>
             <ActionBar available={fullCr} used={selectedDots.length} />
-            <br />
             <BackgroundPanel>
                 <br />
-
                 <DrawnLines
-                    points={points}
+                    points={points.current}
                     mousePos={mousePos}
-                    draggon={draggon}
+                    dragging={dragging}
                     selectedDots={selectedDots}
                 />
                 <DrawPanel
@@ -122,10 +105,10 @@ export const DrawPad = ({
                         return false;
                     }}
                     onPointerDown={() => {
-                        setDraggon(true);
+                        setDragging(true);
                     }}
                     onPointerUp={() => {
-                        const pattern = matchPatterns.find(({ pattern }) =>
+                        const pattern = patterns.find(({ pattern }) =>
                             selectedDots.toString().includes(pattern.toString())
                         );
                         setAvailableDots(availableDots - selectedDots.length);
@@ -137,7 +120,7 @@ export const DrawPad = ({
                             setPlayerPosition(lastPos);
                         }
 
-                        setDraggon(false);
+                        setDragging(false);
                         setSelectedDots([]);
                     }}
                     onPointerMove={({ clientX, clientY }) => {
@@ -145,7 +128,7 @@ export const DrawPad = ({
                             left,
                             top,
                         } = draPanelRef.current!.getBoundingClientRect();
-                        if (draggon) {
+                        if (dragging) {
                             setMousePos({
                                 x: clientX - left,
                                 y: clientY - top,
@@ -154,13 +137,15 @@ export const DrawPad = ({
                                 clientX,
                                 clientY
                             );
-                            const pointerIndex = points.findIndex(
-                                (entry) => entry.current == elementOver
+                            const pointerIndex = points.current.findIndex(
+                                ({ current }) => {
+                                    return current == elementOver;
+                                }
                             );
                             if (
-                                pointerIndex > -1 &&
+                                pointerIndex >= 0 &&
                                 (pointerIndex == playerPosition ||
-                                    selectedDots.includes(playerPosition)) &&
+                                    !selectedDots.includes(pointerIndex)) &&
                                 selectedDots.length < availableDots
                             ) {
                                 setSelectedDotsWidID(pointerIndex);
@@ -168,18 +153,24 @@ export const DrawPad = ({
                         }
                     }}
                 >
-                    {points.map((entry, index) => (
-                        <GridSection
-                            key={index}
-                            ref={entry}
-                            isSelected={selectedDots.includes(index)}
-                            selectable={selectedDots.length < availableDots}
-                            playerThere={index === playerPosition}
-                            incomingAttacks={incommingAttacks.filter((entry) =>
-                                entry.pattern.includes(index)
-                            ).map(({ time }) => ({ time }))}
-                        />
-                    ))}
+                    {points.current.map((entry, index) => {
+                        const filteredAttacks = trackedAttacks.filter(
+                            ({ pattern }) => pattern.includes(index)
+                        );
+
+                        return (
+                            <GridSection
+                                key={index}
+                                ref={entry}
+                                isSelected={selectedDots.includes(index)}
+                                selectable={selectedDots.length < availableDots}
+                                playerThere={index === playerPosition}
+                                incomingAttacks={filteredAttacks.map(
+                                    ({ time }) => ({ time })
+                                )}
+                            />
+                        );
+                    })}
                 </DrawPanel>
             </BackgroundPanel>
         </div>
@@ -196,7 +187,6 @@ const DrawPanel = styled.div({
     position: 'absolute',
     flexWrap: 'wrap',
 });
-//const DrawRow = styled.div({ display: 'flex', justifyContent: 'space-around', })
 const BackgroundPanel = styled.div({
     backgroundColor: 'lightgrey',
     height: panelSize + 5 + 'vw',

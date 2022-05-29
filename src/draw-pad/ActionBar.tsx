@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import React from 'react';
 
 const FULL_CIRCLE = '⚫️';
@@ -13,17 +14,36 @@ export const ActionBar = ({
     available: number;
     used: number;
 }) => {
+    const startArray = new Array(available).fill(EMPTY_CIRCLE);
+    const playerArray = startArray.concat(new Array(used).fill(PARTIAL_CIRCLE));
+    const filledArray = playerArray.concat(
+        new Array(TOTAL_ALLOWED - available - used).fill(FULL_CIRCLE)
+    );
+    console.log(available, used, 'AB');
+
     return (
-        <span>
-            {new Array(available)
-                .fill(FULL_CIRCLE)
-                .concat(new Array(used).fill(PARTIAL_CIRCLE))
-                .concat(
-                    new Array(TOTAL_ALLOWED - available - used).fill(
-                        EMPTY_CIRCLE
-                    )
-                )
-                .join(' ')}
-        </span>
+        <Bar>
+            {filledArray.map((entry, index) => (
+                <Dot key={index} type={entry}></Dot>
+            ))}
+        </Bar>
     );
 };
+
+const Bar = styled.div({
+    display: 'flex',
+    justifyContent: 'space-between',
+});
+
+const Dot = styled.div(({ type }: { type: '⚫️' | '⚪️' | '🔘' }) => ({
+    height: '15px',
+    width: '15px',
+    borderRadius: '15px',
+    border: '2px solid black',
+    backgroundColor:
+        type === FULL_CIRCLE
+            ? 'black'
+            : type === PARTIAL_CIRCLE
+            ? 'gray'
+            : 'white',
+}));

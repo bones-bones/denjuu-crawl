@@ -28,6 +28,7 @@ Battle
 -   [x] decouple experince + leveling from battle
 -   [ ] make denjuu required in battlestate
 -   [ ] level the bg -> attack -> lines -> dots correctly 
+-   [ ] action bar is kinda garbage
 
 Meeting Denju
 

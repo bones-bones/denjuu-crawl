@@ -6,18 +6,22 @@ import { panelSize, pointSize } from './constants';
 
 export const DrawnLines = ({
     selectedDots,
-    draggon,
+    dragging,
     points,
     mousePos,
 }: {
     selectedDots: number[];
-    draggon: boolean;
+    dragging: boolean;
     points: React.RefObject<HTMLDivElement>[];
     mousePos: { x: number; y: number };
 }) => {
+    const scalePointSize = pointSize / 2;
+
     return (
         <MySVG>
             {selectedDots.slice(1).map((entry, index) => {
+                console.log(points, selectedDots, selectedDots[index]);
+
                 const { offsetLeft: x1, offsetTop: y1 } = points[
                     selectedDots[index]
                 ].current!;
@@ -28,25 +32,23 @@ export const DrawnLines = ({
                 return (
                     <DrawLine
                         key={entry}
-                        x1={x1 + pointSize / 2}
-                        y1={y1 + pointSize / 2}
-                        x2={x2 + pointSize / 2}
-                        y2={y2 + pointSize / 2}
+                        x1={x1 + scalePointSize}
+                        y1={y1 + scalePointSize}
+                        x2={x2 + scalePointSize}
+                        y2={y2 + scalePointSize}
                     />
                 );
             })}
-            {selectedDots.length > 0 && draggon && (
+            {selectedDots.length > 0 && dragging && (
                 <DrawLine
                     key={'mouse'}
                     x1={
                         points[selectedDots[selectedDots.length - 1]].current!
-                            .offsetLeft +
-                        pointSize / 2
+                            .offsetLeft + scalePointSize
                     }
                     y1={
                         points[selectedDots[selectedDots.length - 1]].current!
-                            .offsetTop +
-                        pointSize / 2
+                            .offsetTop + scalePointSize
                     }
                     x2={mousePos.x}
                     y2={mousePos.y}
